@@ -216,8 +216,11 @@
        ======================================================== */
     #gamesCatalogGrid {
         display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         gap: 5px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
     @media (min-width: 768px) {
         #gamesCatalogGrid {
@@ -829,9 +832,16 @@
        RESPONSIVE ADJUSTMENTS (< 768px)
        ======================================================== */
     @media (max-width: 767.98px) {
+        .lotus-content-wrapper {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
         .lobbyHeroSwiper .swiper-slide {
             aspect-ratio: 2.7 / 1;
-            min-height: 125px;
+            min-height: 120px;
             max-height: 155px;
         }
         .lotus-filters-strip {
@@ -844,30 +854,160 @@
             border-radius: 7px;
             gap: 6px;
         }
+        #gamesCatalogGrid {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            gap: 4px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-bottom: 16px !important;
+        }
+        .game-card-wrapper {
+            width: 100% !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
         .lotus-banner-game-card {
-            min-height: 85px;
-            border-radius: 10px;
+            width: 100% !important;
+            min-width: 0 !important;
+            min-height: 62px !important;
+            max-height: 82px !important;
+            aspect-ratio: 1.25 / 1 !important;
+            border-radius: 6px !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+        }
+        .lotus-corner-badge {
+            top: 2px !important;
+            right: 2px !important;
+            font-size: 0.5rem !important;
+            padding: 1px 3px !important;
+            border-radius: 3px !important;
+            line-height: 1.1 !important;
+            max-width: 85% !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+        .lotus-card-art {
+            inset: 0 !important;
         }
         .lotus-card-3d-icon {
-            font-size: 2rem;
+            font-size: 1.45rem !important;
+        }
+        .lotus-card-banner-strip {
+            padding: 2px 3px 3px !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
         .lotus-card-title-text {
-            font-size: 0.76rem;
+            font-size: 0.65rem !important;
+            font-weight: 800 !important;
+            line-height: 1.1 !important;
+            letter-spacing: -0.3px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
         }
         .lotus-card-payout-text {
-            font-size: 0.62rem;
-            padding: 1px 4px;
+            font-size: 0.55rem !important;
+            padding: 1px 3px !important;
+        }
+
+        /* Cricket Section Mobile Compression */
+        .lotus-cricket-bar {
+            padding: 6px 10px !important;
+            gap: 6px !important;
         }
         .lotus-cricket-main-title {
-            font-size: 1.15rem;
+            font-size: 1rem !important;
         }
-        .lotus-cricket-bar {
-            padding: 8px 12px;
+        .lotus-cricket-badge-pill {
+            font-size: 0.58rem !important;
+            padding: 1px 6px !important;
+            letter-spacing: 0 !important;
+        }
+        .lotus-betting-notice {
+            font-size: 0.64rem !important;
+        }
+        .lotus-cricket-table-container {
+            width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        .lotus-cricket-exchange-table {
+            min-width: 100% !important;
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+        .lotus-cricket-exchange-table thead th {
+            padding: 5px 2px !important;
+            font-size: 0.70rem !important;
+            line-height: 1.1 !important;
+        }
+        .th-match {
+            width: 44% !important;
+            padding-left: 6px !important;
+            padding-right: 3px !important;
+            font-size: 0.70rem !important;
+        }
+        .th-odds {
+            width: 18.66% !important;
+            font-size: 0.72rem !important;
+            font-weight: 900 !important;
+            padding: 4px 1px !important;
+        }
+        .td-match-info {
+            padding: 5px 6px !important;
+            width: 44% !important;
+            max-width: 44% !important;
+            overflow: hidden !important;
+            vertical-align: middle !important;
+        }
+        .lotus-match-link {
+            font-size: 0.74rem !important;
+            line-height: 1.15 !important;
+        }
+        .lotus-match-time {
+            font-size: 0.63rem !important;
+            line-height: 1 !important;
+        }
+        .lotus-match-subscore {
+            font-size: 0.64rem !important;
+        }
+        .lotus-live-dot {
+            width: 6px !important;
+            height: 6px !important;
+        }
+        .lotus-upcoming-dot {
+            width: 6px !important;
+            height: 6px !important;
+        }
+        .btn-pin-match {
+            padding: 0 1px !important;
+            font-size: 0.68rem !important;
+        }
+        .td-odds-cell {
+            width: 9.33% !important;
+            max-width: 9.33% !important;
+            padding: 2px 1px !important;
+            vertical-align: middle !important;
         }
         .lotus-box-back,
         .lotus-box-lay {
-            height: 36px;
-            font-size: 0.78rem;
+            width: 100% !important;
+            height: 28px !important;
+            min-width: 0 !important;
+            padding: 0 1px !important;
+            border-radius: 4px !important;
+            font-size: 0.68rem !important;
+            font-weight: 800 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            letter-spacing: -0.4px !important;
+            line-height: 1 !important;
         }
     }
 </style>
@@ -1061,10 +1201,11 @@
                             <tr class="lotus-match-row">
                                 <!-- Match Title & Pin & Live Indicator -->
                                 <td class="td-match-info">
-                                    <div class="d-flex align-items-center justify-content-between gap-2">
-                                        <div class="d-flex align-items-center gap-2 overflow-hidden">
-                                            <span class="text-danger fw-bold font-monospace" style="font-size: 0.72rem; white-space: nowrap;">
-                                                {{ !empty($match['start_time']) ? \Carbon\Carbon::parse($match['start_time'])->format('d/m/Y H:i') : date('d/m/Y H:i') }}
+                                    <div class="d-flex align-items-center justify-content-between gap-1">
+                                        <div class="d-flex align-items-center gap-1 overflow-hidden" style="min-width: 0;">
+                                            <span class="text-danger fw-bold font-monospace lotus-match-time flex-shrink-0" style="white-space: nowrap;">
+                                                <span class="d-none d-md-inline">{{ !empty($match['start_time']) ? \Carbon\Carbon::parse($match['start_time'])->format('d/m/Y H:i') : date('d/m/Y H:i') }}</span>
+                                                <span class="d-md-none">{{ !empty($match['start_time']) ? \Carbon\Carbon::parse($match['start_time'])->format('d/m H:i') : date('d/m H:i') }}</span>
                                             </span>
                                             @if($isLive)
                                                 <span class="lotus-live-dot flex-shrink-0" title="Live Now"></span>
@@ -1075,17 +1216,17 @@
                                                 <span>{{ $match['series_name'] ?? ($match['team_a'] . ' vs ' . $match['team_b']) }}</span>
                                             </a>
                                         </div>
-                                        <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                                        <div class="d-flex align-items-center gap-1 flex-shrink-0">
                                             <button type="button" class="btn-pin-match" onclick="togglePinMatch(this)" title="Pin Match">
                                                 <i class="fa-solid fa-thumbtack"></i>
                                             </button>
                                         </div>
                                     </div>
                                     @if(!empty($match['team_a']) && !empty($match['team_b']))
-                                        <div class="d-flex align-items-center gap-2 mt-1 small text-muted text-truncate" style="font-size: 0.74rem;">
+                                        <div class="d-flex align-items-center gap-1 mt-1 small text-muted text-truncate" style="font-size: 0.74rem;">
                                             <span class="text-dark fw-semibold text-truncate">{{ $match['team_a'] }} vs {{ $match['team_b'] }}</span>
                                             @if(!empty($match['score_team_a']))
-                                                <span class="text-primary fw-bold">({{ $match['score_team_a'] }})</span>
+                                                <span class="text-primary fw-bold flex-shrink-0">({{ $match['score_team_a'] }})</span>
                                             @endif
                                         </div>
                                     @endif

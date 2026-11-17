@@ -39,9 +39,11 @@
             max-width: 100% !important;
             background: #0c5e3d !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-            position: sticky;
-            top: 0;
-            z-index: 1020;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1030 !important;
             padding: 0 !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.25);
         }
@@ -657,17 +659,63 @@
             box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.7);
         }
 
-        /* Site Footer Full Width */
+        /* Site Footer: Sticky / Fixed at Bottom */
         .site-footer {
             width: 100% !important;
             max-width: 100% !important;
-            background: #060911;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: #060911 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
             color: #94a3b8;
-            padding: 24px 0;
-            font-size: 0.82rem;
-            margin-top: auto;
+            padding: 8px 0 !important;
+            font-size: 0.8rem;
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1025 !important;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
             box-sizing: border-box !important;
+        }
+
+        .footer-content-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 12px;
+        }
+        .footer-links {
+            margin-bottom: 0 !important;
+            padding-left: 0 !important;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.78rem;
+        }
+        .footer-links li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .footer-links li a:hover {
+            color: #f59e0b;
+        }
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.72rem;
+        }
+        .footer-tz {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 991.98px) {
+            .site-footer {
+                display: none !important;
+            }
         }
         .mobile-nav-item {
             color: #94a3b8;
@@ -839,9 +887,27 @@
             body {
                 padding-bottom: 74px;
             }
+
+            /* Mobile View: Balanced Left & Right Screen Margins across Whole Screen */
+            .site-header .header-top-row > .container-fluid {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
+            .rupeerush-page-body {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            .rupeerush-page-body > .container-fluid,
+            .rupeerush-page-body .container-fluid {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+            }
+
             .floating-support-container {
                 bottom: 84px !important;
-                right: 14px !important;
+                right: 12px !important;
                 gap: 8px !important;
             }
             .floating-support-icon {
@@ -895,6 +961,463 @@
                 margin-top: -12px !important;
             }
         }
+
+        /* ========================================================
+           RUPEERUSH MODERN LEFT SIDEBAR ARCHITECTURE
+           ======================================================== */
+        :root {
+            --site-header-height: 48px;
+            --site-footer-height: 42px;
+        }
+
+        .rupeerush-app-shell {
+            display: flex;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: var(--site-header-height, 48px) !important;
+            margin-bottom: var(--site-footer-height, 42px) !important;
+            min-height: calc(100vh - var(--site-header-height, 48px) - var(--site-footer-height, 42px));
+            position: relative;
+            background: #070e1c;
+        }
+
+        @media (max-width: 991.98px) {
+            .rupeerush-app-shell {
+                margin-bottom: 56px !important;
+                min-height: calc(100vh - var(--site-header-height, 48px) - 56px);
+            }
+        }
+
+        .rupeerush-main-column {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding-bottom: 16px;
+            transition: margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .rupeerush-page-body {
+            flex: 1 0 auto;
+            width: 100%;
+            min-width: 0;
+        }
+
+        /* Sidebar Container on Desktop (>= 1200px) */
+        @media (min-width: 1200px) {
+            .rupeerush-left-sidebar {
+                position: fixed !important;
+                top: var(--site-header-height, 48px) !important;
+                bottom: var(--site-footer-height, 42px) !important;
+                left: 0 !important;
+                width: 275px !important;
+                height: calc(100vh - var(--site-header-height, 48px) - var(--site-footer-height, 42px)) !important;
+                max-height: calc(100vh - var(--site-header-height, 48px) - var(--site-footer-height, 42px)) !important;
+                background: #091222;
+                border-right: 1px solid rgba(255, 255, 255, 0.08);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.35);
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                z-index: 1020 !important;
+                transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease !important;
+                transform: translateX(0);
+            }
+
+            .rupeerush-main-column {
+                margin-left: 275px !important;
+                width: calc(100% - 275px) !important;
+                min-width: 0 !important;
+            }
+
+            /* Collapsed Desktop State */
+            body.sidebar-collapsed .rupeerush-left-sidebar {
+                transform: translateX(-100%) !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+
+            body.sidebar-collapsed .rupeerush-main-column {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .floating-support-container {
+                bottom: calc(var(--site-footer-height, 42px) + 16px) !important;
+                right: 22px !important;
+                z-index: 1028 !important;
+            }
+        }
+
+        /* Custom Scrollbar for Left Sidebar */
+        .rupeerush-left-sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .rupeerush-left-sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .rupeerush-left-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.3);
+            border-radius: 4px;
+        }
+        .rupeerush-left-sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.6);
+        }
+
+        /* Sidebar Brand Header */
+        .sidebar-header-box {
+            background: #08101d;
+            height: 48px;
+            flex-shrink: 0;
+        }
+        .sidebar-brand-pill {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+        .sidebar-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            display: inline-block;
+            animation: sidebarPulse 1.8s infinite;
+        }
+        @keyframes sidebarPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        .btn-sidebar-collapse,
+        .btn-sidebar-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .btn-sidebar-collapse:hover,
+        .btn-sidebar-close:hover {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        /* User Card in Sidebar */
+        .sidebar-user-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(12, 94, 61, 0.2) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+        .sidebar-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #070e1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .sidebar-user-name {
+            font-size: 0.82rem;
+            line-height: 1.2;
+        }
+        .sidebar-user-sub {
+            font-size: 0.7rem;
+        }
+        .sidebar-balance-row {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .sidebar-balance-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+        }
+        .btn-sidebar-deposit {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+        .btn-sidebar-deposit:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+            color: #ffffff;
+        }
+        .btn-sidebar-withdraw {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border: none;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+        .btn-sidebar-withdraw:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+            color: #ffffff;
+        }
+
+        /* Guest Card */
+        .sidebar-guest-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        /* Search Box */
+        .sidebar-search-box {
+            position: relative;
+        }
+        .sidebar-search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+        .sidebar-search-input {
+            background: #0c172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            font-size: 0.78rem !important;
+            font-weight: 600 !important;
+            padding: 5px 26px 5px 28px !important;
+            box-shadow: none !important;
+            transition: all 0.2s ease !important;
+        }
+        .sidebar-search-input:focus {
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2) !important;
+            background: #101e38 !important;
+        }
+        .sidebar-search-input::placeholder {
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .btn-sidebar-search-clear {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 0.72rem;
+            cursor: pointer;
+            padding: 0;
+        }
+        .btn-sidebar-search-clear:hover {
+            color: #ffffff;
+        }
+
+        /* Section Title */
+        .sidebar-section-title {
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            color: #64748b;
+        }
+
+        /* Menu List */
+        .sidebar-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .sidebar-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 9px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            transition: all 0.18s ease;
+            border: 1px solid transparent;
+            position: relative;
+            background: transparent;
+        }
+        .sidebar-menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(2px);
+        }
+        .sidebar-menu-item.active {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.04) 100%);
+            color: #ffffff;
+            border-color: rgba(16, 185, 129, 0.35);
+            border-left: 3px solid #10b981;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Icon Box inside Menu */
+        .sidebar-item-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+        .sidebar-menu-item:hover .sidebar-item-icon {
+            transform: scale(1.1);
+        }
+
+        /* Specific item icon styling */
+        .icon-home { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .icon-cricket { background: linear-gradient(135deg, #059669 0%, #064e3b 100%); color: #ffffff; }
+        .icon-bets { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+        .icon-passbook { background: rgba(6, 182, 212, 0.15); color: #06b6d4; }
+        .icon-refer { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .icon-aviator { background: linear-gradient(135deg, #e11d48 0%, #991b1b 100%); color: #ffffff; }
+        .icon-wingo { background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); color: #ffffff; }
+        .icon-lottery { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; }
+        .icon-mines { background: linear-gradient(135deg, #182346 0%, #0d152d 100%); color: #fbbf24; }
+        .icon-andar { background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%); color: #ffffff; }
+        .icon-teenpatti { background: linear-gradient(135deg, #059669 0%, #065f46 100%); color: #ffffff; }
+        .icon-dragontiger { background: linear-gradient(135deg, #dc2626 0%, #2563eb 100%); color: #fbbf24; }
+        .icon-roulette { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%); color: #facc15; }
+        .icon-vortex { background: linear-gradient(135deg, #091a28 0%, #033c4d 100%); color: #38bdf8; }
+        .icon-horse { background: linear-gradient(135deg, #065f46 0%, #022c22 100%); color: #34d399; }
+        .icon-deposit { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .icon-withdraw { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .icon-wa { background: rgba(37, 211, 102, 0.15); color: #25d366; }
+        .icon-mail { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+        .icon-admin { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .icon-logout { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+        .icon-login { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .icon-register { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+        /* Item Labels */
+        .sidebar-item-content {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex-grow: 1;
+        }
+        .sidebar-item-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.15;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sidebar-item-sub {
+            font-size: 0.65rem;
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.15;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Badges */
+        .sidebar-item-badge {
+            font-size: 0.62rem;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 50px;
+            letter-spacing: 0.3px;
+            margin-left: auto;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .badge-live {
+            background: #ef4444;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+        }
+        .badge-payout {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        .badge-hot {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #ffffff;
+        }
+        .badge-bonus {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+        .badge-tag {
+            background: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        .badge-online {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        /* Tablet & Mobile Slide-Out Drawer Mode (< 1200px) */
+        @media (max-width: 1199.98px) {
+            .rupeerush-left-sidebar {
+                position: fixed !important;
+                top: 0 !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                height: 100vh !important;
+                width: 300px !important;
+                max-width: 86vw !important;
+                z-index: 1070 !important;
+                transform: translateX(-100%) !important;
+                margin-left: 0 !important;
+                opacity: 1 !important;
+                box-shadow: 10px 0 35px rgba(0, 0, 0, 0.8) !important;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+
+            body.sidebar-mobile-open .rupeerush-left-sidebar {
+                transform: translateX(0) !important;
+            }
+
+            .rupeerush-sidebar-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(4px);
+                z-index: 1065;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.25s ease, visibility 0.25s ease;
+            }
+
+            body.sidebar-mobile-open .rupeerush-sidebar-backdrop {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
     </style>
     @yield('styles')
 </head>
@@ -913,8 +1436,8 @@
                     
                     <!-- Left: Hamburger & Brand Logo (Lotus365 Architecture) -->
                     <div class="d-flex align-items-center gap-2">
-                        <!-- Hamburger Button (Mobile & Tablet) -->
-                        <button type="button" class="btn-lotus-hamburger" data-bs-toggle="offcanvas" data-bs-target="#mobileProfileOffcanvas" aria-controls="mobileProfileOffcanvas" title="Open Menu">
+                        <!-- Hamburger Button (Toggles Left All-Games & Nav Sidebar) -->
+                        <button type="button" class="btn-lotus-hamburger" id="rupeeRushSidebarToggle" onclick="toggleRupeeRushSidebar()" aria-label="Toggle All Games Sidebar" title="All Games & Navigation Menu">
                             <span></span>
                             <span></span>
                             <span></span>
@@ -1159,67 +1682,80 @@
         @endif
     </header>
 
-    <!-- Flash Notifications -->
-    <div class="container-fluid px-3 px-md-4 px-xl-5 mt-3">
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
-                <i class="fa-solid fa-circle-check fs-5"></i>
-                <div>{{ session('success') }}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="rupeerush-sidebar-backdrop" id="sidebarBackdrop" onclick="closeRupeeRushSidebar()"></div>
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
-                <i class="fa-solid fa-triangle-exclamation fs-5"></i>
-                <div>{{ session('error') }}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    <!-- RupeeRush Application Layout Shell -->
+    <div class="rupeerush-app-shell" id="appShellWrapper">
+        <!-- Modern Left Sidebar Component (All Games & All Options) -->
+        @include('partials.left_sidebar')
 
-        @if(isset($errors) && $errors->any())
-            <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0" role="alert">
-                <ul class="mb-0 ps-3">
-                    @foreach($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <!-- Main Content Column -->
+        <div class="rupeerush-main-column" id="appMainColumn">
+            <!-- Flash Notifications -->
+            <div class="container-fluid px-3 px-md-4 px-xl-5 mt-2">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
+                        <i class="fa-solid fa-circle-check fs-5"></i>
+                        <div>{{ session('success') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0 d-flex align-items-center gap-2" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation fs-5"></i>
+                        <div>{{ session('error') }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if(isset($errors) && $errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm border-0" role="alert">
+                        <ul class="mb-0 ps-3">
+                            @foreach($errors->all() as $err)
+                                <li>{{ $err }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
             </div>
-        @endif
+
+            <!-- Page Main Content -->
+            <div class="rupeerush-page-body">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
-    <!-- Main Content -->
-    @yield('content')
-
-    <!-- Site Footer -->
-    <footer class="site-footer mt-auto">
+    <!-- Site Footer (Sticky / Fixed at Bottom) -->
+    <footer class="site-footer" id="siteFooter">
         <div class="container-fluid px-3 px-md-4 px-xl-5">
             <div class="footer-content-row">
-                <div class="footer-brand-group">
-                    <div class="logo-bars" style="height: 22px;">
-                        <div class="logo-bar b1" style="height: 12px;"></div>
-                        <div class="logo-bar b2" style="height: 17px;"></div>
-                        <div class="logo-bar b3" style="height: 22px;"></div>
+                <div class="footer-brand-group d-flex align-items-center gap-2">
+                    <div class="logo-bars" style="height: 18px;">
+                        <div class="logo-bar b1" style="height: 10px;"></div>
+                        <div class="logo-bar b2" style="height: 14px;"></div>
+                        <div class="logo-bar b3" style="height: 18px;"></div>
                     </div>
                     <div>
                         <div class="footer-brand-title">RUPEE<span>RUSH</span></div>
-                        <div class="footer-tagline">CLEAR • FAST • RELIABLE</div>
                     </div>
                 </div>
 
                 <ul class="footer-links">
                     <li><a href="#privacy">Privacy Policy</a></li>
-                    <li class="footer-divider">|</li>
+                    <li class="footer-divider">•</li>
                     <li><a href="#terms">Terms & Conditions</a></li>
-                    <li class="footer-divider">|</li>
+                    <li class="footer-divider">•</li>
                     <li><a href="#disclaimer">Disclaimer</a></li>
-                    <li class="footer-divider">|</li>
+                    <li class="footer-divider">•</li>
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
 
                 <div class="footer-tz">
-                    — ALL TIMES IN INDIAN STANDARD TIME (IST)
+                    — ALL TIMES IN IST
                 </div>
             </div>
         </div>
@@ -1864,6 +2400,9 @@
             } else {
                 overlay.style.display = 'none';
             }
+            if (typeof updateHeaderAndFooterHeights === 'function') {
+                updateHeaderAndFooterHeights();
+            }
         }
 
         function handleHeaderSearchInput(val) {
@@ -1875,6 +2414,106 @@
                 filterGamesCatalog();
             }
         }
+
+        // ==========================================
+        // RUPEERUSH LEFT SIDEBAR CONTROLLER
+        // ==========================================
+        function toggleRupeeRushSidebar() {
+            const isDesktop = window.innerWidth >= 1200;
+            if (isDesktop) {
+                document.body.classList.toggle('sidebar-collapsed');
+                const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+                localStorage.setItem('rupeerush_sidebar_desktop', isCollapsed ? 'collapsed' : 'expanded');
+            } else {
+                document.body.classList.toggle('sidebar-mobile-open');
+            }
+        }
+        window.toggleRupeerushSidebar = toggleRupeeRushSidebar;
+
+        function closeRupeeRushSidebar() {
+            document.body.classList.remove('sidebar-mobile-open');
+        }
+        window.closeRupeerushSidebar = closeRupeeRushSidebar;
+
+        function filterSidebarGames(query) {
+            const q = (query || '').trim().toLowerCase();
+            const items = document.querySelectorAll('.sidebar-game-entry');
+            const clearBtn = document.getElementById('sidebarSearchClearBtn');
+            const noMatch = document.getElementById('sidebarNoGamesFound');
+            
+            if (clearBtn) {
+                if (q.length > 0) {
+                    clearBtn.classList.remove('d-none');
+                } else {
+                    clearBtn.classList.add('d-none');
+                }
+            }
+
+            let matchCount = 0;
+            items.forEach(el => {
+                const name = (el.getAttribute('data-name') || '').toLowerCase();
+                const text = el.textContent.toLowerCase();
+                if (!q || name.includes(q) || text.includes(q)) {
+                    el.classList.remove('d-none');
+                    matchCount++;
+                } else {
+                    el.classList.add('d-none');
+                }
+            });
+
+            if (noMatch) {
+                if (matchCount === 0 && q.length > 0) {
+                    noMatch.classList.remove('d-none');
+                } else {
+                    noMatch.classList.add('d-none');
+                }
+            }
+        }
+
+        function clearSidebarSearch() {
+            const input = document.getElementById('sidebarGameSearch');
+            if (input) {
+                input.value = '';
+                input.focus();
+                filterSidebarGames('');
+            }
+        }
+
+        // Measure exact header and footer heights dynamically
+        function updateHeaderAndFooterHeights() {
+            const header = document.querySelector('.site-header');
+            if (header) {
+                document.documentElement.style.setProperty('--site-header-height', header.offsetHeight + 'px');
+            }
+            const footer = document.querySelector('.site-footer');
+            if (footer && window.innerWidth >= 992) {
+                document.documentElement.style.setProperty('--site-footer-height', footer.offsetHeight + 'px');
+            } else {
+                document.documentElement.style.setProperty('--site-footer-height', '0px');
+            }
+        }
+        window.addEventListener('resize', updateHeaderAndFooterHeights);
+        window.addEventListener('orientationchange', updateHeaderAndFooterHeights);
+
+        // Initialize Left Sidebar state on DOM load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateHeaderAndFooterHeights();
+            const isGameActive = {{ $isGameActive ? 'true' : 'false' }};
+            const isDesktop = window.innerWidth >= 1200;
+
+            if (isGameActive) {
+                // Keep collapsed by default in active game rooms to maximize betting canvas
+                document.body.classList.add('sidebar-collapsed');
+            } else if (isDesktop) {
+                const savedPref = localStorage.getItem('rupeerush_sidebar_desktop');
+                if (savedPref === 'collapsed') {
+                    document.body.classList.add('sidebar-collapsed');
+                } else {
+                    // Default open on lobby
+                    document.body.classList.remove('sidebar-collapsed');
+                }
+            }
+        });
     </script>
     @yield('scripts')
 </body>

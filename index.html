@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lottery - Live Results | Clear • Fast • Reliable</title>
+  <meta name="description" content="Official Lottery Results Portal. Clear, accurate and time-wise live updates in real time." />
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Interactive Demo & Simulation Control Strip -->
+  <div class="demo-bar">
+    <div class="demo-title">
+      <i class="fa-solid fa-flask"></i>
+      <span>DEMO CONTROL: 2-MIN EARLY GENERATION ENGINE</span>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <span>Virtual Clock:</span>
+      <span class="demo-time" id="currentSimTime">--:--:--</span>
+      <button class="btn-demo" onclick="demoActions.jumpTo10sBeforeNextGen()" title="Jump to 10s before the generation event">
+        <i class="fa-solid fa-forward-fast me-1"></i> Jump to 10s Before Gen (Test 2-Min Rule)
+      </button>
+      <button class="btn-demo" onclick="demoActions.instantGenerateNext()" title="Instantly trigger next slot numbers">
+        <i class="fa-solid fa-bolt me-1"></i> Instant Generate
+      </button>
+      <button class="btn-demo" onclick="demoActions.setSpeed(10)" id="btnSpeed10x" title="Fast simulation 10x">
+        10x Speed
+      </button>
+      <button class="btn-demo" onclick="demoActions.resetToRealTime()" id="btnSpeed1x" title="Reset back to Indian Standard Time">
+        <i class="fa-solid fa-clock-rotate-left me-1"></i> Real Time (IST)
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header">
+    <div class="container-xl">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="brand-wrapper">
+          <div class="logo-bars">
+            <div class="logo-bar b1"></div>
+            <div class="logo-bar b2"></div>
+            <div class="logo-bar b3"></div>
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">
+              <span class="brand-vijay">LOTTERY</span><span class="brand-bhagya"> PORTAL</span>
+            </div>
+            <div class="brand-tagline">CLEAR • FAST • RELIABLE</div>
+          </div>
+        </a>
+
+        <!-- Center Nav Pills -->
+        <nav class="nav-pills-custom">
+          <a href="#" class="nav-link-custom active">Home</a>
+          <a href="#liveSection" class="nav-link-custom">Live Results</a>
+          <a href="#historySection" class="nav-link-custom">History</a>
+          <a href="#aboutSection" class="nav-link-custom">About Us</a>
+          <a href="#helpSection" class="nav-link-custom">Help</a>
+        </nav>
+
+        <!-- Right Controls: Voice Announcer & Meta Tag -->
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <button class="voice-control-pill" id="voiceToggleBtn" onclick="voiceAnnouncer.toggle()" title="Click to Enable/Disable AI Voice Announcements">
+            <i class="fa-solid fa-volume-xmark" id="voiceIcon"></i>
+            <span id="voiceToggleLabel">AI Voice: OFF</span>
+          </button>
+          
+          <select class="voice-lang-select" id="voiceLangSelect" onchange="voiceAnnouncer.setLanguage(this.value)" title="Choose Voice Accent">
+            <option value="hi-IN">🇮🇳 हिन्दी (Hindi)</option>
+            <option value="en-IN" selected>🇮🇳 English (India)</option>
+          </select>
+
+          <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-bold text-dark border" onclick="voiceAnnouncer.testVoice()" title="Listen to 3x sample announcement">
+            <i class="fa-solid fa-headphones me-1"></i> Test Voice
+          </button>
+
+          <div class="header-meta-tag d-none d-lg-flex">
+            <i class="fa-regular fa-clock"></i>
+            <span>Real Results. Real Time.</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+    <div class="container-xl">
+
+      <!-- Hero Section: Today's Live Results -->
+      <section class="hero-live-card" id="liveSection">
+        <div class="hero-header-row">
+          <div class="hero-title-group">
+            <h1 class="hero-heading">
+              Today's Live Results
+              <span class="badge-live-pulse">
+                <span class="live-dot"></span>
+                LIVE
+              </span>
+            </h1>
+            <p class="hero-subtitle">Clear, accurate and time-wise updates in one place.</p>
+          </div>
+          
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <!-- Speaking Equalizer Banner -->
+            <div class="speaking-banner" id="speakingBanner">
+              <div class="sound-wave speaking">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+              </div>
+              <span id="speakingText">Announcing Results 3x...</span>
+              <button class="btn btn-sm text-info p-0 ms-1" onclick="voiceAnnouncer.stop()" title="Mute/Stop Speech">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </button>
+            </div>
+
+            <div class="hero-last-updated">
+              <i class="fa-regular fa-clock"></i>
+              <span>Last updated at <strong id="lastUpdatedTime">--:-- --</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inner Content Grid: Latest Result (Left) + Next Update (Right) -->
+        <div class="hero-content-grid">
+          
+          <!-- Latest Result Card -->
+          <div class="latest-result-card">
+            <div class="latest-result-header">
+              <h2 class="latest-result-title">
+                <i class="fa-solid fa-chart-simple"></i>
+                Latest Result
+              </h2>
+              <div class="latest-meta-pills">
+                <div class="meta-pill">
+                  <i class="fa-regular fa-calendar"></i>
+                  <span id="heroDate">-- -- ----</span>
+                </div>
+                <div class="meta-pill" id="heroTimePill">
+                  <i class="fa-regular fa-clock"></i>
+                  <span id="heroTime">--:-- --</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10 Slot Boxes (2 rows of 5) -->
+            <div class="slots-grid">
+              <!-- Row 1 -->
+              <div class="slot-box" id="slot-XA">
+                <div class="slot-label">XA</div>
+                <div class="slot-value" id="val-XA">--</div>
+              </div>
+              <div class="slot-box" id="slot-XB">
+                <div class="slot-label">XB</div>
+                <div class="slot-value" id="val-XB">--</div>
+              </div>
+              <div class="slot-box" id="slot-XC">
+                <div class="slot-label">XC</div>
+                <div class="slot-value" id="val-XC">--</div>
+              </div>
+              <div class="slot-box" id="slot-XD">
+                <div class="slot-label">XD</div>
+                <div class="slot-value" id="val-XD">--</div>
+              </div>
+              <div class="slot-box" id="slot-XE">
+                <div class="slot-label">XE</div>
+                <div class="slot-value" id="val-XE">--</div>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="slot-box" id="slot-XF">
+                <div class="slot-label">XF</div>
+                <div class="slot-value" id="val-XF">--</div>
+              </div>
+              <div class="slot-box" id="slot-XG">
+                <div class="slot-label">XG</div>
+                <div class="slot-value" id="val-XG">--</div>
+              </div>
+              <div class="slot-box" id="slot-XH">
+                <div class="slot-label">XH</div>
+                <div class="slot-value" id="val-XH">--</div>
+              </div>
+              <div class="slot-box" id="slot-XI">
+                <div class="slot-label">XI</div>
+                <div class="slot-value" id="val-XI">--</div>
+              </div>
+              <div class="slot-box" id="slot-XJ">
+                <div class="slot-label">XJ</div>
+                <div class="slot-value" id="val-XJ">--</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Next Update Card -->
+          <div class="next-update-card">
+            <div>
+              <div class="next-update-header">
+                <i class="fa-regular fa-clock"></i>
+                <span>Next Update</span>
+              </div>
+              <div class="next-update-main">
+                <div class="next-time-col">
+                  <div class="next-slot-time" id="nextSlotTime">--:-- --</div>
+                  <div class="updates-in-label">Updates in</div>
+                  <div class="countdown-timer-display" id="countdownTimer">--:--</div>
+                </div>
+                
+                <!-- Circular progress ring with Hourglass -->
+                <div class="circle-progress-container">
+                  <svg class="progress-ring" width="76" height="76">
+                    <circle class="progress-ring-bg" stroke-width="4" fill="transparent" r="32" cx="38" cy="38" />
+                    <circle class="progress-ring-circle" id="progressCircle" stroke-width="4" fill="transparent" r="32" cx="38" cy="38" />
+                  </svg>
+                  <i class="fa-solid fa-hourglass-half hourglass-icon-center"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="next-update-footer">
+              <div class="auto-update-text">
+                <i class="fa-regular fa-calendar-check text-primary"></i>
+                <span>Results update automatically throughout the day.</span>
+              </div>
+              <div class="early-generation-badge">
+                <i class="fa-solid fa-bolt text-warning"></i>
+                <span id="earlyBadgeText">Generates 2 min early</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Search Previous Results Card -->
+      <section class="search-filter-card">
+        <div class="search-title-group">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search Previous Results</span>
+        </div>
+        
+        <form class="search-form-row" id="searchFilterForm">
+          <div class="date-picker-group">
+            <label for="startDateInput">From Date</label>
+            <div class="date-input-wrapper">
+              <input type="date" id="startDateInput" name="startDate" />
+            </div>
+          </div>
+
+          <span class="text-muted d-none d-md-inline">|</span>
+
+          <div class="date-picker-group">
+            <label for="endDateInput">To Date</label>
+            <div class="date-input-wrapper">
+              <input type="date" id="endDateInput" name="endDate" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-search-results" id="searchBtn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search Results</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Result History Card -->
+      <section class="history-card" id="historySection">
+        <div class="history-card-header">
+          <h2 class="history-title">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Result History
+          </h2>
+          <span class="text-muted small">Daily official sequence (09:00 AM – 09:40 PM)</span>
+        </div>
+
+        <div class="table-responsive-custom">
+          <table class="table-history">
+            <thead>
+              <tr>
+                <th class="th-date">Date</th>
+                <th class="th-time">Time</th>
+                <th>XA</th>
+                <th>XB</th>
+                <th>XC</th>
+                <th>XD</th>
+                <th>XE</th>
+                <th>XF</th>
+                <th>XG</th>
+                <th>XH</th>
+                <th>XI</th>
+                <th>XJ</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Note banner matching image -->
+        <div class="history-note-box">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <strong>Please Note:</strong> Results are displayed for informational and entertainment purposes only.
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container-xl">
+      <div class="footer-content-row">
+        
+        <!-- Footer Brand -->
+        <div class="footer-brand-group">
+          <div class="logo-bars" style="height: 22px;">
+            <div class="logo-bar b1" style="height: 12px;"></div>
+            <div class="logo-bar b2" style="height: 17px;"></div>
+            <div class="logo-bar b3" style="height: 22px;"></div>
+          </div>
+          <div>
+            <div class="footer-brand-title">LOTTERY<span> PORTAL</span></div>
+            <div class="footer-tagline">CLEAR • FAST • RELIABLE</div>
+          </div>
+        </div>
+
+        <!-- Footer Navigation Links -->
+        <ul class="footer-links">
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li class="footer-divider">|</li>
+          <li><a href="#terms">Terms & Conditions</a></li>
+          <li class="footer-divider">|</li>
+          <li><a href="#disclaimer">Disclaimer</a></li>
+          <li class="footer-divider">|</li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+
+        <!-- Timezone Indicator -->
+        <div class="footer-tz">
+          — ALL TIMES IN INDIAN STANDARD TIME (IST)
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification for 2-Minute Early Generation Event -->
+  <div class="live-toast" id="liveToast">
+    <i class="fa-solid fa-circle-check"></i>
+    <div>
+      <div class="fw-bold" style="font-size: 0.9rem;">Live Number Generated!</div>
+      <div id="toastMsg" style="font-size: 0.8rem; color: #cbd5e1;">Slot result is now published.</div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/mockData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

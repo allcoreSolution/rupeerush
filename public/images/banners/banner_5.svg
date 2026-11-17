@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14080e"/>
+      <stop offset="50%" stop-color="#2a0d1d"/>
+      <stop offset="100%" stop-color="#451228"/>
+    </linearGradient>
+    <linearGradient id="redGrad5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="50%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <radialGradient id="glow5" cx="80%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#e11d48" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow5" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="400" fill="url(#bgGrad5)"/>
+  <rect width="1200" height="400" fill="url(#glow5)"/>
+
+  <!-- Flight Curve -->
+  <path d="M 650,350 Q 850,300 1050,120" fill="none" stroke="#e11d48" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 650,350 Q 850,300 1050,120 L 1050,400 L 650,400 Z" fill="#e11d48" opacity="0.08"/>
+
+  <!-- Left Content -->
+  <g transform="translate(60, 60)">
+    <rect x="0" y="0" width="180" height="34" rx="17" fill="#e11d48"/>
+    <text x="90" y="22" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="900" text-anchor="middle" letter-spacing="1">🚀 UNLIMITED WIN</text>
+
+    <text x="0" y="90" fill="#ffffff" font-family="system-ui, sans-serif" font-size="44" font-weight="900">AVIATOR CRASH</text>
+    <text x="0" y="140" fill="url(#redGrad5)" font-family="system-ui, sans-serif" font-size="44" font-weight="900">FLY UP TO 1,000X</text>
+
+    <text x="0" y="185" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="19" font-weight="600">Cashout before the lucky plane flies away • 100% Provably Fair</text>
+
+    <!-- CTA Button -->
+    <g transform="translate(0, 220)">
+      <rect x="0" y="0" width="220" height="52" rx="26" fill="url(#redGrad5)" filter="url(#shadow5)"/>
+      <text x="110" y="32" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.5">FLY &amp; CASHOUT ➔</text>
+    </g>
+
+    <g transform="translate(245, 230)">
+      <text x="0" y="24" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="14" font-weight="700">✓ Multiplier starts at 1.00x  •  Double Bet Panel</text>
+    </g>
+  </g>
+
+  <!-- Right Visual: Plane & Big Multiplier -->
+  <g transform="translate(980, 110)" filter="url(#shadow5)">
+    <!-- Plane icon representation -->
+    <circle cx="0" cy="0" r="32" fill="#e11d48"/>
+    <path d="M -14,-2 L 14,-2 L 10,8 L -10,8 Z" fill="#ffffff"/>
+    <path d="M -4,-14 L 4,-14 L 2,14 L -2,14 Z" fill="#ffffff"/>
+    <!-- Big Text -->
+    <text x="-40" y="110" fill="#ffffff" font-family="monospace" font-size="64" font-weight="900">48.65x</text>
+  </g>
+</svg>

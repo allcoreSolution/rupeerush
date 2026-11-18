@@ -352,91 +352,21 @@
                         </div>
 
                         <!-- Hero Banners Section (Swiper 3 Images) -->
+                        <!-- Lobby Banners & Game Cards Dedicated Page Banner -->
                         <div class="col-12 mt-4 pt-3 border-top">
-                            <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                <div>
-                                    <h6 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
-                                        <i class="fa-solid fa-images text-warning"></i>
-                                        <span>Gaming Lobby Hero Banner Swiper (3 Carousel Images)</span>
-                                    </h6>
-                                    <p class="small text-muted mb-0">Manage the 3 banners displayed in the top Swiper carousel on the main lobby (<a href="{{ url('/') }}" target="_blank" class="fw-bold text-decoration-none">View Lobby <i class="fa-solid fa-arrow-up-right-from-square"></i></a>). Recommended ratio: <strong>3:1</strong> (e.g. 1200x400 px or 1920x640 px).</p>
-                                </div>
-                                <span class="badge bg-warning-subtle text-dark border border-warning px-3 py-1 rounded-pill">
-                                    <i class="fa-solid fa-sliders me-1"></i> 3 Slides Carousel
-                                </span>
-                            </div>
-
-                            <div class="row g-3">
-                                @for($i = 1; $i <= 3; $i++)
-                                    @php
-                                        $bannerProp = "hero_banner_{$i}";
-                                        $linkProp = "hero_banner_{$i}_link";
-                                        $bannerUrl = $setting->getHeroBannerUrl($i);
-                                        $isCustom = $setting->hasCustomBanner($i);
-                                        $defaultLinks = [
-                                            1 => route('lottery.index'),
-                                            2 => route('wingo.index'),
-                                            3 => route('wallet.deposit'),
-                                        ];
-                                        $defaultLabels = [
-                                            1 => 'Slide 1: 2-Digit Lottery (XA–XJ 90X)',
-                                            2 => 'Slide 2: WinGo Color Slot Game (30s Live)',
-                                            3 => 'Slide 3: Instant 30s UPI Deposit & Cashout',
-                                        ];
-                                    @endphp
-                                    <div class="col-12">
-                                        <div class="p-3 bg-light rounded-4 border">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div class="fw-bold text-dark d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary rounded-pill px-2 py-1">Banner #{{ $i }}</span>
-                                                    <span>{{ $defaultLabels[$i] }}</span>
-                                                </div>
-                                                @if($isCustom)
-                                                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill small">
-                                                        <i class="fa-solid fa-check-circle me-1"></i> Custom Image Active
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary-subtle text-muted border px-2 py-1 rounded-pill small">
-                                                        <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Default Banner Active
-                                                    </span>
-                                                @endif
-                                            </div>
-
-                                            <div class="row g-3 align-items-center">
-                                                <!-- Preview -->
-                                                <div class="col-md-5">
-                                                    <div class="position-relative rounded-3 overflow-hidden border shadow-sm bg-dark" style="aspect-ratio: 3/1; max-height: 140px;">
-                                                        <img id="bannerPreviewImg_{{ $i }}" src="{{ $bannerUrl }}" alt="Banner {{ $i }}" class="w-100 h-100 object-fit-cover">
-                                                    </div>
-                                                </div>
-
-                                                <!-- Controls -->
-                                                <div class="col-md-7">
-                                                    <div class="mb-2">
-                                                        <label class="form-label fw-bold small text-muted mb-1">
-                                                            Upload New Image (JPG, PNG, WEBP - Max 5MB)
-                                                        </label>
-                                                        <input type="file" class="form-control form-control-sm" name="hero_banner_{{ $i }}" accept="image/*" onchange="previewHeroBanner(this, {{ $i }})">
-                                                    </div>
-                                                    <div class="mb-2">
-                                                        <label class="form-label fw-bold small text-muted mb-1">
-                                                            Target Click Link (URL / Route)
-                                                        </label>
-                                                        <input type="text" class="form-control form-control-sm font-monospace" name="hero_banner_{{ $i }}_link" value="{{ old($linkProp, $setting->{$linkProp} ?? $defaultLinks[$i]) }}" placeholder="e.g. {{ $defaultLinks[$i] }}">
-                                                    </div>
-                                                    @if($isCustom)
-                                                        <div class="form-check form-check-inline mt-1">
-                                                            <input class="form-check-input text-danger" type="checkbox" name="remove_banner_{{ $i }}" id="removeBanner_{{ $i }}" value="1">
-                                                            <label class="form-check-label small text-danger fw-bold" for="removeBanner_{{ $i }}">
-                                                                <i class="fa-solid fa-trash-can me-1"></i> Remove custom image &amp; reset to default
-                                                            </label>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center justify-content-between flex-wrap gap-3" style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; font-size: 1.25rem;">
+                                        <i class="fa-solid fa-photo-film"></i>
                                     </div>
-                                @endfor
+                                    <div>
+                                        <h6 class="fw-bold text-dark mb-0">Hero Carousel Sliders &amp; Game Cards Hub</h6>
+                                        <p class="small text-muted mb-0">16:9 Carousel Sliders and 11 Game Card cover thumbnails are now managed on a dedicated standalone page.</p>
+                                    </div>
+                                </div>
+                                <a href="{{ route('admin.lobby.index') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                                    <i class="fa-solid fa-sliders me-1"></i> Open Banners &amp; Cards Hub <i class="fa-solid fa-arrow-right ms-1"></i>
+                                </a>
                             </div>
                         </div>
 

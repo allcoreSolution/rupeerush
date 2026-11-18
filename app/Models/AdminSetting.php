@@ -91,14 +91,24 @@ class AdminSetting extends Model
         'hero_banner_1',
         'hero_banner_2',
         'hero_banner_3',
+        'hero_banner_4',
+        'hero_banner_5',
+        'hero_banner_6',
         'hero_banner_1_link',
         'hero_banner_2_link',
         'hero_banner_3_link',
+        'hero_banner_4_link',
+        'hero_banner_5_link',
+        'hero_banner_6_link',
+        'hero_banner_titles',
+        'game_cards_config',
     ];
 
     protected function casts(): array
     {
         return [
+            'hero_banner_titles' => 'array',
+            'game_cards_config' => 'array',
             'min_deposit' => 'decimal:2',
             'max_deposit' => 'decimal:2',
             'min_withdrawal' => 'decimal:2',
@@ -399,61 +409,111 @@ class AdminSetting extends Model
     }
 
     /**
-     * Get configured Hero Banners list with fallback metadata.
+     * Get configured Hero Banners list with fallback metadata (supports all 6 banners).
      *
      * @return array<int, array{index: int, image_url: string, is_custom: bool, link: string, title: string, subtitle: string}>
      */
     public function getHeroBannersList(): array
     {
-        return [
-            [
-                'index' => 1,
-                'image_url' => $this->hasCustomBanner(1) ? $this->getHeroBannerUrl(1) : asset('images/banners/banner_4.svg'),
-                'is_custom' => $this->hasCustomBanner(1),
-                'link' => $this->hero_banner_1_link ?: route('sports.cricket'),
+        $titles = $this->hero_banner_titles ?? [];
+
+        $defaultData = [
+            1 => [
+                'link' => route('sports.cricket'),
                 'title' => 'Live Cricket Exchange (IPL & T20)',
                 'subtitle' => 'Live Ball-by-Ball Score & Back/Lay Odds',
+                'default_svg' => 'images/banners/banner_4.svg',
             ],
-            [
-                'index' => 2,
-                'image_url' => $this->hasCustomBanner(2) ? $this->getHeroBannerUrl(2) : asset('images/banners/banner_1.svg'),
-                'is_custom' => $this->hasCustomBanner(2),
-                'link' => $this->hero_banner_2_link ?: route('lottery.index'),
+            2 => [
+                'link' => route('lottery.index'),
                 'title' => '2-Digit Lottery (XA–XJ)',
                 'subtitle' => 'Official 90X Hourly Slot Draws',
+                'default_svg' => 'images/banners/banner_1.svg',
             ],
-            [
-                'index' => 3,
-                'image_url' => $this->hasCustomBanner(3) ? $this->getHeroBannerUrl(3) : asset('images/banners/banner_2.svg'),
-                'is_custom' => $this->hasCustomBanner(3),
-                'link' => $this->hero_banner_3_link ?: route('wingo.index'),
+            3 => [
+                'link' => route('wingo.index'),
                 'title' => 'WinGo Color Slot Game',
                 'subtitle' => 'Live 30s Multiplier • Fast Payouts',
+                'default_svg' => 'images/banners/banner_2.svg',
             ],
-            [
-                'index' => 4,
-                'image_url' => asset('images/banners/banner_5.svg'),
-                'is_custom' => false,
+            4 => [
                 'link' => route('aviator.index'),
                 'title' => 'Aviator Crash (1,000X)',
                 'subtitle' => 'Cashout Before Plane Flies Away',
+                'default_svg' => 'images/banners/banner_5.svg',
             ],
-            [
-                'index' => 5,
-                'image_url' => asset('images/banners/banner_6.svg'),
-                'is_custom' => false,
+            5 => [
                 'link' => route('teen-patti.index'),
                 'title' => 'Live Indian Casino',
                 'subtitle' => 'Teen Patti, Andar Bahar & Roulette',
+                'default_svg' => 'images/banners/banner_6.svg',
             ],
-            [
-                'index' => 6,
-                'image_url' => asset('images/banners/banner_3.svg'),
-                'is_custom' => false,
+            6 => [
                 'link' => route('wallet.deposit'),
                 'title' => 'Instant 30s UPI Deposit',
                 'subtitle' => 'Instant Approval & 24/7 Withdrawals',
+                'default_svg' => 'images/banners/banner_3.svg',
             ],
         ];
+
+        $list = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $linkField = "hero_banner_{$i}_link";
+            $hasCustom = $this->hasCustomBanner($i);
+            $imageUrl = $hasCustom ? $this->getHeroBannerUrl($i) : asset($defaultData[$i]['default_svg']);
+            $customTitle = $titles[$i]['title'] ?? null;
+            $customSubtitle = $titles[$i]['subtitle'] ?? null;
+
+            $list[] = [
+                'index' => $i,
+                'image_url' => $imageUrl,
+                'is_custom' => $hasCustom,
+                'link' => $this->{$linkField} ?: $defaultData[$i]['link'],
+                'title' => $customTitle ?: $defaultData[$i]['title'],
+                'subtitle' => $customSubtitle ?: $defaultData[$i]['subtitle'],
+            ];
+        }
+
+        return $list;
+    }
+
+    /**
+     * Get custom card thumbnail image URL for a game by ID (e.g. 'lottery', 'wingo', 'aviator', etc.).
+     */
+    public function getGameCardImage(string $gameId): ?string
+    {
+        $cardsConfig = $this->game_cards_config ?? [];
+        $customPath = $cardsConfig[$gameId]['image'] ?? null;
+
+        if ($customPath) {
+            if (file_exists(public_path($customPath))) {
+                return asset($customPath);
+            }
+            if (file_exists(storage_path('app/public/'.$customPath))) {
+                return asset('storage/'.$customPath);
+            }
+        }
+
+        // Static folder fallback: public/images/games/{$gameId}.png, .jpg, .webp
+        foreach (['webp', 'png', 'jpg', 'jpeg'] as $ext) {
+            $staticRel = "images/games/{$gameId}.{$ext}";
+            if (file_exists(public_path($staticRel))) {
+                return asset($staticRel);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get custom metadata (badge, title) for a game card by ID.
+     *
+     * @return array{image?: string, badge?: string, title?: string}
+     */
+    public function getGameCardMeta(string $gameId): array
+    {
+        $cardsConfig = $this->game_cards_config ?? [];
+
+        return $cardsConfig[$gameId] ?? [];
     }
 }

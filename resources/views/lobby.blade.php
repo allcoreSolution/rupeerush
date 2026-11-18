@@ -86,7 +86,7 @@
         justify-content: center;
         overflow: hidden;
         border-radius: 12px;
-        aspect-ratio: 2.7 / 1;
+        aspect-ratio: 16 / 9 !important;
         background: #090e1a;
         border: 1px solid rgba(255, 255, 255, 0.12);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
@@ -265,6 +265,18 @@
     }
     .lotus-banner-game-card:active {
         transform: scale(0.97);
+    }
+    .lotus-card-bg-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        transition: transform 0.35s ease;
+    }
+    .lotus-banner-game-card:hover .lotus-card-bg-img {
+        transform: scale(1.08);
     }
     .lotus-corner-badge {
         position: absolute;
@@ -779,9 +791,9 @@
 
     @media (min-width: 768px) {
         .lobbyHeroSwiper .swiper-slide {
-            aspect-ratio: 2.8 / 1 !important;
-            min-height: 155px !important;
-            max-height: 200px !important;
+            aspect-ratio: 16 / 9 !important;
+            min-height: auto !important;
+            max-height: none !important;
         }
         .lotus-filters-strip {
             display: flex;
@@ -840,9 +852,9 @@
             box-sizing: border-box !important;
         }
         .lobbyHeroSwiper .swiper-slide {
-            aspect-ratio: 2.7 / 1;
-            min-height: 120px;
-            max-height: 155px;
+            aspect-ratio: 16 / 9 !important;
+            min-height: auto !important;
+            max-height: none !important;
         }
         .lotus-filters-strip {
             gap: 6px;
@@ -1089,7 +1101,10 @@
         @foreach($sortedGames as $game)
             @php
                 $gId = $game['id'] ?? '';
-                $cleanTitle = match($gId) {
+                $customCardImg = $setting->getGameCardImage($gId);
+                $customMeta = $setting->getGameCardMeta($gId);
+
+                $cleanTitle = !empty($customMeta['title']) ? $customMeta['title'] : match($gId) {
                     'lottery' => '2 Digit Slot',
                     'wingo' => 'WinGo Color',
                     'andar_bahar' => 'Andar Bahar',
@@ -1103,7 +1118,7 @@
                     'cricket' => 'Cricket Sports',
                     default => $game['title'],
                 };
-                $shortBadge = match($gId) {
+                $shortBadge = !empty($customMeta['badge']) ? $customMeta['badge'] : match($gId) {
                     'lottery' => '90X',
                     'wingo' => '9X',
                     'andar_bahar' => '1.95X',
@@ -1142,12 +1157,17 @@
                         {{ $shortBadge }}
                     </span>
 
-                    <!-- Card Body Artwork / 3D Icon -->
-                    <div class="lotus-card-art">
-                        <div class="lotus-card-3d-icon" style="color: {{ $game['accent_color'] ?? '#fbbf24' }};">
-                            <i class="{{ $artIcon }}"></i>
+                    @if($customCardImg)
+                        <!-- Custom Uploaded / Static Card Thumbnail Cover -->
+                        <img src="{{ $customCardImg }}" alt="{{ $cleanTitle }}" class="lotus-card-bg-img" loading="lazy">
+                    @else
+                        <!-- Card Body Artwork / 3D Icon -->
+                        <div class="lotus-card-art">
+                            <div class="lotus-card-3d-icon" style="color: {{ $game['accent_color'] ?? '#fbbf24' }};">
+                                <i class="{{ $artIcon }}"></i>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <!-- Bottom Overlay Banner (Title + Multiplier) -->
                     <div class="lotus-card-banner-strip">

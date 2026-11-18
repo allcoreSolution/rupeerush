@@ -83,8 +83,8 @@
                         <a href="{{ route('login') }}" class="btn btn-sm btn-success w-100 fw-bold py-1">
                             <i class="fa-solid fa-right-to-bracket me-1"></i> Login
                         </a>
-                        <a href="{{ route('register') }}" class="btn btn-sm btn-outline-warning w-100 fw-bold py-1" target="_blank" rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp me-1"></i> Register
+                        <a href="{{ route('register') }}" class="btn btn-sm btn-outline-warning w-100 fw-bold py-1">
+                            <i class="fa-solid fa-user-plus me-1"></i> Register
                         </a>
                     </div>
                 </div>
@@ -446,7 +446,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('register') }}" class="sidebar-menu-item" target="_blank" rel="noopener noreferrer">
+                            <a href="{{ route('register') }}" class="sidebar-menu-item">
                                 <div class="sidebar-item-icon icon-register">
                                     <i class="fa-solid fa-user-plus"></i>
                                 </div>

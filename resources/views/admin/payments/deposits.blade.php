@@ -55,7 +55,12 @@
                     <tr>
                         <td class="font-monospace small text-muted">#{{ $dep->id }}</td>
                         <td>
-                            <div class="fw-bold text-dark">{{ $dep->user->name ?? 'User Deleted' }}</div>
+                            <div class="fw-bold text-dark d-flex align-items-center gap-1">
+                                <span>{{ $dep->user->name ?? 'User Deleted' }}</span>
+                                @if(($dep->user->status ?? '') === 'pending')
+                                    <span class="badge bg-warning text-dark rounded-pill px-2 py-0 fw-bold" style="font-size: 0.65rem;" title="Account Pending Activation">New Reg</span>
+                                @endif
+                            </div>
                             <div class="text-muted small"><i class="fa-solid fa-phone me-1"></i>{{ $dep->user->phone ?? 'N/A' }}</div>
                             <div class="text-success small fw-bold">Current Bal: ₹{{ number_format($dep->user->balance ?? 0, 2) }}</div>
                         </td>

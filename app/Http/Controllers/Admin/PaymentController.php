@@ -427,6 +427,10 @@ class PaymentController extends Controller
             $balanceAfter = bcadd((string) $balanceBefore, (string) $deposit->amount, 2);
 
             $user->balance = $balanceAfter;
+            // Activate account if this was a pending self-registration
+            if ($user->status === 'pending') {
+                $user->status = 'active';
+            }
             $user->save();
 
             $deposit->status = 'approved';
@@ -442,7 +446,7 @@ class PaymentController extends Controller
                 $refNote = ' Referral bonus of ₹'.number_format($refCommission->commission_amount, 2)." ({$refCommission->commission_percent}%) credited to parent {$refCommission->parentUser->name}!";
             }
 
-            return back()->with('success', "Deposit #{$id} of ₹".number_format($deposit->amount, 2).' approved! ₹'.number_format($deposit->amount, 2)." credited to {$user->name}.{$refNote}");
+            return back()->with('success', "Deposit #{$id} of ₹".number_format($deposit->amount, 2).' approved! ₹'.number_format($deposit->amount, 2)." credited to {$user->name}. Player account is active for login.{$refNote}");
         });
     }
 

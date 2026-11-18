@@ -332,6 +332,10 @@
                         <i class="fa-solid fa-sliders text-primary"></i>
                         <span>QR,limits and commission</span>
                     </a>
+                    <a href="{{ route('admin.lobby.index') }}" class="sidebar-link {{ request()->routeIs('admin.lobby.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-photo-film text-warning"></i>
+                        <span>Lobby Banners & Cards</span>
+                    </a>
                 @endif
             @endif
 

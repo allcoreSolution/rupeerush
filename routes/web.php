@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AviatorAdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DragonTigerAdminController;
 use App\Http\Controllers\Admin\HorseRacingAdminController;
+use App\Http\Controllers\Admin\LobbySettingsController;
 use App\Http\Controllers\Admin\MinesAdminController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\PlayerLedgerController;
@@ -57,6 +58,7 @@ Route::get('/sports/cricket/match/{id}', [CricketController::class, 'showMatch']
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::match(['get', 'post'], '/demo-login', [AuthController::class, 'demoLogin'])->name('demo.login');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -191,6 +193,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware('permission:support_settings')->group(function () {
         Route::get('/support', [SupportSettingsController::class, 'index'])->name('support.index');
         Route::post('/support', [SupportSettingsController::class, 'update'])->name('support.update');
+    });
+
+    // Dedicated Lobby Banners (16:9) & Game Cards Management Hub
+    Route::middleware('permission:payment_settings')->group(function () {
+        Route::get('/lobby/settings', [LobbySettingsController::class, 'index'])->name('lobby.index');
+        Route::get('/lobby', [LobbySettingsController::class, 'index'])->name('lobby.settings');
+        Route::post('/lobby/banners', [LobbySettingsController::class, 'updateBanners'])->name('lobby.banners.update');
+        Route::post('/lobby/cards', [LobbySettingsController::class, 'updateCards'])->name('lobby.cards.update');
     });
 
     // Payment & General Settings Management

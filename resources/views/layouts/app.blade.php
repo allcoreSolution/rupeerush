@@ -1553,8 +1553,8 @@
                                 <i class="fa-solid fa-user me-1"></i>
                                 <span>My Profile</span>
                             </a>
-                            <a href="{{ route('register') }}" class="btn-deposit-nav" style="background: linear-gradient(135deg, #25D366, #128C7E);" target="_blank" rel="noopener noreferrer" title="Register on WhatsApp">
-                                <i class="fa-brands fa-whatsapp"></i>
+                            <a href="{{ route('register') }}" class="btn-deposit-nav" style="background: linear-gradient(135deg, #10b981, #059669);" title="Register Account">
+                                <i class="fa-solid fa-user-plus"></i>
                                 <span>Register</span>
                             </a>
                         @endauth
@@ -2064,7 +2064,10 @@
                         <a href="{{ route('login') }}" class="btn fw-bold text-white py-2 rounded-3" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
                             <i class="fa-solid fa-right-to-bracket me-1"></i> Player Login
                         </a>
-                        <a href="{{ route('register') }}" class="btn fw-bold text-white py-2 rounded-3" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);" target="_blank" rel="noopener noreferrer">
+                        <a href="{{ route('register') }}" class="btn fw-bold text-white py-2 rounded-3" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                            <i class="fa-solid fa-user-plus me-1"></i> Self-Register (Min ₹100)
+                        </a>
+                        <a href="{{ \App\Models\AdminSetting::current()->getRegistrationWhatsappUrl() }}" class="btn fw-bold text-white py-2 rounded-3" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);" target="_blank" rel="noopener noreferrer">
                             <i class="fa-brands fa-whatsapp me-1"></i> Register on WhatsApp
                         </a>
                     </div>

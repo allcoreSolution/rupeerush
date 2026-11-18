@@ -86,15 +86,43 @@
                         </button>
                     </form>
 
-                    <div class="text-center mt-4 pt-3 border-top">
+                    <!-- Instant 1-Click Demo Player Login -->
+                    <div class="mt-4 pt-3 border-top">
+                        <div class="p-3 rounded-4 border shadow-sm text-center" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                            <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+                                <span class="badge bg-warning text-dark px-2 py-1 rounded-pill fw-bold" style="font-size: 0.65rem;">
+                                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> FREE DEMO
+                                </span>
+                                <span class="fw-bold text-dark small">Want to test games first?</span>
+                            </div>
+                            <p class="text-muted small mb-2" style="font-size: 0.74rem;">
+                                Try all 11 real games with <strong>₹10,000 free virtual credits</strong> — no registration needed!
+                            </p>
+                            <form method="POST" action="{{ route('demo.login') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-dark w-100 py-2 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" style="font-size: 0.88rem;">
+                                    <i class="fa-solid fa-gamepad text-warning"></i>
+                                    <span>1-Click Demo Player Login</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Register Options: Self-Register OR WhatsApp -->
+                    <div class="text-center mt-3 pt-2">
                         <span class="text-muted small">Don't have an account?</span>
-                        <a href="{{ route('register') }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-bold small text-success ms-1">
-                            <i class="fa-brands fa-whatsapp me-1"></i> Register on WhatsApp
-                        </a>
+                        <div class="d-flex align-items-center justify-content-center gap-2 mt-1 flex-wrap">
+                            <a href="{{ route('register') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 fw-bold" style="font-size: 0.78rem;">
+                                <i class="fa-solid fa-user-plus me-1"></i> Self Register (Min ₹100)
+                            </a>
+                            <a href="{{ \App\Models\AdminSetting::current()->getRegistrationWhatsappUrl() }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm rounded-pill px-3 py-1 fw-bold" style="font-size: 0.78rem;">
+                                <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Discrete Link to Separate Admin Login -->
-                    <div class="text-center mt-3 pt-2">
+                    <div class="text-center mt-3 pt-2 border-top">
                         <a href="{{ route('admin.login') }}" class="text-muted small text-decoration-none">
                             <i class="fa-solid fa-shield-halved me-1 text-secondary"></i> Administrator Portal Login &rarr;
                         </a>

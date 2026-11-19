@@ -1147,25 +1147,40 @@
                     default => 'fa-solid ' . ($game['icon'] ?? 'fa-gamepad'),
                 };
             @endphp
-            <div class="game-card-wrapper" data-category="{{ $game['category'] }}" data-id="{{ $game['id'] }}" data-name="{{ strtolower($cleanTitle) }}">
-                <a href="{{ $game['route'] }}"
-                   class="lotus-banner-game-card"
+            @php
+                $isActive = (bool) ($game['is_active'] ?? true);
+            @endphp
+            <div class="game-card-wrapper {{ $isActive ? '' : 'game-card-inactive opacity-85' }}" data-category="{{ $game['category'] }}" data-id="{{ $game['id'] }}" data-name="{{ strtolower($cleanTitle) }}">
+                <a href="{{ $isActive ? $game['route'] : 'javascript:void(0)' }}"
+                   @if(!$isActive) onclick="alert('{{ addslashes($cleanTitle) }} is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                   class="lotus-banner-game-card position-relative"
                    style="background: {{ $game['bg_gradient'] ?? 'linear-gradient(135deg, #111a2d 0%, #0a101d 100%)' }};">
 
                     <!-- Top Corner Badge -->
-                    <span class="lotus-corner-badge {{ $game['badge_class'] ?? 'bg-danger' }}">
-                        {{ $shortBadge }}
+                    <span class="lotus-corner-badge {{ $isActive ? ($game['badge_class'] ?? 'bg-danger') : 'bg-warning text-dark' }}">
+                        {{ $isActive ? $shortBadge : 'PAUSED' }}
                     </span>
 
                     @if($customCardImg)
                         <!-- Custom Uploaded / Static Card Thumbnail Cover -->
-                        <img src="{{ $customCardImg }}" alt="{{ $cleanTitle }}" class="lotus-card-bg-img" loading="lazy">
+                        <img src="{{ $customCardImg }}" alt="{{ $cleanTitle }}" class="lotus-card-bg-img {{ $isActive ? '' : 'grayscale' }}" loading="lazy" style="{{ $isActive ? '' : 'filter: grayscale(85%) contrast(85%);' }}">
                     @else
                         <!-- Card Body Artwork / 3D Icon -->
                         <div class="lotus-card-art">
-                            <div class="lotus-card-3d-icon" style="color: {{ $game['accent_color'] ?? '#fbbf24' }};">
+                            <div class="lotus-card-3d-icon" style="color: {{ $game['accent_color'] ?? '#fbbf24' }}; {{ $isActive ? '' : 'filter: grayscale(80%); opacity: 0.5;' }}">
                                 <i class="{{ $artIcon }}"></i>
                             </div>
+                        </div>
+                    @endif
+
+                    @if(!$isActive)
+                        <!-- Inactive / Maintenance Overlay -->
+                        <div class="position-absolute d-flex flex-column align-items-center justify-content-center text-center p-1"
+                             style="inset: 0; background: rgba(10, 15, 29, 0.75); backdrop-filter: blur(1.5px); z-index: 4;">
+                            <span class="badge bg-warning text-dark px-2 py-0.5 rounded-pill fw-bold mb-0.5 shadow-sm" style="font-size: 0.6rem; letter-spacing: 0.3px;">
+                                <i class="fa-solid fa-screwdriver-wrench me-1"></i> MAINTENANCE
+                            </span>
+                            <div class="text-white-50 small d-none d-sm-block" style="font-size: 0.65rem;">Temporarily Paused</div>
                         </div>
                     @endif
 

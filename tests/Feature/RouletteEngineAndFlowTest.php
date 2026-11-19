@@ -464,4 +464,55 @@ class RouletteEngineAndFlowTest extends TestCase
         $this->assertEquals(29.00, (float) $setting->roulette_black_weight);
         $this->assertEquals(1.00, (float) $setting->roulette_green_weight);
     }
+
+    public function test_straight_bets_have_correct_multipliers_zero_is_36x_red_is_5x_black_is_7x(): void
+    {
+        // 1. Direct Engine verification
+        $this->assertEquals(36.00, RouletteEngine::getOddsForBet('straight', '0'));
+        $this->assertEquals(5.00, RouletteEngine::getOddsForBet('straight', '5')); // 5 is Red
+        $this->assertEquals(7.00, RouletteEngine::getOddsForBet('straight', '11')); // 11 is Black
+        $this->assertEquals(5.00, RouletteEngine::getOddsForBet('straight', '14')); // 14 is Red
+        $this->assertEquals(7.00, RouletteEngine::getOddsForBet('straight', '2')); // 2 is Black
+
+        // 2. Placing bets via API assigns correct odds in DB
+        Carbon::setTestNow(Carbon::create(2026, 11, 19, 12, 0, 0, 'Asia/Kolkata'));
+        $roundData = RouletteEngine::getCurrentRound();
+        $round = $roundData['round_model'];
+        $round->status = 'betting';
+        $round->save();
+
+        $response = $this->actingAs($this->player)->postJson(route('api.roulette.place-bet'), [
+            'bets' => [
+                ['type' => 'straight', 'value' => '0', 'amount' => 10],
+                ['type' => 'straight', 'value' => '5', 'amount' => 10],
+                ['type' => 'straight', 'value' => '11', 'amount' => 10],
+            ],
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+
+        $this->assertDatabaseHas('roulette_bets', [
+            'round_id' => $round->round_id,
+            'bet_type' => 'straight',
+            'bet_value' => '0',
+            'odds' => 36.00,
+        ]);
+
+        $this->assertDatabaseHas('roulette_bets', [
+            'round_id' => $round->round_id,
+            'bet_type' => 'straight',
+            'bet_value' => '5',
+            'odds' => 5.00,
+        ]);
+
+        $this->assertDatabaseHas('roulette_bets', [
+            'round_id' => $round->round_id,
+            'bet_type' => 'straight',
+            'bet_value' => '11',
+            'odds' => 7.00,
+        ]);
+
+        Carbon::setTestNow();
+    }
 }

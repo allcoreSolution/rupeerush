@@ -8,26 +8,35 @@
         <h2 class="fw-bold text-dark mb-1">
             <i class="fa-solid fa-receipt text-primary me-2"></i> All Game Bets Monitor
         </h2>
-        <p class="text-muted small mb-0">Live centralized tracking of every bet placed across <strong>Aviator Crash</strong>, <strong>Mines 5x5</strong>, <strong>European Roulette 36x</strong>, <strong>Andar Bahar Live</strong>, <strong>2-Digit Lottery</strong>, and <strong>WinGo Color Games</strong>.</p>
+        <p class="text-muted small mb-0">Live centralized tracking of every bet placed across all <strong>11 Games</strong> (Aviator, Mines, Roulette, Dragon Tiger, Teen Patti, Vortex, Horse Racing, Andar Bahar, 2-Digit Lottery, WinGo, and Cricket Sportsbook).</p>
     </div>
     <div class="d-flex gap-2 flex-wrap">
+        <a href="{{ route('admin.dragon-tiger.index') }}" class="btn btn-outline-danger fw-bold rounded-pill px-3">
+            <i class="fa-solid fa-dragon me-1"></i> Dragon Tiger
+        </a>
+        <a href="{{ route('admin.teen-patti.index') }}" class="btn btn-outline-warning text-dark fw-bold rounded-pill px-3">
+            <i class="fa-solid fa-crown me-1 text-danger"></i> Teen Patti
+        </a>
+        <a href="{{ route('admin.vortex.index') }}" class="btn btn-outline-info text-dark fw-bold rounded-pill px-3">
+            <i class="fa-solid fa-compact-disc me-1"></i> Vortex Wheel
+        </a>
         <a href="{{ route('admin.horse-racing.index') }}" class="btn btn-outline-success fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-horse-head me-1"></i> Horse Racing Control
+            <i class="fa-solid fa-horse-head me-1"></i> Horse Racing
         </a>
         <a href="{{ route('admin.roulette.index') }}" class="btn btn-outline-warning text-dark fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-dharmachakra me-1 text-danger"></i> Roulette Control
+            <i class="fa-solid fa-dharmachakra me-1 text-danger"></i> Roulette
         </a>
         <a href="{{ route('admin.aviator.index') }}" class="btn btn-outline-danger fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-plane-departure me-1"></i> Aviator Control
+            <i class="fa-solid fa-plane-departure me-1"></i> Aviator
         </a>
         <a href="{{ route('admin.andar-bahar.index') }}" class="btn btn-outline-warning text-dark fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-layer-group me-1"></i> Andar Bahar Control
+            <i class="fa-solid fa-layer-group me-1"></i> Andar Bahar
         </a>
         <a href="{{ route('admin.wingo.index') }}" class="btn btn-outline-danger fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-gamepad me-1"></i> WinGo Control
+            <i class="fa-solid fa-gamepad me-1"></i> WinGo
         </a>
         <a href="{{ route('admin.results.index') }}" class="btn btn-outline-primary fw-bold rounded-pill px-3">
-            <i class="fa-solid fa-sliders me-1"></i> 2-Digit Slot Control
+            <i class="fa-solid fa-sliders me-1"></i> 2-Digit Slot
         </a>
     </div>
 </div>
@@ -39,8 +48,8 @@
             <div>
                 <div class="stat-label">Total Bets Placed</div>
                 <div class="stat-value text-dark">{{ number_format($stats['total_bets']) }}</div>
-                <div class="text-muted small mt-1" style="font-size: 0.75rem;">
-                    Derby: <strong>{{ number_format($stats['horse_racing_count'] ?? 0) }}</strong> | Rou: <strong>{{ number_format($stats['roulette_count'] ?? 0) }}</strong> | Av: <strong>{{ number_format($stats['aviator_count'] ?? 0) }}</strong> | Min: <strong>{{ number_format($stats['mines_count'] ?? 0) }}</strong> | AB: <strong>{{ number_format($stats['andar_count'] ?? 0) }}</strong> | Lot: <strong>{{ number_format($stats['lottery_count']) }}</strong> | Win: <strong>{{ number_format($stats['wingo_count']) }}</strong>
+                <div class="text-muted small mt-1" style="font-size: 0.72rem; line-height: 1.35;">
+                    DT: <strong>{{ number_format($stats['dragon_tiger_count'] ?? 0) }}</strong> | TP: <strong>{{ number_format($stats['teen_patti_count'] ?? 0) }}</strong> | Vor: <strong>{{ number_format($stats['vortex_count'] ?? 0) }}</strong> | Spo: <strong>{{ number_format($stats['sports_count'] ?? 0) }}</strong> | Derby: <strong>{{ number_format($stats['horse_racing_count'] ?? 0) }}</strong> | Rou: <strong>{{ number_format($stats['roulette_count'] ?? 0) }}</strong> | Av: <strong>{{ number_format($stats['aviator_count'] ?? 0) }}</strong> | Min: <strong>{{ number_format($stats['mines_count'] ?? 0) }}</strong> | AB: <strong>{{ number_format($stats['andar_count'] ?? 0) }}</strong> | Lot: <strong>{{ number_format($stats['lottery_count'] ?? 0) }}</strong> | Win: <strong>{{ number_format($stats['wingo_count'] ?? 0) }}</strong>
                 </div>
             </div>
             <div class="stat-icon" style="background: rgba(14, 165, 233, 0.15); color: #0284c7;">
@@ -53,8 +62,8 @@
             <div>
                 <div class="stat-label">Total Wagered Pool</div>
                 <div class="stat-value text-primary">₹{{ number_format($stats['total_volume'], 2) }}</div>
-                <div class="text-muted small mt-1" style="font-size: 0.75rem;">
-                    Derby: ₹{{ number_format($stats['horse_racing_volume'] ?? 0, 0) }} | Rou: ₹{{ number_format($stats['roulette_volume'] ?? 0, 0) }} | Av: ₹{{ number_format($stats['aviator_volume'] ?? 0, 0) }} | Min: ₹{{ number_format($stats['mines_volume'] ?? 0, 0) }} | AB: ₹{{ number_format($stats['andar_volume'] ?? 0, 0) }} | Lot: ₹{{ number_format($stats['lottery_volume'], 0) }} | Win: ₹{{ number_format($stats['wingo_volume'], 0) }}
+                <div class="text-muted small mt-1" style="font-size: 0.72rem; line-height: 1.35;">
+                    DT: ₹{{ number_format($stats['dragon_tiger_volume'] ?? 0, 0) }} | TP: ₹{{ number_format($stats['teen_patti_volume'] ?? 0, 0) }} | Vor: ₹{{ number_format($stats['vortex_volume'] ?? 0, 0) }} | Spo: ₹{{ number_format($stats['sports_volume'] ?? 0, 0) }} | Derby: ₹{{ number_format($stats['horse_racing_volume'] ?? 0, 0) }} | Rou: ₹{{ number_format($stats['roulette_volume'] ?? 0, 0) }} | Av: ₹{{ number_format($stats['aviator_volume'] ?? 0, 0) }} | Min: ₹{{ number_format($stats['mines_volume'] ?? 0, 0) }} | AB: ₹{{ number_format($stats['andar_volume'] ?? 0, 0) }} | Lot: ₹{{ number_format($stats['lottery_volume'] ?? 0, 0) }} | Win: ₹{{ number_format($stats['wingo_volume'] ?? 0, 0) }}
                 </div>
             </div>
             <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">
@@ -193,6 +202,35 @@
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'all' ? 'active bg-primary' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'all'])) }}">
                    <i class="fa-solid fa-layer-group me-1"></i> Sabhi Games (All)
+                   <span class="badge {{ $game === 'all' ? 'bg-white text-primary' : 'bg-primary text-white' }} ms-1 rounded-pill">{{ $stats['total_bets'] }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded-pill fw-bold {{ $game === 'dragon_tiger' ? 'active bg-danger text-white' : 'bg-light text-dark' }}" 
+                   href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'dragon_tiger'])) }}">
+                   <i class="fa-solid fa-dragon me-1"></i> Dragon Tiger Live
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['dragon_tiger_count'] ?? 0 }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded-pill fw-bold {{ $game === 'teen_patti' ? 'active bg-warning text-dark' : 'bg-light text-dark' }}" 
+                   href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'teen_patti'])) }}">
+                   <i class="fa-solid fa-crown me-1 text-danger"></i> Teen Patti 20-20
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['teen_patti_count'] ?? 0 }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded-pill fw-bold {{ $game === 'vortex' ? 'active bg-info text-dark' : 'bg-light text-dark' }}" 
+                   href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'vortex'])) }}">
+                   <i class="fa-solid fa-compact-disc me-1"></i> Vortex Wheel
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['vortex_count'] ?? 0 }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link rounded-pill fw-bold {{ $game === 'sports' ? 'active bg-primary text-white' : 'bg-light text-dark' }}" 
+                   href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'sports'])) }}">
+                   <i class="fa-solid fa-baseball-bat-ball me-1"></i> Cricket Sportsbook
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['sports_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -213,30 +251,35 @@
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'aviator' ? 'active bg-danger text-white' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'aviator'])) }}">
                    <i class="fa-solid fa-plane-departure me-1"></i> Aviator Crash
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['aviator_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'mines' ? 'active bg-success text-white' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'mines'])) }}">
                    <i class="fa-solid fa-bomb me-1"></i> Mines 5x5
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['mines_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'andar_bahar' ? 'active bg-warning text-dark' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'andar_bahar'])) }}">
                    <i class="fa-solid fa-cards-blank me-1"></i> Andar Bahar Live
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['andar_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'lottery' ? 'active bg-info text-white' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'lottery'])) }}">
-                   <i class="fa-solid fa-ticket me-1"></i> 2-Digit Lottery Bets
+                   <i class="fa-solid fa-ticket me-1"></i> 2-Digit Lottery
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['lottery_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link rounded-pill fw-bold {{ $game === 'wingo' ? 'active bg-danger text-white' : 'bg-light text-dark' }}" 
                    href="{{ route('admin.bets.index', array_merge(request()->except('page'), ['game' => 'wingo'])) }}">
                    <i class="fa-solid fa-palette me-1"></i> WinGo All
+                   <span class="badge bg-white text-dark ms-1 rounded-pill">{{ $stats['wingo_count'] ?? 0 }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -453,6 +496,58 @@
                                 $status = $bet->status;
                                 $winAmount = (float) $bet->payout_amount;
                                 $multiplier = (float) $bet->odds;
+                            } elseif ($activeGameType === 'dragon_tiger') {
+                                $betId = $bet->id;
+                                $createdAt = $bet->created_at;
+                                $user = $bet->user;
+                                $gameBadge = 'Dragon Tiger Live';
+                                $badgeColor = 'danger text-white';
+                                $periodIdent = 'Round #' . $bet->round_id;
+                                $betTarget = strtoupper($bet->bet_type);
+                                $betType = $bet->bet_type;
+                                $amount = (float) $bet->bet_amount;
+                                $status = $bet->status;
+                                $winAmount = (float) $bet->payout_amount;
+                                $multiplier = (float) $bet->odds;
+                            } elseif ($activeGameType === 'teen_patti') {
+                                $betId = $bet->id;
+                                $createdAt = $bet->created_at;
+                                $user = $bet->user;
+                                $gameBadge = 'Teen Patti 20-20';
+                                $badgeColor = 'warning text-dark';
+                                $periodIdent = 'Round #' . $bet->round_id;
+                                $betTarget = str_replace('_', ' ', strtoupper($bet->bet_type));
+                                $betType = $bet->bet_type;
+                                $amount = (float) $bet->bet_amount;
+                                $status = $bet->status;
+                                $winAmount = (float) $bet->payout_amount;
+                                $multiplier = (float) $bet->odds;
+                            } elseif ($activeGameType === 'vortex') {
+                                $betId = $bet->id;
+                                $createdAt = $bet->created_at;
+                                $user = $bet->user;
+                                $gameBadge = 'Vortex Wheel';
+                                $badgeColor = 'info text-dark';
+                                $periodIdent = '#' . substr($bet->game_id, -8);
+                                $betTarget = 'Ring ' . $bet->current_ring . ' (' . ((float) $bet->current_multiplier) . 'x)';
+                                $betType = 'wheel';
+                                $amount = (float) $bet->bet_amount;
+                                $status = ($bet->status === 'cashed_out' ? 'won' : ($bet->status === 'busted' ? 'lost' : 'pending'));
+                                $winAmount = (float) ($bet->win_amount ?? $bet->payout_amount ?? 0);
+                                $multiplier = (float) $bet->current_multiplier;
+                            } elseif ($activeGameType === 'sports') {
+                                $betId = $bet->id;
+                                $createdAt = $bet->created_at;
+                                $user = $bet->user;
+                                $gameBadge = 'Cricket Sportsbook';
+                                $badgeColor = 'primary';
+                                $periodIdent = $bet->match ? ($bet->match->team_a . ' vs ' . $bet->match->team_b) : ('Match #' . $bet->match_id);
+                                $betTarget = strtoupper($bet->bet_type) . ': ' . $bet->runner_name;
+                                $betType = $bet->bet_type;
+                                $amount = (float) $bet->stake;
+                                $status = $bet->status;
+                                $winAmount = (float) ($bet->win_amount ?? 0);
+                                $multiplier = (float) $bet->odds;
                             } else {
                                 $betId = $bet->id;
                                 $createdAt = $bet->created_at;
@@ -531,6 +626,22 @@
                                     <span class="badge bg-info text-dark px-3 py-1 rounded-pill"><i class="fa-solid fa-down-long me-1"></i> {{ $betTarget }}</span>
                                 @elseif(str_contains($targetLower, 'cards'))
                                     <span class="badge bg-warning text-dark px-3 py-1 rounded-pill"><i class="fa-solid fa-layer-group me-1"></i> {{ $betTarget }}</span>
+                                @elseif($targetLower === 'dragon' || str_starts_with($targetLower, 'dragon'))
+                                    <span class="badge bg-danger text-white px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-dragon me-1"></i> {{ $betTarget }}</span>
+                                @elseif($targetLower === 'tiger' || str_starts_with($targetLower, 'tiger'))
+                                    <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-fire me-1"></i> {{ $betTarget }}</span>
+                                @elseif($targetLower === 'tie' || str_starts_with($targetLower, 'tie'))
+                                    <span class="badge bg-success text-white px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-equals me-1"></i> {{ $betTarget }}</span>
+                                @elseif(str_contains($targetLower, 'player a') || str_contains($targetLower, 'player_a'))
+                                    <span class="badge bg-primary text-white px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-crown me-1"></i> {{ $betTarget }}</span>
+                                @elseif(str_contains($targetLower, 'player b') || str_contains($targetLower, 'player_b'))
+                                    <span class="badge bg-danger text-white px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-crown me-1"></i> {{ $betTarget }}</span>
+                                @elseif(str_contains($targetLower, 'pair plus') || str_contains($targetLower, 'pair_plus'))
+                                    <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-star me-1"></i> {{ $betTarget }}</span>
+                                @elseif(str_contains($targetLower, 'ring'))
+                                    <span class="badge bg-info text-dark px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-compact-disc me-1"></i> {{ $betTarget }}</span>
+                                @elseif(str_contains($targetLower, 'back') || str_contains($targetLower, 'lay'))
+                                    <span class="badge bg-primary text-white px-3 py-1 rounded-pill fw-bold"><i class="fa-solid fa-baseball-bat-ball me-1"></i> {{ $betTarget }}</span>
                                 @else
                                     <span class="badge bg-dark px-3 py-1 rounded-pill font-monospace"><i class="fa-solid fa-hashtag me-1"></i> {{ $betTarget }}</span>
                                 @endif

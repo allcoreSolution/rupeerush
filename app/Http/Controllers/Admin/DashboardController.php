@@ -184,6 +184,15 @@ class DashboardController extends Controller
             ],
         ];
 
+        // Identify highest and lowest volume games for dynamic highlighting
+        $maxBets = collect($gamePerformance)->max('total_bets');
+        $minBets = collect($gamePerformance)->min('total_bets');
+
+        foreach ($gamePerformance as $key => $g) {
+            $gamePerformance[$key]['is_highest'] = ($maxBets > 0 && $g['total_bets'] === $maxBets);
+            $gamePerformance[$key]['is_lowest'] = ($maxBets > $minBets && $g['total_bets'] === $minBets);
+        }
+
         $timingStatus = LotteryEngine::getSlotScheduleStatus();
 
         return view('admin.dashboard', [

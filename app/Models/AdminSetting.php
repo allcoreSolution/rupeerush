@@ -516,4 +516,80 @@ class AdminSetting extends Model
 
         return $cardsConfig[$gameId] ?? [];
     }
+
+    /**
+     * Map aliases (e.g. cricket <-> sports).
+     */
+    public static function normalizeGameKey(string $gameId): string
+    {
+        return match ($gameId) {
+            'sports' => 'cricket',
+            default => $gameId,
+        };
+    }
+
+    /**
+     * Check if a specific game is active (default is true).
+     */
+    public function isGameActive(string $gameId): bool
+    {
+        $norm = self::normalizeGameKey($gameId);
+        $cardsConfig = $this->game_cards_config ?? [];
+
+        if (isset($cardsConfig[$norm]['is_active'])) {
+            return (bool) $cardsConfig[$norm]['is_active'];
+        }
+
+        // Check alternate alias if present
+        if ($norm === 'cricket' && isset($cardsConfig['sports']['is_active'])) {
+            return (bool) $cardsConfig['sports']['is_active'];
+        }
+
+        return true;
+    }
+
+    /**
+     * Set a game's active/inactive status.
+     */
+    public function setGameActive(string $gameId, bool $isActive): void
+    {
+        $norm = self::normalizeGameKey($gameId);
+        $cardsConfig = $this->game_cards_config ?? [];
+
+        if (! isset($cardsConfig[$norm])) {
+            $cardsConfig[$norm] = [];
+        }
+        $cardsConfig[$norm]['is_active'] = $isActive;
+
+        if ($norm === 'cricket') {
+            if (! isset($cardsConfig['sports'])) {
+                $cardsConfig['sports'] = [];
+            }
+            $cardsConfig['sports']['is_active'] = $isActive;
+        }
+
+        $this->game_cards_config = $cardsConfig;
+        $this->save();
+    }
+
+    /**
+     * Get user-friendly name for a game key.
+     */
+    public static function getGameName(string $gameId): string
+    {
+        return match (self::normalizeGameKey($gameId)) {
+            'lottery' => '2 Digit Slot (Lottery)',
+            'wingo' => 'WinGo Color Game',
+            'andar_bahar' => 'Andar Bahar Live',
+            'aviator' => 'Aviator Crash',
+            'mines' => 'Mines 5x5',
+            'vortex' => 'Vortex Wheel',
+            'teen_patti' => '20-20 Teen Patti',
+            'dragon_tiger' => 'Dragon Tiger Live',
+            'roulette' => 'European Roulette 36x',
+            'horse_racing' => 'Horse Racing Derby',
+            'cricket', 'sports' => 'Cricket Live Sportsbook',
+            default => ucfirst(str_replace('_', ' ', $gameId)),
+        };
+    }
 }

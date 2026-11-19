@@ -15,6 +15,11 @@ class WalletController extends Controller
     public function depositPage()
     {
         $user = Auth::user();
+
+        if ($user->isDemo()) {
+            return redirect()->route('home')->with('error', 'Deposit is disabled in Demo Mode. Demo credits (₹10,000) are already available for testing games.');
+        }
+
         $setting = AdminSetting::current();
         $paymentQrs = PaymentQr::where('is_active', true)->orderBy('display_order')->orderBy('id', 'asc')->get();
         $recentDeposits = Transaction::where('user_id', $user->id)
@@ -33,6 +38,10 @@ class WalletController extends Controller
 
     public function submitDeposit(Request $request)
     {
+        if (Auth::user()->isDemo()) {
+            return back()->with('error', 'Deposit is disabled in Demo Mode.');
+        }
+
         $setting = AdminSetting::current();
 
         $validated = $request->validate([
@@ -107,6 +116,11 @@ class WalletController extends Controller
     public function withdrawPage()
     {
         $user = Auth::user();
+
+        if ($user->isDemo()) {
+            return redirect()->route('home')->with('error', 'Withdrawal is disabled in Demo Mode. Virtual demo credits are for game testing only.');
+        }
+
         $setting = AdminSetting::current();
         $recentWithdrawals = Transaction::where('user_id', $user->id)
             ->where('type', 'withdrawal')
@@ -124,6 +138,10 @@ class WalletController extends Controller
     public function submitWithdrawal(Request $request)
     {
         $user = Auth::user();
+
+        if ($user->isDemo()) {
+            return back()->with('error', 'Withdrawal is disabled in Demo Mode. Virtual demo credits are for game testing only.');
+        }
 
         if ($user->status !== 'active') {
             return back()->with('error', 'Your account is currently suspended.');

@@ -239,6 +239,13 @@ class HomeController extends Controller
             ],
         ];
 
+        // Sync live active / inactive status from AdminSetting
+        foreach ($games as $key => $g) {
+            $isActive = $setting->isGameActive($g['id']);
+            $games[$key]['is_active'] = $isActive;
+            $games[$key]['status'] = $isActive ? 'active' : 'inactive';
+        }
+
         // Categories metadata for quick filters
         $catCounts = collect($games)->groupBy('category')->map->count();
         $categories = [

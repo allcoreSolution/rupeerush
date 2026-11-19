@@ -579,7 +579,7 @@ class VortexEngine
     /**
      * Get player's recent Vortex games.
      */
-    public static function getRecentGames(User $user, int $limit = 20): array
+    public static function getRecentGames(User $user, int $limit = 25): array
     {
         return VortexGame::where('user_id', $user->id)
             ->whereIn('status', ['cashed_out', 'busted'])
@@ -594,8 +594,11 @@ class VortexEngine
                     'ring_reached' => (int) $g->current_ring,
                     'multiplier' => (float) $g->current_multiplier,
                     'win_amount' => (float) $g->win_amount,
+                    'part_cashed_out' => (bool) $g->part_cashed_out,
+                    'part_cashout_amount' => (float) $g->part_cashout_amount,
                     'status' => $g->status,
-                    'created_at' => $g->created_at->toISOString(),
+                    'created_at' => $g->created_at ? $g->created_at->format('d M, h:i A') : '',
+                    'time_iso' => $g->created_at ? $g->created_at->toISOString() : '',
                 ];
             })
             ->toArray();

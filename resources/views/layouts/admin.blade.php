@@ -347,8 +347,15 @@
                 </a>
             @endif
 
-            @if(Auth::user()->hasPermission('game_lottery') || Auth::user()->hasPermission('game_wingo') || Auth::user()->hasPermission('game_andar_bahar') || Auth::user()->hasPermission('game_aviator') || Auth::user()->hasPermission('game_mines') || Auth::user()->hasPermission('game_vortex') || Auth::user()->hasPermission('game_teen_patti') || Auth::user()->hasPermission('game_roulette') || Auth::user()->hasPermission('game_horse_racing'))
+            @if(Auth::user()->hasPermission('games_toggle') || Auth::user()->hasPermission('game_lottery') || Auth::user()->hasPermission('game_wingo') || Auth::user()->hasPermission('game_andar_bahar') || Auth::user()->hasPermission('game_aviator') || Auth::user()->hasPermission('game_mines') || Auth::user()->hasPermission('game_vortex') || Auth::user()->hasPermission('game_teen_patti') || Auth::user()->hasPermission('game_roulette') || Auth::user()->hasPermission('game_horse_racing'))
                 <div class="nav-section-title">Game Controls</div>
+                @if(Auth::user()->hasPermission('games_toggle'))
+                    <a href="{{ route('admin.games.status') }}" class="sidebar-link {{ request()->routeIs('admin.games.status*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-power-off text-warning"></i>
+                        <span>Game Active / Inactive</span>
+                        <span class="badge bg-warning text-dark px-1.5 py-0 ms-auto font-monospace" style="font-size: 0.65rem;">ON/OFF</span>
+                    </a>
+                @endif
                 @if(Auth::user()->hasPermission('game_lottery'))
                     <a href="{{ route('admin.results.index') }}" class="sidebar-link {{ request()->routeIs('admin.results.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-sliders text-primary"></i>

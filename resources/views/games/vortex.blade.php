@@ -575,6 +575,111 @@
         .btn-action-side { height: 46px !important; border-radius: 12px !important; font-size: 0.75rem !important; }
         .btn-spin-hold { height: 46px !important; border-radius: 12px !important; }
         .btn-spin-hold-title { font-size: 0.95rem !important; }
+
+        .vortex-history-card { padding: 12px 10px !important; border-radius: 14px !important; }
+        .vtx-history-tabs .nav-link { font-size: 0.72rem !important; padding: 4px 10px !important; }
+        .vtx-stat-pill { padding: 6px 4px !important; border-radius: 8px !important; }
+        .vtx-stat-pill-label { font-size: 0.56rem !important; }
+        .vtx-stat-pill-val { font-size: 0.82rem !important; }
+        .vtx-history-table { font-size: 0.75rem !important; }
+        .vtx-history-table thead th { font-size: 0.62rem !important; padding: 6px 4px !important; }
+        .vtx-history-table tbody td { padding: 7px 4px !important; }
+    }
+
+    /* Vortex My Bets History Card */
+    .vortex-history-card {
+        background: linear-gradient(180deg, #0d1226 0%, #070a16 100%);
+        border: 1px solid var(--vtx-border);
+        border-radius: 20px;
+        padding: 16px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vtx-history-tabs .nav-link {
+        color: #94a3b8;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 6px 14px;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+    .vtx-history-tabs .nav-link.active {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+    .vtx-history-tabs .nav-link:hover:not(.active) {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .vtx-stat-pill {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 8px 10px;
+        text-align: center;
+    }
+    .vtx-stat-pill-label {
+        font-size: 0.62rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+        font-weight: 700;
+    }
+    .vtx-stat-pill-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 0.95rem;
+    }
+
+    .vtx-history-table {
+        margin-bottom: 0;
+        font-size: 0.82rem;
+    }
+    .vtx-history-table thead th {
+        background: #090e1f;
+        color: #94a3b8;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 8px;
+        border-bottom: 1px solid #1e293b;
+        white-space: nowrap;
+    }
+    .vtx-history-table tbody td {
+        padding: 9px 8px;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .vtx-history-table tbody tr:hover {
+        background: rgba(56, 189, 248, 0.04);
+    }
+
+    .badge-ring-water {
+        background: rgba(56, 189, 248, 0.18);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        font-weight: 700;
+        font-size: 0.68rem;
+    }
+    .badge-ring-earth {
+        background: rgba(34, 197, 94, 0.18);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.4);
+        font-weight: 700;
+        font-size: 0.68rem;
+    }
+    .badge-ring-fire {
+        background: rgba(239, 68, 68, 0.18);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        font-weight: 700;
+        font-size: 0.68rem;
     }
 </style>
 @endsection
@@ -999,6 +1104,170 @@
         </div>
 
     </div>
+
+    <!-- Vortex My Bets History & Rules Card -->
+    <div class="vortex-history-card mt-3" id="vortexHistoryCard">
+        <!-- Tab Navigation & Refresh Button -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-2 border-bottom border-secondary border-opacity-25">
+            <ul class="nav nav-pills vtx-history-tabs p-1 bg-dark bg-opacity-75 rounded-pill border border-secondary border-opacity-50" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#vtxHistoryTab" type="button">
+                        <i class="fa-solid fa-clock-rotate-left me-1 text-info"></i> My Bets History
+                        <span class="badge bg-secondary rounded-pill ms-1" id="vtxHistoryCountBadge">{{ count($recentGames) }}</span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#vtxRulesTab" type="button">
+                        <i class="fa-solid fa-circle-question me-1 text-warning"></i> Multipliers &amp; Rules
+                    </button>
+                </li>
+            </ul>
+            <button class="btn btn-sm btn-outline-info rounded-pill px-3 py-1 fw-semibold d-flex align-items-center gap-1 shadow-sm" style="font-size: 0.78rem;" onclick="reloadHistory()" id="btnRefreshHistory" title="Refresh Bet History">
+                <i class="fa-solid fa-rotate" id="refreshIcon"></i>
+                <span>Refresh</span>
+            </button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Tab 1: My Bets History Table -->
+            <div class="tab-pane fade show active" id="vtxHistoryTab">
+                @php
+                    $totalPlayed = count($recentGames);
+                    $totalWon = collect($recentGames)->where('status', 'cashed_out')->sum('win_amount');
+                    $maxMult = collect($recentGames)->max('multiplier') ?? 1.0;
+                @endphp
+                <!-- Quick Stats Summary -->
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <div class="vtx-stat-pill">
+                            <div class="vtx-stat-pill-label">GAMES PLAYED</div>
+                            <div class="vtx-stat-pill-val text-light" id="statTotalPlayed">{{ $totalPlayed }}</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="vtx-stat-pill">
+                            <div class="vtx-stat-pill-label">TOTAL WON</div>
+                            <div class="vtx-stat-pill-val text-success" id="statTotalWon">₹{{ number_format($totalWon, 2) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="vtx-stat-pill">
+                            <div class="vtx-stat-pill-label">BEST MULTIPLIER</div>
+                            <div class="vtx-stat-pill-val text-warning" id="statBestMultiplier">{{ number_format($maxMult, 2) }}x</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="table-responsive rounded-3" style="max-height: 480px; overflow-y: auto;">
+                    <table class="table table-dark table-hover vtx-history-table align-middle">
+                        <thead class="sticky-top" style="z-index: 2;">
+                            <tr>
+                                <th>Game ID</th>
+                                <th>Ring</th>
+                                <th>Bet</th>
+                                <th>Multiplier</th>
+                                <th class="text-end">Payout</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vortexHistoryBody">
+                            @forelse($recentGames as $rg)
+                                @php
+                                    $isWin = ($rg['status'] === 'cashed_out');
+                                    $ringNum = (int)($rg['ring_reached'] ?? 1);
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <div class="font-monospace text-light fw-bold" style="font-size: 0.8rem;">
+                                            #{{ substr($rg['game_id'], -6) }}
+                                        </div>
+                                        <div class="text-secondary small" style="font-size: 0.65rem;">
+                                            {{ $rg['created_at'] }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($ringNum === 3)
+                                            <span class="badge badge-ring-fire rounded-pill px-2 py-1">🔥 Ring 3</span>
+                                        @elseif($ringNum === 2)
+                                            <span class="badge badge-ring-earth rounded-pill px-2 py-1">🦠 Ring 2</span>
+                                        @else
+                                            <span class="badge badge-ring-water rounded-pill px-2 py-1">🌊 Ring 1</span>
+                                        @endif
+                                    </td>
+                                    <td class="font-monospace text-warning fw-semibold">
+                                        ₹{{ number_format($rg['bet_amount'], 2) }}
+                                    </td>
+                                    <td>
+                                        <div class="font-monospace fw-bold {{ $isWin ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($rg['multiplier'], 2) }}x
+                                        </div>
+                                        @if(!empty($rg['part_cashed_out']))
+                                            <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25" style="font-size: 0.6rem;">Part Cashout</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-end">
+                                        @if($isWin)
+                                            <span class="font-monospace fw-bold text-success" style="font-size: 0.85rem;">
+                                                +₹{{ number_format($rg['win_amount'], 2) }}
+                                            </span>
+                                        @else
+                                            <span class="font-monospace text-secondary" style="font-size: 0.8rem;">
+                                                ₹0.00
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center text-secondary py-4">
+                                        <i class="fa-solid fa-arrows-spin fs-4 text-secondary mb-2 d-block opacity-50"></i>
+                                        No Vortex bets played yet. Hold to spin and make your first bet!
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab 2: Multipliers & Rules Tab -->
+            <div class="tab-pane fade" id="vtxRulesTab">
+                <div class="p-2 rounded-3 mb-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08);">
+                    <div class="fw-bold text-info mb-2 small text-uppercase" style="letter-spacing: 0.5px;">
+                        <i class="fa-solid fa-ring me-1"></i> Concentric Ring Multipliers
+                    </div>
+                    <div class="d-flex flex-column gap-2" style="font-size: 0.78rem;">
+                        <div class="d-flex align-items-center justify-content-between p-2 rounded-2" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8;">
+                            <div>
+                                <span class="fw-bold text-info">Ring 1 (Inner Water):</span>
+                                <span class="text-secondary small d-block">Multipliers: 1.20x, 1.50x, 2.00x, 2.50x</span>
+                            </div>
+                            <span class="badge badge-ring-water">🌊 Inner</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-2 rounded-2" style="background: rgba(34, 197, 94, 0.08); border-left: 3px solid #22c55e;">
+                            <div>
+                                <span class="fw-bold text-success">Ring 2 (Middle Earth):</span>
+                                <span class="text-secondary small d-block">Multipliers: 3.50x, 5.00x, 8.00x, 12.00x</span>
+                            </div>
+                            <span class="badge badge-ring-earth">🦠 Middle</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-2 rounded-2" style="background: rgba(239, 68, 68, 0.08); border-left: 3px solid #ef4444;">
+                            <div>
+                                <span class="fw-bold text-danger">Ring 3 (Outer Fire):</span>
+                                <span class="text-secondary small d-block">Multipliers: 15x, 25x, 50x, 100x &amp; 👑 200X Jackpot!</span>
+                            </div>
+                            <span class="badge badge-ring-fire">🔥 Outer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-secondary small" style="font-size: 0.75rem; line-height: 1.5;">
+                    <p class="mb-1"><strong class="text-white">Part PayOut (50%):</strong> At any winning multiplier, pocket half your balance safely into your wallet and keep riding with the remaining 50%!</p>
+                    <p class="mb-0"><strong class="text-white">Fair RNG Wheel:</strong> Every stop position is verified by provably fair cryptographic seeds and transparent math.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- How To Play Modal -->
@@ -1324,6 +1593,7 @@
                 if (data.result === 'bust') {
                     playBustSound();
                     updateUIState(null);
+                    reloadHistory();
                     alert("💥 BOOM! Blast sector hit! The Vortex collapsed! Better luck next spin.");
                 } else {
                     if (data.is_advanced) {
@@ -1340,6 +1610,7 @@
                             document.getElementById('userWalletBalance').textContent = `₹${parseFloat(data.new_balance).toFixed(2)}`;
                         }
                         updateUIState(null);
+                        reloadHistory();
                     }
                 }
             }, 1800);
@@ -1370,6 +1641,7 @@
                     document.getElementById('userWalletBalance').textContent = `₹${parseFloat(data.new_balance).toFixed(2)}`;
                 }
                 updateUIState(data.game);
+                reloadHistory();
             } else {
                 alert(data.message);
             }
@@ -1394,10 +1666,105 @@
                 }
                 alert(data.message);
                 updateUIState(null);
+                reloadHistory();
             } else {
                 alert(data.message);
             }
         } catch(e) {}
+    }
+
+    // Reload Bet History via AJAX
+    async function reloadHistory() {
+        const refreshIcon = document.getElementById('refreshIcon');
+        if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+        try {
+            const res = await fetch("{{ route('api.vortex.history') }}");
+            if (!res.ok) throw new Error('Failed to fetch');
+            const data = await res.json();
+            if (!data.success || !data.history) return;
+
+            const history = data.history;
+            const tbody = document.getElementById('vortexHistoryBody');
+            const badgeCount = document.getElementById('vtxHistoryCountBadge');
+            if (badgeCount) badgeCount.textContent = history.length;
+
+            if (history.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center text-secondary py-4">
+                            <i class="fa-solid fa-arrows-spin fs-4 text-secondary mb-2 d-block opacity-50"></i>
+                            No Vortex bets played yet. Hold to spin and make your first bet!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Update stats
+            let totalPlayed = history.length;
+            let totalWon = 0;
+            let bestMult = 1.0;
+
+            let html = '';
+            history.forEach(item => {
+                const isWin = (item.status === 'cashed_out');
+                const winAmt = parseFloat(item.win_amount || 0);
+                const betAmt = parseFloat(item.bet_amount || 0);
+                const mult = parseFloat(item.multiplier || 1.0);
+                const ringNum = parseInt(item.ring_reached || 1);
+
+                if (isWin) {
+                    totalWon += winAmt;
+                    if (mult > bestMult) bestMult = mult;
+                }
+
+                let ringBadge = `<span class="badge badge-ring-water rounded-pill px-2 py-1">🌊 Ring 1</span>`;
+                if (ringNum === 2) {
+                    ringBadge = `<span class="badge badge-ring-earth rounded-pill px-2 py-1">🦠 Ring 2</span>`;
+                } else if (ringNum === 3) {
+                    ringBadge = `<span class="badge badge-ring-fire rounded-pill px-2 py-1">🔥 Ring 3</span>`;
+                }
+
+                const shortId = item.game_id ? item.game_id.substring(item.game_id.length - 6) : item.id;
+                const partTag = item.part_cashed_out ? `<div class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25 mt-1" style="font-size: 0.6rem;">Part Cashout</div>` : '';
+
+                html += `
+                    <tr>
+                        <td>
+                            <div class="font-monospace text-light fw-bold" style="font-size: 0.8rem;">#${shortId}</div>
+                            <div class="text-secondary small" style="font-size: 0.65rem;">${item.created_at || ''}</div>
+                        </td>
+                        <td>${ringBadge}</td>
+                        <td class="font-monospace text-warning fw-semibold">₹${betAmt.toFixed(2)}</td>
+                        <td>
+                            <div class="font-monospace fw-bold ${isWin ? 'text-success' : 'text-danger'}">${mult.toFixed(2)}x</div>
+                            ${partTag}
+                        </td>
+                        <td class="text-end">
+                            ${isWin
+                                ? `<span class="font-monospace fw-bold text-success" style="font-size: 0.85rem;">+₹${winAmt.toFixed(2)}</span>`
+                                : `<span class="font-monospace text-secondary" style="font-size: 0.8rem;">₹0.00</span>`
+                            }
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+
+            const statPlayed = document.getElementById('statTotalPlayed');
+            const statWon = document.getElementById('statTotalWon');
+            const statMult = document.getElementById('statBestMultiplier');
+            if (statPlayed) statPlayed.textContent = totalPlayed;
+            if (statWon) statWon.textContent = `₹${totalWon.toFixed(2)}`;
+            if (statMult) statMult.textContent = `${bestMult.toFixed(2)}x`;
+
+        } catch (err) {
+            console.error('History reload error:', err);
+        } finally {
+            if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+        }
     }
 
     // Setup Hold to Spin listeners

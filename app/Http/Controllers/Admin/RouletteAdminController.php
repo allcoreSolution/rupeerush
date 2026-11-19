@@ -37,7 +37,7 @@ class RouletteAdminController extends Controller
             $liability = 0.00;
             foreach ($activeBets as $b) {
                 if (RouletteEngine::evaluateBetOutcome($b->bet_type, $b->bet_value, $i)) {
-                    $multiplier = (float) ($b->odds ?: ($oddsTable[$b->bet_type] ?? (RouletteEngine::BET_ODDS[$b->bet_type] ?? 1.0)));
+                    $multiplier = (float) ($b->odds ?: RouletteEngine::getOddsForBet($b->bet_type, $b->bet_value, $setting));
                     $liability += ((float) $b->bet_amount * $multiplier);
                 }
             }

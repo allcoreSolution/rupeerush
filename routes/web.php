@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AndarBaharAdminController;
 use App\Http\Controllers\Admin\AviatorAdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DragonTigerAdminController;
+use App\Http\Controllers\Admin\GameStatusController;
 use App\Http\Controllers\Admin\HorseRacingAdminController;
 use App\Http\Controllers\Admin\LobbySettingsController;
 use App\Http\Controllers\Admin\MinesAdminController;
@@ -42,18 +43,18 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/lottery', [HomeController::class, 'lottery'])->name('lottery.index');
-Route::get('/wingo', [WingoController::class, 'index'])->name('wingo.index');
-Route::get('/andar-bahar', [AndarBaharController::class, 'index'])->name('andar-bahar.index');
-Route::get('/aviator', [AviatorController::class, 'index'])->name('aviator.index');
-Route::get('/mines', [MinesController::class, 'index'])->name('mines.index');
-Route::get('/vortex', [VortexController::class, 'index'])->name('vortex.index');
-Route::get('/teen-patti', [TeenPattiController::class, 'index'])->name('teen-patti.index');
-Route::get('/dragon-tiger', [DragonTigerController::class, 'index'])->name('dragon-tiger.index');
-Route::get('/roulette', [RouletteController::class, 'index'])->name('roulette.index');
-Route::get('/horse-racing', [HorseRacingController::class, 'index'])->name('horse-racing.index');
-Route::get('/sports/cricket', [CricketController::class, 'index'])->name('sports.cricket');
-Route::get('/sports/cricket/match/{id}', [CricketController::class, 'showMatch'])->name('sports.cricket.match');
+Route::get('/lottery', [HomeController::class, 'lottery'])->name('lottery.index')->middleware('game.active:lottery');
+Route::get('/wingo', [WingoController::class, 'index'])->name('wingo.index')->middleware('game.active:wingo');
+Route::get('/andar-bahar', [AndarBaharController::class, 'index'])->name('andar-bahar.index')->middleware('game.active:andar_bahar');
+Route::get('/aviator', [AviatorController::class, 'index'])->name('aviator.index')->middleware('game.active:aviator');
+Route::get('/mines', [MinesController::class, 'index'])->name('mines.index')->middleware('game.active:mines');
+Route::get('/vortex', [VortexController::class, 'index'])->name('vortex.index')->middleware('game.active:vortex');
+Route::get('/teen-patti', [TeenPattiController::class, 'index'])->name('teen-patti.index')->middleware('game.active:teen_patti');
+Route::get('/dragon-tiger', [DragonTigerController::class, 'index'])->name('dragon-tiger.index')->middleware('game.active:dragon_tiger');
+Route::get('/roulette', [RouletteController::class, 'index'])->name('roulette.index')->middleware('game.active:roulette');
+Route::get('/horse-racing', [HorseRacingController::class, 'index'])->name('horse-racing.index')->middleware('game.active:horse_racing');
+Route::get('/sports/cricket', [CricketController::class, 'index'])->name('sports.cricket')->middleware('game.active:cricket');
+Route::get('/sports/cricket/match/{id}', [CricketController::class, 'showMatch'])->name('sports.cricket.match')->middleware('game.active:cricket');
 
 // Auth routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -72,19 +73,19 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/wingo/status', [WingoController::class, 'getLiveStatus'])->name('wingo.status');
     Route::get('/wingo/history', [WingoController::class, 'getHistory'])->name('wingo.history');
     Route::get('/wingo/my-bets', [WingoController::class, 'getMyBets'])->name('wingo.my-bets');
-    Route::post('/wingo/place-bet', [WingoController::class, 'placeBet'])->name('wingo.place-bet');
+    Route::post('/wingo/place-bet', [WingoController::class, 'placeBet'])->name('wingo.place-bet')->middleware('game.active:wingo');
 
     // Andar Bahar Realtime APIs
     Route::get('/andar-bahar/status', [AndarBaharController::class, 'getLiveStatus'])->name('andar-bahar.status');
     Route::get('/andar-bahar/history', [AndarBaharController::class, 'getHistory'])->name('andar-bahar.history');
     Route::get('/andar-bahar/my-bets', [AndarBaharController::class, 'getMyBets'])->name('andar-bahar.my-bets');
-    Route::post('/andar-bahar/place-bet', [AndarBaharController::class, 'placeBet'])->name('andar-bahar.place-bet');
+    Route::post('/andar-bahar/place-bet', [AndarBaharController::class, 'placeBet'])->name('andar-bahar.place-bet')->middleware('game.active:andar_bahar');
 
     // Aviator Realtime APIs
     Route::get('/aviator/status', [AviatorController::class, 'getLiveStatus'])->name('aviator.status');
     Route::get('/aviator/history', [AviatorController::class, 'getHistory'])->name('aviator.history');
     Route::get('/aviator/my-bets', [AviatorController::class, 'getMyBets'])->name('aviator.my-bets');
-    Route::post('/aviator/place-bet', [AviatorController::class, 'placeBet'])->name('aviator.place-bet');
+    Route::post('/aviator/place-bet', [AviatorController::class, 'placeBet'])->name('aviator.place-bet')->middleware('game.active:aviator');
     Route::post('/aviator/cancel-bet', [AviatorController::class, 'cancelBet'])->name('aviator.cancel-bet');
     Route::post('/aviator/cashout', [AviatorController::class, 'cashOut'])->name('aviator.cashout');
 
@@ -92,15 +93,15 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/mines/status', [MinesController::class, 'getStatus'])->name('mines.status');
     Route::get('/mines/ladder', [MinesController::class, 'getLadder'])->name('mines.ladder');
     Route::get('/mines/history', [MinesController::class, 'getHistory'])->name('mines.history');
-    Route::post('/mines/start', [MinesController::class, 'startGame'])->name('mines.start');
+    Route::post('/mines/start', [MinesController::class, 'startGame'])->name('mines.start')->middleware('game.active:mines');
     Route::post('/mines/reveal', [MinesController::class, 'revealTile'])->name('mines.reveal');
     Route::post('/mines/cashout', [MinesController::class, 'cashOut'])->name('mines.cashout');
 
     // Vortex Realtime APIs
     Route::get('/vortex/status', [VortexController::class, 'getStatus'])->name('vortex.status');
     Route::get('/vortex/history', [VortexController::class, 'getHistory'])->name('vortex.history');
-    Route::post('/vortex/start', [VortexController::class, 'startGame'])->name('vortex.start');
-    Route::post('/vortex/spin', [VortexController::class, 'spin'])->name('vortex.spin');
+    Route::post('/vortex/start', [VortexController::class, 'startGame'])->name('vortex.start')->middleware('game.active:vortex');
+    Route::post('/vortex/spin', [VortexController::class, 'spin'])->name('vortex.spin')->middleware('game.active:vortex');
     Route::post('/vortex/part-cashout', [VortexController::class, 'partCashout'])->name('vortex.part-cashout');
     Route::post('/vortex/cashout', [VortexController::class, 'cashOut'])->name('vortex.cashout');
 
@@ -108,31 +109,31 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/teen-patti/status', [TeenPattiController::class, 'getLiveStatus'])->name('teen-patti.status');
     Route::get('/teen-patti/history', [TeenPattiController::class, 'getHistory'])->name('teen-patti.history');
     Route::get('/teen-patti/my-bets', [TeenPattiController::class, 'getMyBets'])->name('teen-patti.my-bets');
-    Route::post('/teen-patti/place-bet', [TeenPattiController::class, 'placeBet'])->name('teen-patti.place-bet');
+    Route::post('/teen-patti/place-bet', [TeenPattiController::class, 'placeBet'])->name('teen-patti.place-bet')->middleware('game.active:teen_patti');
 
     // Dragon Tiger Live Realtime APIs
     Route::get('/dragon-tiger/status', [DragonTigerController::class, 'getLiveStatus'])->name('dragon-tiger.status');
     Route::get('/dragon-tiger/history', [DragonTigerController::class, 'getHistory'])->name('dragon-tiger.history');
     Route::get('/dragon-tiger/my-bets', [DragonTigerController::class, 'getMyBets'])->name('dragon-tiger.my-bets');
-    Route::post('/dragon-tiger/place-bet', [DragonTigerController::class, 'placeBet'])->name('dragon-tiger.place-bet');
+    Route::post('/dragon-tiger/place-bet', [DragonTigerController::class, 'placeBet'])->name('dragon-tiger.place-bet')->middleware('game.active:dragon_tiger');
 
     // European Roulette Realtime APIs
     Route::get('/roulette/status', [RouletteController::class, 'getLiveStatus'])->name('roulette.status');
     Route::get('/roulette/history', [RouletteController::class, 'getHistory'])->name('roulette.history');
     Route::get('/roulette/my-bets', [RouletteController::class, 'getMyBets'])->name('roulette.my-bets');
-    Route::post('/roulette/place-bet', [RouletteController::class, 'placeBet'])->name('roulette.place-bet');
+    Route::post('/roulette/place-bet', [RouletteController::class, 'placeBet'])->name('roulette.place-bet')->middleware('game.active:roulette');
 
     // Horse Racing Realtime APIs
     Route::get('/horse-racing/status', [HorseRacingController::class, 'getLiveStatus'])->name('horse-racing.status');
     Route::get('/horse-racing/history', [HorseRacingController::class, 'getHistory'])->name('horse-racing.history');
     Route::get('/horse-racing/my-bets', [HorseRacingController::class, 'getMyBets'])->name('horse-racing.my-bets');
-    Route::post('/horse-racing/place-bet', [HorseRacingController::class, 'placeBet'])->name('horse-racing.place-bet');
+    Route::post('/horse-racing/place-bet', [HorseRacingController::class, 'placeBet'])->name('horse-racing.place-bet')->middleware('game.active:horse_racing');
 
     // Cricket Sportsbook & Exchange Realtime APIs
     Route::get('/sports/cricket/matches', [CricketController::class, 'getLiveMatchesApi'])->name('sports.cricket.matches');
     Route::get('/sports/cricket/match/{id}', [CricketController::class, 'getMatchDetailsApi'])->name('sports.cricket.match.details');
     Route::get('/sports/cricket/my-bets', [CricketController::class, 'getMyBets'])->name('sports.cricket.my-bets');
-    Route::post('/sports/cricket/place-bet', [CricketController::class, 'placeBet'])->name('sports.cricket.place-bet');
+    Route::post('/sports/cricket/place-bet', [CricketController::class, 'placeBet'])->name('sports.cricket.place-bet')->middleware('game.active:cricket');
 });
 
 /*
@@ -142,7 +143,7 @@ Route::prefix('api')->name('api.')->group(function () {
 */
 Route::middleware(['auth'])->group(function () {
     // Betting
-    Route::post('/bets/place', [BetController::class, 'placeBet'])->name('bets.place');
+    Route::post('/bets/place', [BetController::class, 'placeBet'])->name('bets.place')->middleware('game.active:lottery');
     Route::get('/my-bets', [BetController::class, 'myBets'])->name('bets.history');
 
     // Wallet & Payments
@@ -234,6 +235,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware('permission:withdrawals_manage')->group(function () {
         Route::post('/payments/withdrawals/{id}/approve', [AdminPaymentController::class, 'approveWithdrawal'])->name('payments.withdrawals.approve');
         Route::post('/payments/withdrawals/{id}/reject', [AdminPaymentController::class, 'rejectWithdrawal'])->name('payments.withdrawals.reject');
+    });
+
+    // Master Game On / Off & Active / Inactive Status Management
+    Route::middleware('permission:games_toggle')->group(function () {
+        Route::get('/games/status', [GameStatusController::class, 'index'])->name('games.status');
+        Route::post('/games/{gameId}/toggle-status', [GameStatusController::class, 'toggle'])->name('games.toggle-status');
+        Route::post('/games/bulk-status', [GameStatusController::class, 'bulkUpdate'])->name('games.bulk-status');
     });
 
     // Game Results & Manipulation Control (2-Digit Lottery)

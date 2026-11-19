@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\AndarBaharBet;
 use App\Models\AviatorBet;
 use App\Models\Bet;
+use App\Models\DragonTigerBet;
 use App\Models\HorseRaceBet;
 use App\Models\MinesGame;
 use App\Models\RouletteBet;
+use App\Models\SportsBet;
+use App\Models\TeenPattiBet;
+use App\Models\VortexGame;
 use App\Models\WingoBet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,7 +31,7 @@ class AdminBetController extends Controller
         $search = $request->query('search');
         $filter = $request->query('filter', 'all');
 
-        // Overall Stats for all games
+        // Overall Stats for all 11 games
         $lotteryTotalBets = Bet::count();
         $lotteryTotalVolume = (float) Bet::sum('amount');
         $lotteryTotalPayout = (float) Bet::where('status', 'won')->sum('win_amount');
@@ -56,16 +60,36 @@ class AdminBetController extends Controller
         $horseRacingTotalVolume = (float) HorseRaceBet::sum('bet_amount');
         $horseRacingTotalPayout = (float) HorseRaceBet::where('status', 'won')->sum('payout_amount');
 
+        $dragonTigerTotalBets = DragonTigerBet::count();
+        $dragonTigerTotalVolume = (float) DragonTigerBet::sum('bet_amount');
+        $dragonTigerTotalPayout = (float) DragonTigerBet::where('status', 'won')->sum('payout_amount');
+
+        $teenPattiTotalBets = TeenPattiBet::count();
+        $teenPattiTotalVolume = (float) TeenPattiBet::sum('bet_amount');
+        $teenPattiTotalPayout = (float) TeenPattiBet::where('status', 'won')->sum('payout_amount');
+
+        $vortexTotalBets = VortexGame::count();
+        $vortexTotalVolume = (float) VortexGame::sum('bet_amount');
+        $vortexTotalPayout = (float) VortexGame::where('status', 'cashed_out')->sum('win_amount');
+
+        $sportsTotalBets = SportsBet::count();
+        $sportsTotalVolume = (float) SportsBet::sum('stake');
+        $sportsTotalPayout = (float) SportsBet::where('status', 'won')->sum('win_amount');
+
         $lotteryCommission = (float) Bet::where('status', 'won')->sum('commission_amount');
         $wingoCommission = (float) WingoBet::where('status', 'won')->sum('commission_amount');
         $andarCommission = (float) AndarBaharBet::where('status', 'won')->sum('commission_amount');
         $aviatorCommission = (float) AviatorBet::where('status', 'cashed_out')->sum('commission_amount');
         $minesCommission = (float) MinesGame::where('status', 'cashed_out')->sum('commission_amount');
-        $totalCommission = $lotteryCommission + $wingoCommission + $andarCommission + $aviatorCommission + $minesCommission;
+        $dragonTigerCommission = (float) DragonTigerBet::where('status', 'won')->sum('commission_amount');
+        $teenPattiCommission = (float) TeenPattiBet::where('status', 'won')->sum('commission_amount');
+        $vortexCommission = (float) VortexGame::where('status', 'cashed_out')->sum('commission_amount');
+        $sportsCommission = (float) SportsBet::where('status', 'won')->sum('commission_amount');
+        $totalCommission = $lotteryCommission + $wingoCommission + $andarCommission + $aviatorCommission + $minesCommission + $dragonTigerCommission + $teenPattiCommission + $vortexCommission + $sportsCommission;
 
-        $totalBets = $lotteryTotalBets + $wingoTotalBets + $andarTotalBets + $aviatorTotalBets + $minesTotalBets + $rouletteTotalBets + $horseRacingTotalBets;
-        $totalVolume = $lotteryTotalVolume + $wingoTotalVolume + $andarTotalVolume + $aviatorTotalVolume + $minesTotalVolume + $rouletteTotalVolume + $horseRacingTotalVolume;
-        $totalPayout = $lotteryTotalPayout + $wingoTotalPayout + $andarTotalPayout + $aviatorTotalPayout + $minesTotalPayout + $rouletteTotalPayout + $horseRacingTotalPayout;
+        $totalBets = $lotteryTotalBets + $wingoTotalBets + $andarTotalBets + $aviatorTotalBets + $minesTotalBets + $rouletteTotalBets + $horseRacingTotalBets + $dragonTigerTotalBets + $teenPattiTotalBets + $vortexTotalBets + $sportsTotalBets;
+        $totalVolume = $lotteryTotalVolume + $wingoTotalVolume + $andarTotalVolume + $aviatorTotalVolume + $minesTotalVolume + $rouletteTotalVolume + $horseRacingTotalVolume + $dragonTigerTotalVolume + $teenPattiTotalVolume + $vortexTotalVolume + $sportsTotalVolume;
+        $totalPayout = $lotteryTotalPayout + $wingoTotalPayout + $andarTotalPayout + $aviatorTotalPayout + $minesTotalPayout + $rouletteTotalPayout + $horseRacingTotalPayout + $dragonTigerTotalPayout + $teenPattiTotalPayout + $vortexTotalPayout + $sportsTotalPayout;
 
         $stats = [
             'total_bets' => $totalBets,
@@ -90,6 +114,18 @@ class AdminBetController extends Controller
             'horse_racing_count' => $horseRacingTotalBets,
             'horse_racing_volume' => $horseRacingTotalVolume,
             'horse_racing_payout' => $horseRacingTotalPayout,
+            'dragon_tiger_count' => $dragonTigerTotalBets,
+            'dragon_tiger_volume' => $dragonTigerTotalVolume,
+            'dragon_tiger_payout' => $dragonTigerTotalPayout,
+            'teen_patti_count' => $teenPattiTotalBets,
+            'teen_patti_volume' => $teenPattiTotalVolume,
+            'teen_patti_payout' => $teenPattiTotalPayout,
+            'vortex_count' => $vortexTotalBets,
+            'vortex_volume' => $vortexTotalVolume,
+            'vortex_payout' => $vortexTotalPayout,
+            'sports_count' => $sportsTotalBets,
+            'sports_volume' => $sportsTotalVolume,
+            'sports_payout' => $sportsTotalPayout,
         ];
 
         // Spotlight Calculations: Top Higher Amount, Top Color User, Top Number User
@@ -123,6 +159,31 @@ class AdminBetController extends Controller
         $topRouletteBet = RouletteBet::with('user')
             ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
             ->orderBy('bet_amount', 'desc')
+            ->first();
+
+        $topHorseBet = HorseRaceBet::with('user')
+            ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
+            ->orderBy('bet_amount', 'desc')
+            ->first();
+
+        $topDragonTigerBet = DragonTigerBet::with('user')
+            ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
+            ->orderBy('bet_amount', 'desc')
+            ->first();
+
+        $topTeenPattiBet = TeenPattiBet::with('user')
+            ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
+            ->orderBy('bet_amount', 'desc')
+            ->first();
+
+        $topVortexBet = VortexGame::with('user')
+            ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
+            ->orderBy('bet_amount', 'desc')
+            ->first();
+
+        $topSportsBet = SportsBet::with('user')
+            ->when($dateCondition, fn ($q) => $q->whereDate('created_at', $dateCondition))
+            ->orderBy('stake', 'desc')
             ->first();
 
         $candidates = [];
@@ -172,6 +233,46 @@ class AdminBetController extends Controller
                 'user' => $topRouletteBet->user,
                 'game' => 'European Roulette 36x',
                 'selection' => $topRouletteBet->selection_label ?? (ucfirst($topRouletteBet->bet_type).': '.$topRouletteBet->bet_value),
+            ];
+        }
+        if ($topHorseBet) {
+            $candidates[] = [
+                'amount' => (float) $topHorseBet->bet_amount,
+                'user' => $topHorseBet->user,
+                'game' => 'Horse Racing Live',
+                'selection' => strtoupper($topHorseBet->bet_type).': #'.$topHorseBet->horse_id.' '.$topHorseBet->horse_name,
+            ];
+        }
+        if ($topDragonTigerBet) {
+            $candidates[] = [
+                'amount' => (float) $topDragonTigerBet->bet_amount,
+                'user' => $topDragonTigerBet->user,
+                'game' => 'Dragon Tiger Live',
+                'selection' => strtoupper($topDragonTigerBet->bet_type),
+            ];
+        }
+        if ($topTeenPattiBet) {
+            $candidates[] = [
+                'amount' => (float) $topTeenPattiBet->bet_amount,
+                'user' => $topTeenPattiBet->user,
+                'game' => 'Teen Patti 20-20',
+                'selection' => str_replace('_', ' ', strtoupper($topTeenPattiBet->bet_type)),
+            ];
+        }
+        if ($topVortexBet) {
+            $candidates[] = [
+                'amount' => (float) $topVortexBet->bet_amount,
+                'user' => $topVortexBet->user,
+                'game' => 'Vortex Wheel',
+                'selection' => 'Ring '.$topVortexBet->current_ring.' ('.((float) $topVortexBet->current_multiplier).'x)',
+            ];
+        }
+        if ($topSportsBet) {
+            $candidates[] = [
+                'amount' => (float) $topSportsBet->stake,
+                'user' => $topSportsBet->user,
+                'game' => 'Cricket Sportsbook',
+                'selection' => strtoupper($topSportsBet->bet_type).': '.$topSportsBet->runner_name,
             ];
         }
         usort($candidates, fn ($a, $b) => $b['amount'] <=> $a['amount']);
@@ -552,7 +653,189 @@ class AdminBetController extends Controller
             ]);
         }
 
-        // 8. Game is 'all' - Unified timeline across All Games (2-Digit Lottery, WinGo, Andar Bahar, Aviator, Mines, Roulette, Horse Racing)
+        // 8. If only Dragon Tiger requested
+        if ($game === 'dragon_tiger') {
+            $query = DragonTigerBet::with('user', 'round');
+
+            if ($status !== 'all') {
+                $query->where('status', $status);
+            }
+            if ($request->filled('date')) {
+                $query->whereDate('created_at', $date);
+            }
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('round_id', 'like', "%{$search}%")
+                        ->orWhere('bet_type', 'like', "%{$search}%")
+                        ->orWhere('bet_id', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        });
+                });
+            }
+
+            if ($filter === 'higher_amount') {
+                $query->orderBy('bet_amount', 'desc');
+            } else {
+                $query->orderBy('id', 'desc');
+            }
+
+            $bets = $query->paginate(20)->withQueryString();
+
+            return view('admin.bets.index', [
+                'bets' => $bets,
+                'stats' => $stats,
+                'spotlight' => $spotlight,
+                'game' => $game,
+                'status' => $status,
+                'filter' => $filter,
+                'date' => $date,
+                'search' => $search,
+                'isUnified' => false,
+                'activeGameType' => 'dragon_tiger',
+            ]);
+        }
+
+        // 9. If only Teen Patti requested
+        if ($game === 'teen_patti') {
+            $query = TeenPattiBet::with('user', 'round');
+
+            if ($status !== 'all') {
+                $query->where('status', $status);
+            }
+            if ($request->filled('date')) {
+                $query->whereDate('created_at', $date);
+            }
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('round_id', 'like', "%{$search}%")
+                        ->orWhere('bet_type', 'like', "%{$search}%")
+                        ->orWhere('bet_id', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        });
+                });
+            }
+
+            if ($filter === 'higher_amount') {
+                $query->orderBy('bet_amount', 'desc');
+            } else {
+                $query->orderBy('id', 'desc');
+            }
+
+            $bets = $query->paginate(20)->withQueryString();
+
+            return view('admin.bets.index', [
+                'bets' => $bets,
+                'stats' => $stats,
+                'spotlight' => $spotlight,
+                'game' => $game,
+                'status' => $status,
+                'filter' => $filter,
+                'date' => $date,
+                'search' => $search,
+                'isUnified' => false,
+                'activeGameType' => 'teen_patti',
+            ]);
+        }
+
+        // 10. If only Vortex requested
+        if ($game === 'vortex') {
+            $query = VortexGame::with('user');
+
+            if ($status !== 'all') {
+                if ($status === 'won') {
+                    $query->where('status', 'cashed_out');
+                } elseif ($status === 'lost') {
+                    $query->where('status', 'busted');
+                } elseif ($status === 'pending') {
+                    $query->where('status', 'active');
+                } else {
+                    $query->where('status', $status);
+                }
+            }
+            if ($request->filled('date')) {
+                $query->whereDate('created_at', $date);
+            }
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('game_id', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        });
+                });
+            }
+
+            if ($filter === 'higher_amount') {
+                $query->orderBy('bet_amount', 'desc');
+            } else {
+                $query->orderBy('id', 'desc');
+            }
+
+            $bets = $query->paginate(20)->withQueryString();
+
+            return view('admin.bets.index', [
+                'bets' => $bets,
+                'stats' => $stats,
+                'spotlight' => $spotlight,
+                'game' => $game,
+                'status' => $status,
+                'filter' => $filter,
+                'date' => $date,
+                'search' => $search,
+                'isUnified' => false,
+                'activeGameType' => 'vortex',
+            ]);
+        }
+
+        // 11. If only Sports / Cricket requested
+        if ($game === 'sports') {
+            $query = SportsBet::with('user', 'match', 'market');
+
+            if ($status !== 'all') {
+                $query->where('status', $status);
+            }
+            if ($request->filled('date')) {
+                $query->whereDate('created_at', $date);
+            }
+            if ($request->filled('search')) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('bet_id', 'like', "%{$search}%")
+                        ->orWhere('runner_name', 'like', "%{$search}%")
+                        ->orWhere('bet_type', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($uq) use ($search) {
+                            $uq->where('name', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        });
+                });
+            }
+
+            if ($filter === 'higher_amount') {
+                $query->orderBy('stake', 'desc');
+            } else {
+                $query->orderBy('id', 'desc');
+            }
+
+            $bets = $query->paginate(20)->withQueryString();
+
+            return view('admin.bets.index', [
+                'bets' => $bets,
+                'stats' => $stats,
+                'spotlight' => $spotlight,
+                'game' => $game,
+                'status' => $status,
+                'filter' => $filter,
+                'date' => $date,
+                'search' => $search,
+                'isUnified' => false,
+                'activeGameType' => 'sports',
+            ]);
+        }
+
+        // 12. Game is 'all' - Unified timeline across All 11 Games
         $lotteryQuery = Bet::with('user');
         $wingoQuery = WingoBet::with('user');
         $andarQuery = AndarBaharBet::with('user');
@@ -560,6 +843,10 @@ class AdminBetController extends Controller
         $minesQuery = MinesGame::with('user');
         $rouletteQuery = RouletteBet::with('user', 'round');
         $horseRacingQuery = HorseRaceBet::with('user', 'round');
+        $dragonTigerQuery = DragonTigerBet::with('user', 'round');
+        $teenPattiQuery = TeenPattiBet::with('user', 'round');
+        $vortexQuery = VortexGame::with('user');
+        $sportsQuery = SportsBet::with('user', 'match', 'market');
 
         if ($status !== 'all') {
             $lotteryQuery->where('status', $status);
@@ -567,18 +854,25 @@ class AdminBetController extends Controller
             $andarQuery->where('status', $status);
             $rouletteQuery->where('status', $status);
             $horseRacingQuery->where('status', $status);
+            $dragonTigerQuery->where('status', $status);
+            $teenPattiQuery->where('status', $status);
+            $sportsQuery->where('status', $status);
             if ($status === 'won') {
                 $aviatorQuery->where('status', 'cashed_out');
                 $minesQuery->where('status', 'cashed_out');
+                $vortexQuery->where('status', 'cashed_out');
             } elseif ($status === 'lost') {
                 $aviatorQuery->where('status', 'crashed');
                 $minesQuery->where('status', 'exploded');
+                $vortexQuery->where('status', 'busted');
             } elseif ($status === 'pending') {
                 $aviatorQuery->where('status', 'pending');
                 $minesQuery->where('status', 'active');
+                $vortexQuery->where('status', 'active');
             } else {
                 $aviatorQuery->where('status', $status);
                 $minesQuery->where('status', $status);
+                $vortexQuery->where('status', $status);
             }
         }
         if ($request->filled('date')) {
@@ -588,6 +882,11 @@ class AdminBetController extends Controller
             $aviatorQuery->whereDate('created_at', $date);
             $minesQuery->whereDate('created_at', $date);
             $rouletteQuery->whereDate('created_at', $date);
+            $horseRacingQuery->whereDate('created_at', $date);
+            $dragonTigerQuery->whereDate('created_at', $date);
+            $teenPattiQuery->whereDate('created_at', $date);
+            $vortexQuery->whereDate('created_at', $date);
+            $sportsQuery->whereDate('created_at', $date);
         }
         if ($request->filled('search')) {
             $lotteryQuery->where(function ($q) use ($search) {
@@ -638,6 +937,50 @@ class AdminBetController extends Controller
                             ->orWhere('phone', 'like', "%{$search}%");
                     });
             });
+            $horseRacingQuery->where(function ($q) use ($search) {
+                $q->where('round_id', 'like', "%{$search}%")
+                    ->orWhere('horse_name', 'like', "%{$search}%")
+                    ->orWhere('bet_type', 'like', "%{$search}%")
+                    ->orWhere('bet_id', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+            $dragonTigerQuery->where(function ($q) use ($search) {
+                $q->where('round_id', 'like', "%{$search}%")
+                    ->orWhere('bet_type', 'like', "%{$search}%")
+                    ->orWhere('bet_id', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+            $teenPattiQuery->where(function ($q) use ($search) {
+                $q->where('round_id', 'like', "%{$search}%")
+                    ->orWhere('bet_type', 'like', "%{$search}%")
+                    ->orWhere('bet_id', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+            $vortexQuery->where(function ($q) use ($search) {
+                $q->where('game_id', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
+            $sportsQuery->where(function ($q) use ($search) {
+                $q->where('bet_id', 'like', "%{$search}%")
+                    ->orWhere('runner_name', 'like', "%{$search}%")
+                    ->orWhere('bet_type', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($uq) use ($search) {
+                        $uq->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
+            });
         }
 
         // Apply filters in unified view
@@ -648,11 +991,21 @@ class AdminBetController extends Controller
             $aviatorQuery->orderBy('amount', 'desc');
             $minesQuery->orderBy('bet_amount', 'desc');
             $rouletteQuery->orderBy('bet_amount', 'desc');
+            $horseRacingQuery->orderBy('bet_amount', 'desc');
+            $dragonTigerQuery->orderBy('bet_amount', 'desc');
+            $teenPattiQuery->orderBy('bet_amount', 'desc');
+            $vortexQuery->orderBy('bet_amount', 'desc');
+            $sportsQuery->orderBy('stake', 'desc');
         } elseif ($filter === 'higher_color_user') {
             $lotteryQuery->whereRaw('1 = 0');
             $andarQuery->whereRaw('1 = 0');
             $aviatorQuery->whereRaw('1 = 0');
             $minesQuery->whereRaw('1 = 0');
+            $horseRacingQuery->whereRaw('1 = 0');
+            $dragonTigerQuery->whereRaw('1 = 0');
+            $teenPattiQuery->whereRaw('1 = 0');
+            $vortexQuery->whereRaw('1 = 0');
+            $sportsQuery->whereRaw('1 = 0');
             $wingoQuery->where('bet_type', 'color')->orderBy('total_amount', 'desc');
             $rouletteQuery->whereIn('bet_type', ['red', 'black'])->orderBy('bet_amount', 'desc');
         } elseif ($filter === 'higher_no_user') {
@@ -661,6 +1014,11 @@ class AdminBetController extends Controller
             $andarQuery->whereRaw('1 = 0');
             $aviatorQuery->whereRaw('1 = 0');
             $minesQuery->whereRaw('1 = 0');
+            $horseRacingQuery->whereRaw('1 = 0');
+            $dragonTigerQuery->whereRaw('1 = 0');
+            $teenPattiQuery->whereRaw('1 = 0');
+            $vortexQuery->whereRaw('1 = 0');
+            $sportsQuery->whereRaw('1 = 0');
             $rouletteQuery->where('bet_type', 'straight')->orderBy('bet_amount', 'desc');
         } else {
             $lotteryQuery->orderBy('id', 'desc');
@@ -669,6 +1027,11 @@ class AdminBetController extends Controller
             $aviatorQuery->orderBy('id', 'desc');
             $minesQuery->orderBy('id', 'desc');
             $rouletteQuery->orderBy('id', 'desc');
+            $horseRacingQuery->orderBy('id', 'desc');
+            $dragonTigerQuery->orderBy('id', 'desc');
+            $teenPattiQuery->orderBy('id', 'desc');
+            $vortexQuery->orderBy('id', 'desc');
+            $sportsQuery->orderBy('id', 'desc');
         }
 
         // Fetch top items from all games and sort uniformly
@@ -818,7 +1181,91 @@ class AdminBetController extends Controller
             ];
         });
 
-        $merged = $lotteryItems->concat($wingoItems)->concat($andarItems)->concat($aviatorItems)->concat($minesItems)->concat($rouletteItems)->concat($horseRacingItems);
+        $dragonTigerItems = $dragonTigerQuery->limit(250)->get()->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'bet_id' => $item->bet_id,
+                'game_name' => 'Dragon Tiger Live',
+                'game_code' => 'dragon_tiger',
+                'badge_color' => 'danger text-white',
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'period_identifier' => 'Round #'.$item->round_id,
+                'bet_target' => strtoupper($item->bet_type),
+                'bet_type' => $item->bet_type,
+                'amount' => (float) $item->bet_amount,
+                'win_multiplier' => (float) $item->odds,
+                'commission_amount' => (float) ($item->commission_amount ?? 0),
+                'win_amount' => (float) $item->payout_amount,
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+            ];
+        });
+
+        $teenPattiItems = $teenPattiQuery->limit(250)->get()->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'bet_id' => $item->bet_id,
+                'game_name' => 'Teen Patti 20-20',
+                'game_code' => 'teen_patti',
+                'badge_color' => 'warning text-dark',
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'period_identifier' => 'Round #'.$item->round_id,
+                'bet_target' => str_replace('_', ' ', strtoupper($item->bet_type)),
+                'bet_type' => $item->bet_type,
+                'amount' => (float) $item->bet_amount,
+                'win_multiplier' => (float) $item->odds,
+                'commission_amount' => (float) ($item->commission_amount ?? 0),
+                'win_amount' => (float) $item->payout_amount,
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+            ];
+        });
+
+        $vortexItems = $vortexQuery->limit(250)->get()->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'bet_id' => $item->game_id,
+                'game_name' => 'Vortex Wheel',
+                'game_code' => 'vortex',
+                'badge_color' => 'info text-dark',
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'period_identifier' => '#'.substr($item->game_id, -8),
+                'bet_target' => 'Ring '.$item->current_ring.' ('.((float) $item->current_multiplier).'x)',
+                'bet_type' => 'wheel',
+                'amount' => (float) $item->bet_amount,
+                'win_multiplier' => (float) $item->current_multiplier,
+                'commission_amount' => (float) ($item->commission_amount ?? 0),
+                'win_amount' => (float) ($item->win_amount ?? $item->payout_amount ?? 0),
+                'status' => ($item->status === 'cashed_out' ? 'won' : ($item->status === 'busted' ? 'lost' : 'pending')),
+                'created_at' => $item->created_at,
+            ];
+        });
+
+        $sportsItems = $sportsQuery->limit(250)->get()->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'bet_id' => $item->bet_id,
+                'game_name' => 'Cricket Sportsbook',
+                'game_code' => 'sports',
+                'badge_color' => 'primary',
+                'user' => $item->user,
+                'user_id' => $item->user_id,
+                'period_identifier' => $item->match ? ($item->match->team_a.' vs '.$item->match->team_b) : ('Match #'.$item->match_id),
+                'bet_target' => strtoupper($item->bet_type).': '.$item->runner_name,
+                'bet_type' => $item->bet_type,
+                'amount' => (float) $item->stake,
+                'win_multiplier' => (float) $item->odds,
+                'commission_amount' => (float) ($item->commission_amount ?? 0),
+                'win_amount' => (float) ($item->win_amount ?? 0),
+                'status' => $item->status,
+                'created_at' => $item->created_at,
+            ];
+        });
+
+        $merged = $lotteryItems->concat($wingoItems)->concat($andarItems)->concat($aviatorItems)->concat($minesItems)->concat($rouletteItems)->concat($horseRacingItems)->concat($dragonTigerItems)->concat($teenPattiItems)->concat($vortexItems)->concat($sportsItems);
 
         if (in_array($filter, ['higher_amount', 'higher_color_user', 'higher_no_user'], true)) {
             $merged = $merged->sortByDesc('amount')->values();

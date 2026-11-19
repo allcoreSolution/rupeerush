@@ -1478,22 +1478,39 @@
                             </a>
 
                             <!-- 4. Wallet Balance -->
-                            <a href="{{ route('wallet.withdraw') }}" class="wallet-pill" title="Wallet Balance">
+                            <a href="{{ Auth::user()->isDemo() ? 'javascript:void(0)' : route('wallet.withdraw') }}" class="wallet-pill" title="{{ Auth::user()->isDemo() ? 'Demo Testing Balance' : 'Wallet Balance' }}">
                                 <i class="fa-solid fa-coins text-warning"></i>
                                 <span class="wallet-amt" id="userWalletBalance">₹{{ number_format(Auth::user()->balance, 2) }}</span>
+                                @if(Auth::user()->isDemo())
+                                    <span class="badge bg-warning text-dark ms-1 py-0 px-1" style="font-size: 0.62rem; font-weight: 700;">DEMO</span>
+                                @endif
                             </a>
 
                             <!-- 5. Withdraw -->
-                            <a href="{{ route('wallet.withdraw') }}" class="btn-withdraw-nav" title="Withdraw Funds">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                <span>Withdraw</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" class="btn-withdraw-nav opacity-50" style="cursor: not-allowed;" onclick="alert('Withdraw is disabled in Demo Mode. Virtual demo credits are for game testing only.')" title="Disabled in Demo Mode">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span>Withdraw</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.withdraw') }}" class="btn-withdraw-nav" title="Withdraw Funds">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span>Withdraw</span>
+                                </a>
+                            @endif
 
                             <!-- 6. Deposit -->
-                            <a href="{{ route('wallet.deposit') }}" class="btn-deposit-nav" title="Deposit Balance">
-                                <i class="fa-solid fa-plus-circle"></i>
-                                <span>Deposit</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" class="btn-deposit-nav opacity-50" style="cursor: not-allowed;" onclick="alert('Deposit is disabled in Demo Mode. You already have ₹10,000 demo testing chips!')" title="Disabled in Demo Mode">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span>Deposit</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.deposit') }}" class="btn-deposit-nav" title="Deposit Balance">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span>Deposit</span>
+                                </a>
+                            @endif
 
                             <!-- 7. My Profile Dropdown -->
                             <div class="dropdown">
@@ -1505,7 +1522,7 @@
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 mt-2 p-2" style="min-width: 250px;">
                                     <li class="px-3 py-2 border-bottom mb-1">
-                                        <div class="fw-bold text-dark fs-6">{{ Auth::user()->name }}</div>
+                                        <div class="fw-bold text-dark fs-6">{{ Auth::user()->name }} @if(Auth::user()->isDemo()) <span class="badge bg-warning text-dark" style="font-size: 0.65rem;">DEMO</span> @endif</div>
                                         <div class="text-muted small">{{ Auth::user()->phone }}</div>
                                         <div class="text-success small fw-bold mt-1">Balance: ₹{{ number_format(Auth::user()->balance, 2) }}</div>
                                     </li>
@@ -1513,9 +1530,15 @@
                                         <li><a class="dropdown-item py-2 rounded-2 text-danger fw-bold" href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-gauge-high me-2"></i>Admin Panel</a></li>
                                     @endif
                                     <li><a class="dropdown-item py-2 rounded-2 fw-semibold text-dark" href="{{ route('referral.index') }}"><i class="fa-solid fa-gift me-2 text-warning"></i>Refer & Earn (Bonus)</a></li>
-                                    <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.withdraw') }}"><i class="fa-solid fa-wallet me-2 text-info"></i>My Wallet</a></li>
-                                    <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.withdraw') }}"><i class="fa-solid fa-money-bill-wave me-2 text-warning"></i>Withdraw Funds</a></li>
-                                    <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.deposit') }}"><i class="fa-solid fa-qrcode me-2 text-success"></i>Deposit via QR</a></li>
+                                    @if(Auth::user()->isDemo())
+                                        <li><a class="dropdown-item py-2 rounded-2 text-muted" href="javascript:void(0)" onclick="alert('Wallet is disabled in Demo Mode.')"><i class="fa-solid fa-wallet me-2 text-secondary"></i>My Wallet <small class="badge bg-secondary ms-1">Disabled</small></a></li>
+                                        <li><a class="dropdown-item py-2 rounded-2 text-muted" href="javascript:void(0)" onclick="alert('Withdraw is disabled in Demo Mode.')"><i class="fa-solid fa-money-bill-wave me-2 text-secondary"></i>Withdraw Funds <small class="badge bg-secondary ms-1">Disabled</small></a></li>
+                                        <li><a class="dropdown-item py-2 rounded-2 text-muted" href="javascript:void(0)" onclick="alert('Deposit is disabled in Demo Mode.')"><i class="fa-solid fa-qrcode me-2 text-secondary"></i>Deposit via QR <small class="badge bg-secondary ms-1">Disabled</small></a></li>
+                                    @else
+                                        <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.withdraw') }}"><i class="fa-solid fa-wallet me-2 text-info"></i>My Wallet</a></li>
+                                        <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.withdraw') }}"><i class="fa-solid fa-money-bill-wave me-2 text-warning"></i>Withdraw Funds</a></li>
+                                        <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.deposit') }}"><i class="fa-solid fa-qrcode me-2 text-success"></i>Deposit via QR</a></li>
+                                    @endif
                                     <li><a class="dropdown-item py-2 rounded-2" href="{{ route('bets.history') }}"><i class="fa-solid fa-receipt me-2 text-primary"></i>My Bets History</a></li>
                                     <li><a class="dropdown-item py-2 rounded-2" href="{{ route('wallet.transactions') }}"><i class="fa-solid fa-clock-rotate-left me-2 text-secondary"></i>Passbook / Transactions</a></li>
                                     <li><hr class="dropdown-divider my-1"></li>
@@ -1848,10 +1871,17 @@
 
         <!-- 5. Wallet -->
         @auth
-            <a href="{{ route('wallet.withdraw') }}" class="mobile-nav-item {{ request()->routeIs('wallet.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-wallet text-success"></i>
-                <span>Wallet</span>
-            </a>
+            @if(Auth::user()->isDemo())
+                <a href="javascript:void(0)" onclick="alert('Deposit & Withdraw are disabled in Demo Mode. Virtual demo credits are for game testing only.')" class="mobile-nav-item opacity-75">
+                    <i class="fa-solid fa-wallet text-secondary"></i>
+                    <span>Wallet</span>
+                </a>
+            @else
+                <a href="{{ route('wallet.withdraw') }}" class="mobile-nav-item {{ request()->routeIs('wallet.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-wallet text-success"></i>
+                    <span>Wallet</span>
+                </a>
+            @endif
         @else
             <a href="{{ route('login') }}" class="mobile-nav-item">
                 <i class="fa-solid fa-wallet text-success"></i>
@@ -1890,16 +1920,22 @@
                         <div class="overflow-hidden">
                             <div class="fw-bold text-white fs-6 text-truncate">{{ Auth::user()->name }}</div>
                             <div class="text-secondary small font-monospace">{{ Auth::user()->phone }}</div>
-                            <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-2 py-0 mt-1" style="font-size: 0.68rem;">
-                                VIP PLAYER
-                            </span>
+                            @if(Auth::user()->isDemo())
+                                <span class="badge bg-warning text-dark border border-warning rounded-pill px-2 py-0 mt-1 fw-bold" style="font-size: 0.68rem;">
+                                    DEMO PLAYER
+                                </span>
+                            @else
+                                <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-2 py-0 mt-1" style="font-size: 0.68rem;">
+                                    VIP PLAYER
+                                </span>
+                            @endif
                         </div>
                     </div>
 
                     <!-- Balance Box -->
                     <div class="p-2 px-3 rounded-3 mb-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.2);">
                         <div class="d-flex align-items-center justify-content-between">
-                            <span class="text-secondary small">Wallet Balance</span>
+                            <span class="text-secondary small">{{ Auth::user()->isDemo() ? 'Demo Chips' : 'Wallet Balance' }}</span>
                             <span class="font-monospace fw-bold text-success fs-5">₹{{ number_format(Auth::user()->balance, 2) }}</span>
                         </div>
                     </div>
@@ -1907,16 +1943,30 @@
                     <!-- Quick Action Buttons -->
                     <div class="row g-2">
                         <div class="col-6">
-                            <a href="{{ route('wallet.deposit') }}" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);">
-                                <i class="fa-solid fa-plus-circle"></i>
-                                <span>Deposit</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" onclick="alert('Deposit is disabled in Demo Mode. You have ₹10,000 demo testing chips!')" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2 opacity-50" style="background: #334155; cursor: not-allowed;">
+                                    <i class="fa-solid fa-ban"></i>
+                                    <span>Deposit</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.deposit') }}" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span>Deposit</span>
+                                </a>
+                            @endif
                         </div>
                         <div class="col-6">
-                            <a href="{{ route('wallet.withdraw') }}" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                <span>Withdraw</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" onclick="alert('Withdraw is disabled in Demo Mode. Virtual demo credits are for testing only.')" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2 opacity-50" style="background: #334155; cursor: not-allowed;">
+                                    <i class="fa-solid fa-ban"></i>
+                                    <span>Withdraw</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.withdraw') }}" class="btn w-100 btn-sm fw-bold text-white py-2 rounded-3 d-flex align-items-center justify-content-center gap-2" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span>Withdraw</span>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -1967,47 +2017,63 @@
                         <i class="fa-solid fa-chevron-right text-secondary small"></i>
                     </a>
 
-                    <!-- 4. Wallet -->
-                    <a href="{{ route('wallet.withdraw') }}" class="profile-menu-item {{ request()->routeIs('wallet.*') ? 'active' : '' }}">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="profile-menu-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
-                                <i class="fa-solid fa-wallet"></i>
+                    @if(Auth::user()->isDemo())
+                        <!-- 4. Wallet (Disabled for Demo) -->
+                        <a href="javascript:void(0)" onclick="alert('Wallet Deposit & Withdraw are disabled in Demo Mode.')" class="profile-menu-item opacity-50">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="profile-menu-icon" style="background: rgba(100, 116, 139, 0.15); color: #94a3b8;">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-menu-title text-secondary">Wallet (Demo)</div>
+                                    <div class="profile-menu-desc">Disabled for demo player</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="profile-menu-title">Wallet</div>
-                                <div class="profile-menu-desc">Balance & account funds</div>
+                            <span class="badge bg-secondary" style="font-size: 0.65rem;">Disabled</span>
+                        </a>
+                    @else
+                        <!-- 4. Wallet -->
+                        <a href="{{ route('wallet.withdraw') }}" class="profile-menu-item {{ request()->routeIs('wallet.*') ? 'active' : '' }}">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="profile-menu-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-menu-title">Wallet</div>
+                                    <div class="profile-menu-desc">Balance & account funds</div>
+                                </div>
                             </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-secondary small"></i>
-                    </a>
+                            <i class="fa-solid fa-chevron-right text-secondary small"></i>
+                        </a>
 
-                    <!-- 5. Withdraw -->
-                    <a href="{{ route('wallet.withdraw') }}" class="profile-menu-item">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="profile-menu-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        <!-- 5. Withdraw -->
+                        <a href="{{ route('wallet.withdraw') }}" class="profile-menu-item">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="profile-menu-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-menu-title">Withdraw</div>
+                                    <div class="profile-menu-desc">Instant bank & UPI payout</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="profile-menu-title">Withdraw</div>
-                                <div class="profile-menu-desc">Instant bank & UPI payout</div>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-secondary small"></i>
-                    </a>
+                            <i class="fa-solid fa-chevron-right text-secondary small"></i>
+                        </a>
 
-                    <!-- 6. Deposit -->
-                    <a href="{{ route('wallet.deposit') }}" class="profile-menu-item">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="profile-menu-icon" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">
-                                <i class="fa-solid fa-plus-circle"></i>
+                        <!-- 6. Deposit -->
+                        <a href="{{ route('wallet.deposit') }}" class="profile-menu-item">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="profile-menu-icon" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                </div>
+                                <div>
+                                    <div class="profile-menu-title">Deposit</div>
+                                    <div class="profile-menu-desc">Fast UPI QR deposit</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="profile-menu-title">Deposit</div>
-                                <div class="profile-menu-desc">Fast UPI QR deposit</div>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-secondary small"></i>
-                    </a>
+                            <i class="fa-solid fa-chevron-right text-secondary small"></i>
+                        </a>
+                    @endif
 
                     <!-- 7. Refer & Earn -->
                     <a href="{{ route('referral.index') }}" class="profile-menu-item {{ request()->routeIs('referral.index') ? 'active' : '' }}">
@@ -2378,9 +2444,15 @@
                                 <span class="text-secondary small">Balance:</span>
                                 <span class="fw-bold text-success font-monospace">₹{{ number_format(Auth::user()->balance, 2) }}</span>
                             </div>
-                            <a href="{{ route('wallet.deposit') }}" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold" style="font-size: 0.78rem;">
-                                <i class="fa-solid fa-plus-circle me-1"></i> Deposit
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" onclick="alert('Deposit is disabled in Demo Mode.')" class="btn btn-sm btn-secondary rounded-pill px-3 py-1 fw-bold opacity-50" style="font-size: 0.78rem; cursor: not-allowed;">
+                                    <i class="fa-solid fa-ban me-1"></i> Deposit
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.deposit') }}" class="btn btn-sm btn-success rounded-pill px-3 py-1 fw-bold" style="font-size: 0.78rem;">
+                                    <i class="fa-solid fa-plus-circle me-1"></i> Deposit
+                                </a>
+                            @endif
                         </div>
                     @endauth
                 </div>

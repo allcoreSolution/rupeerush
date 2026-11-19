@@ -88,6 +88,46 @@ class RouletteEngine
     }
 
     /**
+     * Retrieve accurate payout multiplier for a specific bet type & spot value.
+     * - Number 0 (Green): 36x Payout
+     * - Red numbers (1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36): 5x Payout (or admin setting)
+     * - Black numbers (2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35): 7x Payout (or admin setting)
+     */
+    public static function getOddsForBet(string $type, string $value, ?AdminSetting $setting = null): float
+    {
+        $setting ??= AdminSetting::current();
+        $redMult = (float) ($setting->roulette_red_multiplier ?: 5.00);
+        $blackMult = (float) ($setting->roulette_black_multiplier ?: 7.00);
+
+        if ($type === 'straight') {
+            $num = (int) $value;
+            if ($num === 0) {
+                return 36.00;
+            }
+            if (in_array($num, self::RED_NUMBERS, true)) {
+                return $redMult;
+            }
+            if (in_array($num, self::BLACK_NUMBERS, true)) {
+                return $blackMult;
+            }
+
+            return 36.00;
+        }
+
+        if ($type === 'red') {
+            return $redMult;
+        }
+
+        if ($type === 'black') {
+            return $blackMult;
+        }
+
+        $oddsTable = self::getBetOdds($setting);
+
+        return (float) ($oddsTable[$type] ?? (self::BET_ODDS[$type] ?? 1.00));
+    }
+
+    /**
      * Generate biased winning number according to configured weights.
      * Default pattern: 70% Red, 29% Black, 1% Green (rare).
      */
@@ -424,7 +464,7 @@ class RouletteEngine
                 $betWon = self::evaluateBetOutcome($bet->bet_type, $bet->bet_value, $winningNumber);
 
                 if ($betWon) {
-                    $multiplier = (float) ($bet->odds ?: ($oddsTable[$bet->bet_type] ?? (self::BET_ODDS[$bet->bet_type] ?? 1.0)));
+                    $multiplier = (float) ($bet->odds ?: self::getOddsForBet($bet->bet_type, $bet->bet_value, $setting));
                     $payoutDetails = GamePayoutService::calculate($bet->bet_amount, $multiplier);
                     $payout = (float) $payoutDetails['player_payout'];
                     $netProfit = (float) $payoutDetails['net_profit'];
@@ -556,7 +596,7 @@ class RouletteEngine
             $liability = 0.0;
             foreach ($bets as $b) {
                 if (self::evaluateBetOutcome($b->bet_type, $b->bet_value, $candidate)) {
-                    $multiplier = (float) ($b->odds ?: ($oddsTable[$b->bet_type] ?? (self::BET_ODDS[$b->bet_type] ?? 1.0)));
+                    $multiplier = (float) ($b->odds ?: self::getOddsForBet($b->bet_type, $b->bet_value, $setting));
                     $liability += ((float) $b->bet_amount * $multiplier);
                 }
             }
@@ -617,7 +657,7 @@ class RouletteEngine
                 'type' => $type,
                 'value' => $value,
                 'amount' => $amount,
-                'odds' => $oddsTable[$type],
+                'odds' => self::getOddsForBet($type, $value, $setting),
             ];
         }
 

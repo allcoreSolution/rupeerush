@@ -62,16 +62,30 @@
                     <!-- Deposit & Withdraw Quick Actions -->
                     <div class="row g-1">
                         <div class="col-6">
-                            <a href="{{ route('wallet.deposit') }}" class="btn btn-sidebar-deposit w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1">
-                                <i class="fa-solid fa-plus-circle"></i>
-                                <span>Deposit</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" onclick="alert('Deposit is disabled in Demo Mode. You have ₹10,000 demo testing chips!')" class="btn btn-sidebar-deposit w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1 opacity-50" style="cursor: not-allowed; background: #374151;">
+                                    <i class="fa-solid fa-ban"></i>
+                                    <span>Deposit</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.deposit') }}" class="btn btn-sidebar-deposit w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1">
+                                    <i class="fa-solid fa-plus-circle"></i>
+                                    <span>Deposit</span>
+                                </a>
+                            @endif
                         </div>
                         <div class="col-6">
-                            <a href="{{ route('wallet.withdraw') }}" class="btn btn-sidebar-withdraw w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                <span>Withdraw</span>
-                            </a>
+                            @if(Auth::user()->isDemo())
+                                <button type="button" onclick="alert('Withdraw is disabled in Demo Mode. Virtual demo credits are for game testing only.')" class="btn btn-sidebar-withdraw w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1 opacity-50" style="cursor: not-allowed; background: #374151;">
+                                    <i class="fa-solid fa-ban"></i>
+                                    <span>Withdraw</span>
+                                </button>
+                            @else
+                                <a href="{{ route('wallet.withdraw') }}" class="btn btn-sidebar-withdraw w-100 btn-sm py-1 fw-bold text-white d-flex align-items-center justify-content-center gap-1">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span>Withdraw</span>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -170,158 +184,237 @@
                 </div>
 
                 <ul class="sidebar-menu-list list-unstyled mb-0" id="sidebarGamesList">
+                    @php
+                        $cricketActive = $siteSetting->isGameActive('cricket');
+                        $aviatorActive = $siteSetting->isGameActive('aviator');
+                        $wingoActive = $siteSetting->isGameActive('wingo');
+                        $lotteryActive = $siteSetting->isGameActive('lottery');
+                        $minesActive = $siteSetting->isGameActive('mines');
+                        $andarActive = $siteSetting->isGameActive('andar_bahar');
+                        $teenPattiActive = $siteSetting->isGameActive('teen_patti');
+                        $dragonActive = $siteSetting->isGameActive('dragon_tiger');
+                        $rouletteActive = $siteSetting->isGameActive('roulette');
+                        $vortexActive = $siteSetting->isGameActive('vortex');
+                        $horseActive = $siteSetting->isGameActive('horse_racing');
+                    @endphp
                     
                     <!-- 1. Cricket Live Sports -->
-                    <li class="sidebar-game-entry" data-name="cricket sports exchange live ball by ball back lay">
-                        <a href="{{ route('sports.cricket') }}" class="sidebar-menu-item {{ request()->routeIs('sports.cricket*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $cricketActive ? '' : 'opacity-75' }}" data-name="cricket sports exchange live ball by ball back lay">
+                        <a href="{{ $cricketActive ? route('sports.cricket') : 'javascript:void(0)' }}"
+                           @if(!$cricketActive) onclick="alert('Cricket Sports is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('sports.cricket*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-cricket">
                                 <i class="fa-solid fa-baseball-bat-ball"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Cricket Sports</span>
-                                <span class="sidebar-item-sub">In-Play &amp; Back/Lay</span>
+                                <span class="sidebar-item-sub">{{ $cricketActive ? 'In-Play & Back/Lay' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-live">LIVE</span>
+                            @if($cricketActive)
+                                <span class="sidebar-item-badge badge-live">LIVE</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 2. Aviator Crash -->
-                    <li class="sidebar-game-entry" data-name="aviator crash flight plane multiplier 1000x">
-                        <a href="{{ route('aviator.index') }}" class="sidebar-menu-item {{ request()->routeIs('aviator.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $aviatorActive ? '' : 'opacity-75' }}" data-name="aviator crash flight plane multiplier 1000x">
+                        <a href="{{ $aviatorActive ? route('aviator.index') : 'javascript:void(0)' }}"
+                           @if(!$aviatorActive) onclick="alert('Aviator is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('aviator.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-aviator">
                                 <i class="fa-solid fa-plane-departure"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Aviator</span>
-                                <span class="sidebar-item-sub">Unlimited Multiplier</span>
+                                <span class="sidebar-item-sub">{{ $aviatorActive ? 'Unlimited Multiplier' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">1000X</span>
+                            @if($aviatorActive)
+                                <span class="sidebar-item-badge badge-payout">1000X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 3. WinGo Color 30s -->
-                    <li class="sidebar-game-entry" data-name="wingo color prediction lottery 30s green violet red">
-                        <a href="{{ route('wingo.index') }}" class="sidebar-menu-item {{ request()->routeIs('wingo.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $wingoActive ? '' : 'opacity-75' }}" data-name="wingo color prediction lottery 30s green violet red">
+                        <a href="{{ $wingoActive ? route('wingo.index') : 'javascript:void(0)' }}"
+                           @if(!$wingoActive) onclick="alert('WinGo Color is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('wingo.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-wingo">
                                 <i class="fa-solid fa-gamepad"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">WinGo Color</span>
-                                <span class="sidebar-item-sub">30s Fast Prediction</span>
+                                <span class="sidebar-item-sub">{{ $wingoActive ? '30s Fast Prediction' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-tag">30s</span>
+                            @if($wingoActive)
+                                <span class="sidebar-item-badge badge-tag">30s</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 4. 2 Digit Slot (Lottery) -->
-                    <li class="sidebar-game-entry" data-name="2 digit slot lottery hourly draw 90x xa xj numbers">
-                        <a href="{{ route('lottery.index') }}" class="sidebar-menu-item {{ request()->routeIs('lottery.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $lotteryActive ? '' : 'opacity-75' }}" data-name="2 digit slot lottery hourly draw 90x xa xj numbers">
+                        <a href="{{ $lotteryActive ? route('lottery.index') : 'javascript:void(0)' }}"
+                           @if(!$lotteryActive) onclick="alert('2 Digit Slot is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('lottery.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-lottery">
                                 <i class="fa-solid fa-dice"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">2 Digit Slot</span>
-                                <span class="sidebar-item-sub">Hourly Draws XA–XJ</span>
+                                <span class="sidebar-item-sub">{{ $lotteryActive ? 'Hourly Draws XA–XJ' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">90X</span>
+                            @if($lotteryActive)
+                                <span class="sidebar-item-badge badge-payout">90X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 5. Mines 5x5 -->
-                    <li class="sidebar-game-entry" data-name="mines 5x5 arcade bomb cashout coins">
-                        <a href="{{ route('mines.index') }}" class="sidebar-menu-item {{ request()->routeIs('mines.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $minesActive ? '' : 'opacity-75' }}" data-name="mines 5x5 arcade bomb cashout coins">
+                        <a href="{{ $minesActive ? route('mines.index') : 'javascript:void(0)' }}"
+                           @if(!$minesActive) onclick="alert('Mines 5x5 is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('mines.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-mines">
                                 <i class="fa-solid fa-bomb"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Mines 5x5</span>
-                                <span class="sidebar-item-sub">Uncover &amp; Cashout</span>
+                                <span class="sidebar-item-sub">{{ $minesActive ? 'Uncover & Cashout' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-hot">HOT</span>
+                            @if($minesActive)
+                                <span class="sidebar-item-badge badge-hot">HOT</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 6. Andar Bahar -->
-                    <li class="sidebar-game-entry" data-name="andar bahar indian card game live dealer 1.95x">
-                        <a href="{{ route('andar-bahar.index') }}" class="sidebar-menu-item {{ request()->routeIs('andar-bahar.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $andarActive ? '' : 'opacity-75' }}" data-name="andar bahar indian card game live dealer 1.95x">
+                        <a href="{{ $andarActive ? route('andar-bahar.index') : 'javascript:void(0)' }}"
+                           @if(!$andarActive) onclick="alert('Andar Bahar is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('andar-bahar.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-andar">
                                 <i class="fa-solid fa-diamond"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Andar Bahar</span>
-                                <span class="sidebar-item-sub">Live Card Dealer</span>
+                                <span class="sidebar-item-sub">{{ $andarActive ? 'Live Card Dealer' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">1.95X</span>
+                            @if($andarActive)
+                                <span class="sidebar-item-badge badge-payout">1.95X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 7. Teen Patti 20-20 -->
-                    <li class="sidebar-game-entry" data-name="teen patti 20-20 3 card poker flush royal 40x">
-                        <a href="{{ route('teen-patti.index') }}" class="sidebar-menu-item {{ request()->routeIs('teen-patti.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $teenPattiActive ? '' : 'opacity-75' }}" data-name="teen patti 20-20 3 card poker flush royal 40x">
+                        <a href="{{ $teenPattiActive ? route('teen-patti.index') : 'javascript:void(0)' }}"
+                           @if(!$teenPattiActive) onclick="alert('Teen Patti is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('teen-patti.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-teenpatti">
                                 <i class="fa-solid fa-heart"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Teen Patti</span>
-                                <span class="sidebar-item-sub">3 Card Poker 20-20</span>
+                                <span class="sidebar-item-sub">{{ $teenPattiActive ? '3 Card Poker 20-20' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">40X</span>
+                            @if($teenPattiActive)
+                                <span class="sidebar-item-badge badge-payout">40X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 8. Dragon Tiger -->
-                    <li class="sidebar-game-entry" data-name="dragon tiger 1 card battle suited tie 80x">
-                        <a href="{{ route('dragon-tiger.index') }}" class="sidebar-menu-item {{ request()->routeIs('dragon-tiger.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $dragonActive ? '' : 'opacity-75' }}" data-name="dragon tiger 1 card battle suited tie 80x">
+                        <a href="{{ $dragonActive ? route('dragon-tiger.index') : 'javascript:void(0)' }}"
+                           @if(!$dragonActive) onclick="alert('Dragon Tiger is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('dragon-tiger.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-dragontiger">
                                 <i class="fa-solid fa-dragon"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Dragon Tiger</span>
-                                <span class="sidebar-item-sub">1 Card Fast Battle</span>
+                                <span class="sidebar-item-sub">{{ $dragonActive ? '1 Card Fast Battle' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">80X</span>
+                            @if($dragonActive)
+                                <span class="sidebar-item-badge badge-payout">80X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 9. Roulette 36x -->
-                    <li class="sidebar-game-entry" data-name="european roulette 36x wheel live casino table">
-                        <a href="{{ route('roulette.index') }}" class="sidebar-menu-item {{ request()->routeIs('roulette.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $rouletteActive ? '' : 'opacity-75' }}" data-name="european roulette 36x wheel live casino table">
+                        <a href="{{ $rouletteActive ? route('roulette.index') : 'javascript:void(0)' }}"
+                           @if(!$rouletteActive) onclick="alert('Roulette 36x is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('roulette.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-roulette">
                                 <i class="fa-solid fa-dharmachakra"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Roulette 36x</span>
-                                <span class="sidebar-item-sub">European Table</span>
+                                <span class="sidebar-item-sub">{{ $rouletteActive ? 'European Table' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">36X</span>
+                            @if($rouletteActive)
+                                <span class="sidebar-item-badge badge-payout">36X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 10. Vortex Wheel -->
-                    <li class="sidebar-game-entry" data-name="vortex wheel 3 ring tiers level up 200x multiplier">
-                        <a href="{{ route('vortex.index') }}" class="sidebar-menu-item {{ request()->routeIs('vortex.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $vortexActive ? '' : 'opacity-75' }}" data-name="vortex wheel 3 ring tiers level up 200x multiplier">
+                        <a href="{{ $vortexActive ? route('vortex.index') : 'javascript:void(0)' }}"
+                           @if(!$vortexActive) onclick="alert('Vortex Wheel is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('vortex.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-vortex">
                                 <i class="fa-solid fa-arrows-spin"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Vortex Wheel</span>
-                                <span class="sidebar-item-sub">3 Concentric Rings</span>
+                                <span class="sidebar-item-sub">{{ $vortexActive ? '3 Concentric Rings' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-payout">200X</span>
+                            @if($vortexActive)
+                                <span class="sidebar-item-badge badge-payout">200X</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
 
                     <!-- 11. Horse Racing Derby -->
-                    <li class="sidebar-game-entry" data-name="horse racing derby turf sprint 60s rounds thoroughbreds">
-                        <a href="{{ route('horse-racing.index') }}" class="sidebar-menu-item {{ request()->routeIs('horse-racing.*') ? 'active' : '' }}">
+                    <li class="sidebar-game-entry {{ $horseActive ? '' : 'opacity-75' }}" data-name="horse racing derby turf sprint 60s rounds thoroughbreds">
+                        <a href="{{ $horseActive ? route('horse-racing.index') : 'javascript:void(0)' }}"
+                           @if(!$horseActive) onclick="alert('Horse Racing is currently undergoing scheduled maintenance. Please check back shortly!')" @endif
+                           class="sidebar-menu-item {{ request()->routeIs('horse-racing.*') ? 'active' : '' }}">
                             <div class="sidebar-item-icon icon-horse">
                                 <i class="fa-solid fa-horse-head"></i>
                             </div>
                             <div class="sidebar-item-content">
                                 <span class="sidebar-item-label">Horse Racing</span>
-                                <span class="sidebar-item-sub">60s Turf Sprint</span>
+                                <span class="sidebar-item-sub">{{ $horseActive ? '60s Turf Sprint' : 'Maintenance' }}</span>
                             </div>
-                            <span class="sidebar-item-badge badge-live">DERBY</span>
+                            @if($horseActive)
+                                <span class="sidebar-item-badge badge-live">DERBY</span>
+                            @else
+                                <span class="sidebar-item-badge" style="background: #ef4444; color: #fff; font-size: 0.62rem;">OFF</span>
+                            @endif
                         </a>
                     </li>
                 </ul>
@@ -337,26 +430,50 @@
                 </div>
                 <ul class="sidebar-menu-list list-unstyled mb-0">
                     <li>
-                        <a href="{{ Auth::check() ? route('wallet.deposit') : route('login') }}" class="sidebar-menu-item {{ request()->routeIs('wallet.deposit') ? 'active' : '' }}">
-                            <div class="sidebar-item-icon icon-deposit">
-                                <i class="fa-solid fa-qrcode"></i>
-                            </div>
-                            <div class="sidebar-item-content">
-                                <span class="sidebar-item-label">Deposit Money</span>
-                                <span class="sidebar-item-sub">Instant 30s UPI QR</span>
-                            </div>
-                        </a>
+                        @if(Auth::check() && Auth::user()->isDemo())
+                            <a href="javascript:void(0)" onclick="alert('Deposit is disabled in Demo Mode.')" class="sidebar-menu-item opacity-50">
+                                <div class="sidebar-item-icon icon-deposit" style="background: rgba(100, 116, 139, 0.2); color: #94a3b8;">
+                                    <i class="fa-solid fa-ban"></i>
+                                </div>
+                                <div class="sidebar-item-content">
+                                    <span class="sidebar-item-label text-muted">Deposit Money</span>
+                                    <span class="sidebar-item-sub text-warning" style="font-size: 0.68rem;">Disabled in Demo</span>
+                                </div>
+                            </a>
+                        @else
+                            <a href="{{ Auth::check() ? route('wallet.deposit') : route('login') }}" class="sidebar-menu-item {{ request()->routeIs('wallet.deposit') ? 'active' : '' }}">
+                                <div class="sidebar-item-icon icon-deposit">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </div>
+                                <div class="sidebar-item-content">
+                                    <span class="sidebar-item-label">Deposit Money</span>
+                                    <span class="sidebar-item-sub">Instant 30s UPI QR</span>
+                                </div>
+                            </a>
+                        @endif
                     </li>
                     <li>
-                        <a href="{{ Auth::check() ? route('wallet.withdraw') : route('login') }}" class="sidebar-menu-item {{ request()->routeIs('wallet.withdraw') ? 'active' : '' }}">
-                            <div class="sidebar-item-icon icon-withdraw">
-                                <i class="fa-solid fa-money-bill-transfer"></i>
-                            </div>
-                            <div class="sidebar-item-content">
-                                <span class="sidebar-item-label">Withdraw Money</span>
-                                <span class="sidebar-item-sub">Direct Bank / UPI</span>
-                            </div>
-                        </a>
+                        @if(Auth::check() && Auth::user()->isDemo())
+                            <a href="javascript:void(0)" onclick="alert('Withdraw is disabled in Demo Mode.')" class="sidebar-menu-item opacity-50">
+                                <div class="sidebar-item-icon icon-withdraw" style="background: rgba(100, 116, 139, 0.2); color: #94a3b8;">
+                                    <i class="fa-solid fa-ban"></i>
+                                </div>
+                                <div class="sidebar-item-content">
+                                    <span class="sidebar-item-label text-muted">Withdraw Money</span>
+                                    <span class="sidebar-item-sub text-warning" style="font-size: 0.68rem;">Disabled in Demo</span>
+                                </div>
+                            </a>
+                        @else
+                            <a href="{{ Auth::check() ? route('wallet.withdraw') : route('login') }}" class="sidebar-menu-item {{ request()->routeIs('wallet.withdraw') ? 'active' : '' }}">
+                                <div class="sidebar-item-icon icon-withdraw">
+                                    <i class="fa-solid fa-money-bill-transfer"></i>
+                                </div>
+                                <div class="sidebar-item-content">
+                                    <span class="sidebar-item-label">Withdraw Money</span>
+                                    <span class="sidebar-item-sub">Direct Bank / UPI</span>
+                                </div>
+                            </a>
+                        @endif
                     </li>
                     <li>
                         <a href="{{ Auth::check() ? route('wallet.transactions') : route('login') }}" class="sidebar-menu-item {{ request()->routeIs('wallet.transactions') ? 'active' : '' }}">

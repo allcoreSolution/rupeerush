@@ -519,13 +519,31 @@
             <!-- RIGHT COLUMN: Green Felt Betting Grid & Chips Tray -->
             <div class="col-12 col-lg-7 col-xl-8">
                 <div class="rl-cabinet p-3">
+
+                    <!-- Live Payout Rates Banner -->
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2 p-2 rounded-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08);">
+                        <div class="small fw-bold text-white-50" style="font-size: 0.75rem;">
+                            <i class="fa-solid fa-calculator text-warning me-1"></i> PAYOUT MULTIPLIERS:
+                        </div>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1" style="font-size: 0.72rem;">
+                                🟢 0 (Green): <strong class="text-white">36x</strong>
+                            </span>
+                            <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-25 px-2 py-1" style="font-size: 0.72rem;">
+                                🔴 Red Numbers: <strong class="text-white">{{ (float)($betOdds['red'] ?? 5) }}x</strong>
+                            </span>
+                            <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-50 px-2 py-1" style="font-size: 0.72rem;">
+                                ⚫ Black Numbers: <strong class="text-white">{{ (float)($betOdds['black'] ?? 7) }}x</strong>
+                            </span>
+                        </div>
+                    </div>
                     
                     <!-- Felt Board Table -->
                     <div class="felt-board">
                         <!-- Numbers Grid (0 on left, 1-36, 2:1 Col on right) -->
                         <div class="roulette-grid" id="rouletteGrid">
                             <!-- Zero Spot -->
-                            <div class="zero-spot" onclick="handleSpotClick('straight', '0', this)" data-type="straight" data-value="0">
+                            <div class="zero-spot" onclick="handleSpotClick('straight', '0', this)" data-type="straight" data-value="0" title="Green Zero (36x)">
                                 <span class="fw-bold text-white fs-4 font-monospace">0</span>
                                 <span class="badge bg-dark text-warning p-1" style="font-size: 0.6rem;">36x</span>
                             </div>
@@ -533,8 +551,9 @@
                             <!-- Row 1: 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 -->
                             @foreach([3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36] as $n)
                                 @php $isRed = in_array($n, $redNumbers); @endphp
-                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}">
+                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}" title="{{ $isRed ? 'Red #'.$n.' ('.((float)($betOdds['red'] ?? 5)).'x)' : 'Black #'.$n.' ('.((float)($betOdds['black'] ?? 7)).'x)' }}">
                                     <span>{{ $n }}</span>
+                                    <small class="spot-mult-tag text-warning font-monospace" style="font-size: 0.58rem; line-height: 1; opacity: 0.9; font-weight: 700;">{{ $isRed ? ((float)($betOdds['red'] ?? 5)).'x' : ((float)($betOdds['black'] ?? 7)).'x' }}</small>
                                 </div>
                             @endforeach
                             <div class="col-spot" onclick="handleSpotClick('col3', 'col3', this)" data-type="col3" data-value="col3">
@@ -544,8 +563,9 @@
                             <!-- Row 2: 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 -->
                             @foreach([2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35] as $n)
                                 @php $isRed = in_array($n, $redNumbers); @endphp
-                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}">
+                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}" title="{{ $isRed ? 'Red #'.$n.' ('.((float)($betOdds['red'] ?? 5)).'x)' : 'Black #'.$n.' ('.((float)($betOdds['black'] ?? 7)).'x)' }}">
                                     <span>{{ $n }}</span>
+                                    <small class="spot-mult-tag text-warning font-monospace" style="font-size: 0.58rem; line-height: 1; opacity: 0.9; font-weight: 700;">{{ $isRed ? ((float)($betOdds['red'] ?? 5)).'x' : ((float)($betOdds['black'] ?? 7)).'x' }}</small>
                                 </div>
                             @endforeach
                             <div class="col-spot" onclick="handleSpotClick('col2', 'col2', this)" data-type="col2" data-value="col2">
@@ -555,8 +575,9 @@
                             <!-- Row 3: 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 -->
                             @foreach([1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34] as $n)
                                 @php $isRed = in_array($n, $redNumbers); @endphp
-                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}">
+                                <div class="num-spot {{ $isRed ? 'red' : 'black' }}" onclick="handleSpotClick('straight', '{{ $n }}', this)" data-type="straight" data-value="{{ $n }}" title="{{ $isRed ? 'Red #'.$n.' ('.((float)($betOdds['red'] ?? 5)).'x)' : 'Black #'.$n.' ('.((float)($betOdds['black'] ?? 7)).'x)' }}">
                                     <span>{{ $n }}</span>
+                                    <small class="spot-mult-tag text-warning font-monospace" style="font-size: 0.58rem; line-height: 1; opacity: 0.9; font-weight: 700;">{{ $isRed ? ((float)($betOdds['red'] ?? 5)).'x' : ((float)($betOdds['black'] ?? 7)).'x' }}</small>
                                 </div>
                             @endforeach
                             <div class="col-spot" onclick="handleSpotClick('col1', 'col1', this)" data-type="col1" data-value="col1">
@@ -690,7 +711,9 @@
                                 <div class="col-md-6">
                                     <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
                                         <div class="fw-bold text-warning mb-1">Inside Bets:</div>
-                                        <div>• <strong>Straight Up (Single #)</strong>: 36x Payout</div>
+                                        <div>• <strong>Green 0 (Single Number)</strong>: <span class="text-warning fw-bold">36x Payout</span></div>
+                                        <div>• <strong>Red Numbers (Any Red #)</strong>: <span class="text-danger fw-bold">{{ (float)($betOdds['red'] ?? 5) }}x Payout</span></div>
+                                        <div>• <strong>Black Numbers (Any Black #)</strong>: <span class="text-light fw-bold">{{ (float)($betOdds['black'] ?? 7) }}x Payout</span></div>
                                         <div>• <strong>Split (2 Numbers)</strong>: 18x Payout</div>
                                         <div>• <strong>Corner (4 Numbers)</strong>: 9x Payout</div>
                                     </div>
@@ -698,8 +721,8 @@
                                 <div class="col-md-6">
                                     <div class="p-2 rounded bg-dark border border-secondary border-opacity-25">
                                         <div class="fw-bold text-success mb-1">Outside Bets:</div>
-                                        <div>• <strong>Red 🔴</strong>: {{ (float)($betOdds['red'] ?? 5) }}x Payout</div>
-                                        <div>• <strong>Black ⚫</strong>: {{ (float)($betOdds['black'] ?? 7) }}x Payout</div>
+                                        <div>• <strong>Red 🔴</strong>: <span class="text-danger fw-bold">{{ (float)($betOdds['red'] ?? 5) }}x Payout</span></div>
+                                        <div>• <strong>Black ⚫</strong>: <span class="text-light fw-bold">{{ (float)($betOdds['black'] ?? 7) }}x Payout</span></div>
                                         <div>• <strong>Even / Odd</strong>: 2x Payout</div>
                                         <div>• <strong>1-18 (Low) / 19-36 (High)</strong>: 2x Payout</div>
                                         <div>• <strong>1st 12 / 2nd 12 / 3rd 12</strong>: 3x Payout</div>

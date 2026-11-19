@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isDemo(): bool
+    {
+        return $this->username === 'demoplayer' || $this->email === 'demo@rupeerush.com';
+    }
+
     public function adminRole()
     {
         return $this->belongsTo(AdminRole::class, 'admin_role_id');

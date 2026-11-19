@@ -28,7 +28,7 @@ class VortexController extends Controller
         }
 
         $ringsConfig = VortexEngine::getRingsConfig();
-        $recentGames = $user ? VortexEngine::getRecentGames($user, 15) : [];
+        $recentGames = $user ? VortexEngine::getRecentGames($user, 25) : [];
 
         return view('games.vortex', [
             'user' => $user,
@@ -143,7 +143,7 @@ class VortexController extends Controller
             return response()->json(['success' => true, 'history' => []]);
         }
 
-        $history = VortexEngine::getRecentGames($user, 20);
+        $history = VortexEngine::getRecentGames($user, 25);
 
         return response()->json([
             'success' => true,

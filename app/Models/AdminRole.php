@@ -71,6 +71,7 @@ class AdminRole extends Model
                 'bets_view' => 'Live Bets Feed & Complete Wager Logs',
             ],
             'Game Results & Controls' => [
+                'games_toggle' => 'Game On/Off Switch (Active / Inactive Control)',
                 'game_lottery' => '2-Digit Lottery (Manual Results & Instant Generation)',
                 'game_wingo' => 'WinGo Color Game (Manual Result Override & Win Targets)',
                 'game_andar_bahar' => 'Andar Bahar Live (Manual Winner & Payout Odds)',

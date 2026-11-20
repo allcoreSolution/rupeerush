@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminBetController;
+use App\Http\Controllers\Admin\AdminLiveResultController;
 use App\Http\Controllers\Admin\AndarBaharAdminController;
 use App\Http\Controllers\Admin\AviatorAdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -176,6 +177,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard (accessible by all administrators and staff)
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Live Round Results Across All Games
+    Route::get('/live-results', [AdminLiveResultController::class, 'index'])->name('live-results.index');
 
     // Staff & Role Permissions Management
     Route::middleware('permission:roles_management')->group(function () {

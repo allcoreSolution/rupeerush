@@ -274,6 +274,11 @@
                         <i class="fa-solid fa-gauge-high"></i>
                         <span>Dashboard</span>
                     </a>
+                    <a href="{{ route('admin.live-results.index') }}" class="sidebar-link {{ request()->routeIs('admin.live-results.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-satellite-dish text-danger"></i>
+                        <span>Live Round Results</span>
+                        <span class="badge bg-danger rounded-pill ms-auto" style="font-size: 0.65rem; letter-spacing: 0.5px;">LIVE</span>
+                    </a>
                 @endif
                 @if(Auth::user()->hasPermission('users_view'))
                     <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">

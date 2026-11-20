@@ -151,15 +151,38 @@
 
     @media (max-width: 768px) {
         .aviator-wrapper {
-            padding: 2px 0 20px !important;
+            padding: 2px 2px 75px !important;
         }
         .aviator-nav-bar {
-            padding: 6px 10px !important;
+            padding: 6px 8px !important;
             margin-bottom: 6px !important;
             border-radius: 12px !important;
+            gap: 4px !important;
         }
         .logo-badge {
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
+            gap: 6px !important;
+        }
+        .btn-rules-nav {
+            font-size: 0.75rem !important;
+            padding: 3px 8px !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+        .wallet-pill {
+            padding: 3px 7px !important;
+            font-size: 0.78rem !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+        }
+        .wallet-amt {
+            font-size: 0.82rem !important;
+        }
+        .btn-deposit-nav {
+            padding: 4px 10px !important;
+            font-size: 0.78rem !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
         .history-strip-container {
             padding: 3px 6px !important;
@@ -175,45 +198,54 @@
             margin-bottom: 6px !important;
         }
         #flightCanvas {
-            height: 180px !important;
+            height: 165px !important;
         }
         .live-multiplier-text {
-            font-size: 3rem !important;
+            font-size: 2.8rem !important;
         }
         .waiting-countdown-box {
-            padding: 8px 16px !important;
-            border-radius: 14px !important;
+            padding: 6px 14px !important;
+            border-radius: 12px !important;
         }
         #countdownDigits {
-            font-size: 2.2rem !important;
+            font-size: 2rem !important;
         }
         .flew-away-text {
-            font-size: 1.8rem !important;
+            font-size: 1.6rem !important;
         }
         .bet-control-box {
-            padding: 8px 10px !important;
+            padding: 6px 6px !important;
             border-radius: 12px !important;
-            margin-bottom: 6px !important;
+            margin-bottom: 4px !important;
         }
         .bet-input-field {
-            font-size: 1rem !important;
-            padding: 4px 6px !important;
+            font-size: 0.82rem !important;
+            padding: 2px 3px !important;
+            height: 26px !important;
+            border-radius: 6px !important;
+        }
+        .input-group-sm > .btn, .input-group-sm > .input-group-text {
+            padding: 2px 5px !important;
+            font-size: 0.7rem !important;
+            height: 26px !important;
         }
         .bet-chip-btn {
-            padding: 3px 4px !important;
-            font-size: 0.72rem !important;
+            padding: 2px 2px !important;
+            font-size: 0.65rem !important;
+            border-radius: 6px !important;
         }
         .btn-action-bet {
-            height: 48px !important;
-            font-size: 1.05rem !important;
-            border-radius: 12px !important;
+            height: 38px !important;
+            font-size: 0.85rem !important;
+            border-radius: 10px !important;
+            padding: 2px 4px !important;
+            line-height: 1.1 !important;
         }
         .sub-amt-label {
-            font-size: 0.78rem !important;
-        }
-        /* Make Bet Panel 2 collapsible on mobile to guarantee Panel 1 fits in one screen */
-        .mobile-bet2-toggle-wrap {
-            display: block !important;
+            font-size: 0.72rem !important;
+            margin-top: 1px !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
         }
     }
 
@@ -544,12 +576,12 @@
 <div class="container-fluid aviator-wrapper px-2 px-md-4 py-3">
 
     <!-- Top Navigation Bar -->
-    <div class="aviator-nav-bar mb-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
-        <div class="d-flex align-items-center gap-3">
+    <div class="aviator-nav-bar mb-2 d-flex align-items-center justify-content-between gap-1 gap-sm-2 flex-nowrap">
+        <div class="d-flex align-items-center gap-2 flex-shrink-0">
             <div class="logo-badge">
                 <i class="fa-solid fa-plane-departure plane-icon-glow"></i>
-                <span style="color: #fff;">AVIATOR</span>
-                <span class="badge bg-danger rounded-pill px-2 py-1" style="font-size: 0.65rem;">LIVE CRASH</span>
+                <span class="d-none d-sm-inline" style="color: #fff;">AVIATOR</span>
+                <span class="badge bg-danger rounded-pill px-2 py-0.5 d-none d-sm-inline" style="font-size: 0.65rem;">LIVE CRASH</span>
             </div>
             <div class="d-none d-md-flex align-items-center gap-2 text-secondary" style="font-size: 0.8rem;">
                 <span>ROUND:</span>
@@ -557,15 +589,17 @@
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-1 gap-sm-2 flex-nowrap flex-shrink-0">
             <!-- Audio Toggle Button -->
-            <button class="btn btn-sm btn-dark border-secondary rounded-pill px-3" id="btnSoundToggle" title="Toggle Sound">
-                <i class="fa-solid fa-volume-high text-warning" id="soundIcon"></i>
+            <button class="btn btn-sm btn-dark border-secondary rounded-pill p-0 d-flex align-items-center justify-content-center flex-shrink-0" id="btnSoundToggle" title="Toggle Sound" style="width: 32px; height: 32px; min-width: 32px;">
+                <i class="fa-solid fa-volume-high text-warning" id="soundIcon" style="font-size: 0.85rem;"></i>
             </button>
 
             <!-- Rules Modal Trigger -->
-            <button class="btn btn-sm btn-dark border-secondary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#rulesModal">
-                <i class="fa-solid fa-circle-question me-1 text-info"></i> How To Play
+            <button class="btn btn-sm btn-dark border-secondary rounded-pill px-2 py-1 btn-rules-nav d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#rulesModal" title="How To Play">
+                <i class="fa-solid fa-circle-question text-info"></i>
+                <span class="d-none d-sm-inline">How To Play</span>
+                <span class="d-inline d-sm-none">Rules</span>
             </button>
 
             <!-- User Wallet & Deposit Shortcut -->
@@ -578,7 +612,7 @@
                     <i class="fa-solid fa-plus-circle"></i> Deposit
                 </a>
             @else
-                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-warning rounded-pill px-3">
+                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1 flex-shrink-0 text-nowrap" style="font-size: 0.8rem;">
                     <i class="fa-solid fa-right-to-bracket me-1"></i> Login
                 </a>
             @endauth
@@ -657,39 +691,39 @@
             </div>
 
             <!-- Dual Bet Controls (Slot 1 & Slot 2) -->
-            <div class="row g-3">
+            <div class="row g-1 g-md-3">
                 <!-- Bet Slot #1 -->
-                <div class="col-md-6">
+                <div class="col-6 col-md-6" id="slotCol1">
                     <div class="bet-control-box" id="slotCard1">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="badge bg-dark border border-secondary text-light px-2 py-1">
-                                <i class="fa-solid fa-gamepad text-warning me-1"></i> BET PANEL #1
+                        <div class="d-flex align-items-center justify-content-between mb-1 mb-md-2">
+                            <span class="badge bg-dark border border-secondary text-light px-1 px-sm-2 py-0.5 py-sm-1" style="font-size: 0.68rem;">
+                                <i class="fa-solid fa-gamepad text-warning me-1"></i><span class="d-none d-sm-inline">BET PANEL </span>#1
                             </span>
-                            <div class="form-check form-switch m-0" style="font-size: 0.8rem;">
+                            <div class="form-check form-switch m-0" style="font-size: 0.72rem;">
                                 <input class="form-check-input" type="checkbox" id="autoCashoutToggle1">
-                                <label class="form-check-label text-secondary fw-bold" for="autoCashoutToggle1">Auto Cashout</label>
+                                <label class="form-check-label text-secondary fw-semibold ms-1" for="autoCashoutToggle1" style="font-size: 0.68rem;"><span class="d-none d-sm-inline">Auto </span>Cash</label>
                             </div>
                         </div>
 
-                        <div class="row g-2 align-items-center mb-2">
-                            <div class="col-6">
+                        <div class="row g-1 g-md-2 align-items-center mb-1 mb-md-2">
+                            <div class="col-12 col-xl-6">
                                 <div class="input-group input-group-sm">
-                                    <button class="btn btn-dark border-secondary text-light fw-bold" type="button" onclick="adjustAmount(1, -10)">-</button>
-                                    <input type="number" class="form-control bet-input-field" id="betAmount1" value="50" min="10" max="50000" step="10">
-                                    <button class="btn btn-dark border-secondary text-light fw-bold" type="button" onclick="adjustAmount(1, 10)">+</button>
+                                    <button class="btn btn-dark border-secondary text-light fw-bold px-1.5 py-0" type="button" onclick="adjustAmount(1, -10)">-</button>
+                                    <input type="number" class="form-control bet-input-field px-1 py-0 text-center" id="betAmount1" value="50" min="10" max="50000" step="10">
+                                    <button class="btn btn-dark border-secondary text-light fw-bold px-1.5 py-0" type="button" onclick="adjustAmount(1, 10)">+</button>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-xl-6">
                                 <div class="input-group input-group-sm" id="autoCashoutGroup1" style="opacity: 0.45; pointer-events: none;">
-                                    <span class="input-group-text bg-dark border-secondary text-secondary" style="font-size: 0.75rem;">AUTO</span>
-                                    <input type="number" class="form-control bet-input-field" id="autoCashoutVal1" value="2.00" min="1.01" step="0.10">
-                                    <span class="input-group-text bg-dark border-secondary text-secondary">X</span>
+                                    <span class="input-group-text bg-dark border-secondary text-secondary px-1 py-0" style="font-size: 0.68rem;">AUTO</span>
+                                    <input type="number" class="form-control bet-input-field px-1 py-0 text-center" id="autoCashoutVal1" value="2.00" min="1.01" step="0.10">
+                                    <span class="input-group-text bg-dark border-secondary text-secondary px-1 py-0" style="font-size: 0.68rem;">X</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Quick Chips -->
-                        <div class="d-flex align-items-center justify-content-between gap-1 mb-3">
+                        <div class="d-flex align-items-center justify-content-between gap-1 mb-1 mb-md-3">
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(1, 20)">20</button>
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(1, 50)">50</button>
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(1, 100)">100</button>
@@ -706,45 +740,38 @@
                     </div>
                 </div>
 
-                <!-- Mobile Toggle for Panel #2 -->
-                <div class="col-12 d-block d-md-none text-center my-0">
-                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" style="font-size: 0.72rem; border-color: rgba(255,255,255,0.15);" onclick="var el = document.getElementById('slotCol2'); el.classList.toggle('d-none'); this.innerHTML = el.classList.contains('d-none') ? '<i class=\'fa-solid fa-plus me-1\'></i> Add 2nd Bet Panel' : '<i class=\'fa-solid fa-minus me-1\'></i> Hide 2nd Bet Panel';">
-                        <i class="fa-solid fa-plus me-1"></i> Add 2nd Bet Panel
-                    </button>
-                </div>
-
                 <!-- Bet Slot #2 -->
-                <div class="col-md-6 d-none d-md-block" id="slotCol2">
+                <div class="col-6 col-md-6" id="slotCol2">
                     <div class="bet-control-box" id="slotCard2">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="badge bg-dark border border-secondary text-light px-2 py-1">
-                                <i class="fa-solid fa-gamepad text-info me-1"></i> BET PANEL #2
+                        <div class="d-flex align-items-center justify-content-between mb-1 mb-md-2">
+                            <span class="badge bg-dark border border-secondary text-light px-1 px-sm-2 py-0.5 py-sm-1" style="font-size: 0.68rem;">
+                                <i class="fa-solid fa-gamepad text-info me-1"></i><span class="d-none d-sm-inline">BET PANEL </span>#2
                             </span>
-                            <div class="form-check form-switch m-0" style="font-size: 0.8rem;">
+                            <div class="form-check form-switch m-0" style="font-size: 0.72rem;">
                                 <input class="form-check-input" type="checkbox" id="autoCashoutToggle2">
-                                <label class="form-check-label text-secondary fw-bold" for="autoCashoutToggle2">Auto Cashout</label>
+                                <label class="form-check-label text-secondary fw-semibold ms-1" for="autoCashoutToggle2" style="font-size: 0.68rem;"><span class="d-none d-sm-inline">Auto </span>Cash</label>
                             </div>
                         </div>
 
-                        <div class="row g-2 align-items-center mb-2">
-                            <div class="col-6">
+                        <div class="row g-1 g-md-2 align-items-center mb-1 mb-md-2">
+                            <div class="col-12 col-xl-6">
                                 <div class="input-group input-group-sm">
-                                    <button class="btn btn-dark border-secondary text-light fw-bold" type="button" onclick="adjustAmount(2, -10)">-</button>
-                                    <input type="number" class="form-control bet-input-field" id="betAmount2" value="100" min="10" max="50000" step="10">
-                                    <button class="btn btn-dark border-secondary text-light fw-bold" type="button" onclick="adjustAmount(2, 10)">+</button>
+                                    <button class="btn btn-dark border-secondary text-light fw-bold px-1.5 py-0" type="button" onclick="adjustAmount(2, -10)">-</button>
+                                    <input type="number" class="form-control bet-input-field px-1 py-0 text-center" id="betAmount2" value="100" min="10" max="50000" step="10">
+                                    <button class="btn btn-dark border-secondary text-light fw-bold px-1.5 py-0" type="button" onclick="adjustAmount(2, 10)">+</button>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-xl-6">
                                 <div class="input-group input-group-sm" id="autoCashoutGroup2" style="opacity: 0.45; pointer-events: none;">
-                                    <span class="input-group-text bg-dark border-secondary text-secondary" style="font-size: 0.75rem;">AUTO</span>
-                                    <input type="number" class="form-control bet-input-field" id="autoCashoutVal2" value="3.00" min="1.01" step="0.10">
-                                    <span class="input-group-text bg-dark border-secondary text-secondary">X</span>
+                                    <span class="input-group-text bg-dark border-secondary text-secondary px-1 py-0" style="font-size: 0.68rem;">AUTO</span>
+                                    <input type="number" class="form-control bet-input-field px-1 py-0 text-center" id="autoCashoutVal2" value="3.00" min="1.01" step="0.10">
+                                    <span class="input-group-text bg-dark border-secondary text-secondary px-1 py-0" style="font-size: 0.68rem;">X</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Quick Chips -->
-                        <div class="d-flex align-items-center justify-content-between gap-1 mb-3">
+                        <div class="d-flex align-items-center justify-content-between gap-1 mb-1 mb-md-3">
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(2, 50)">50</button>
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(2, 100)">100</button>
                             <button class="bet-chip-btn flex-fill" onclick="setAmount(2, 200)">200</button>

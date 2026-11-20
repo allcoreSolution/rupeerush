@@ -941,13 +941,7 @@
                 <i class="fa-solid fa-circle-question me-1"></i> Rules
             </a>
 
-            @auth
-                @if(Auth::user()->isAdmin())
-                    <a href="{{ route('admin.wingo.index') }}" class="btn btn-warning btn-sm rounded-pill px-3 py-1 fw-bold" style="font-size: 0.78rem;">
-                        <i class="fa-solid fa-sliders me-1"></i> Admin Control
-                    </a>
-                @endif
-            @endauth
+
         </div>
     </div>
 

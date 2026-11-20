@@ -106,6 +106,34 @@
         gap: 8px;
     }
 
+    /* Circular Countdown Timer Widget */
+    .circle-progress-container {
+        position: relative;
+        width: 76px;
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .progress-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+    .hourglass-icon-center {
+        position: relative;
+        z-index: 2;
+        color: #0b2545;
+        font-size: 1.35rem;
+        line-height: 1;
+        margin: 0;
+        animation: pulseHourglass 2s ease-in-out infinite;
+    }
+
     @media (max-width: 767.98px) {
         .main-wrapper {
             padding-top: 4px !important;
@@ -189,15 +217,22 @@
             font-size: 1.3rem !important;
         }
         .circle-progress-container {
-            width: 44px !important;
-            height: 44px !important;
+            width: 62px !important;
+            height: 62px !important;
+            min-width: 62px !important;
+            min-height: 62px !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         .progress-ring {
-            width: 44px !important;
-            height: 44px !important;
+            width: 100% !important;
+            height: 100% !important;
         }
         .hourglass-icon-center {
-            font-size: 0.85rem !important;
+            font-size: 1.15rem !important;
+            color: #0096c7 !important;
         }
         .next-update-footer {
             margin-top: 6px !important;
@@ -215,6 +250,7 @@
         }
         .slots-board-header h3 {
             font-size: 0.95rem !important;
+            color: #0f172a !important;
         }
         .slot-cell-card {
             padding: 6px 4px !important;
@@ -406,9 +442,9 @@
                             
                             <!-- Circular progress ring -->
                             <div class="circle-progress-container">
-                                <svg class="progress-ring" width="76" height="76">
-                                    <circle class="progress-ring-bg" stroke-width="4" fill="transparent" r="32" cx="38" cy="38" />
-                                    <circle class="progress-ring-circle" id="progressCircle" stroke-width="4" fill="transparent" r="32" cx="38" cy="38" />
+                                <svg class="progress-ring" viewBox="0 0 76 76" width="76" height="76">
+                                    <circle class="progress-ring-bg" stroke-width="4.5" fill="transparent" r="32" cx="38" cy="38" />
+                                    <circle class="progress-ring-circle" id="progressCircle" stroke-width="4.5" fill="transparent" r="32" cx="38" cy="38" />
                                 </svg>
                                 <i class="fa-solid fa-hourglass-half hourglass-icon-center"></i>
                             </div>

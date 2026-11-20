@@ -883,6 +883,9 @@
         .card-roulette { background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(220, 38, 38, 0.04) 100%); }
         .card-roulette .game-sheet-icon { background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: #fff; }
 
+        .card-cricket { background: linear-gradient(135deg, rgba(14, 165, 233, 0.14) 0%, rgba(2, 132, 199, 0.04) 100%); }
+        .card-cricket .game-sheet-icon { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #fff; }
+
         @media (max-width: 991px) {
             body {
                 padding-bottom: 74px;
@@ -1694,11 +1697,11 @@
                     </a>
 
                     <!-- 3. Cricket Live Sports (C) -->
-                    <div class="game-nav-btn game-nav-cricket opacity-50" style="cursor: not-allowed; pointer-events: none; --btn-accent: #64748b;" title="Under Development">
-                        <span class="game-btn-icon text-secondary"><i class="fa-solid fa-baseball-bat-ball"></i></span>
-                        <span class="text-secondary">Cricket Sports</span>
-                        <span class="game-btn-tag bg-secondary text-white">In Dev</span>
-                    </div>
+                    <a href="{{ route('sports.cricket') }}" class="game-nav-btn game-nav-cricket {{ request()->routeIs('sports.cricket*') ? 'active' : '' }}" style="--btn-accent: #0284c7;">
+                        <span class="game-btn-icon" style="color: #38bdf8;"><i class="fa-solid fa-baseball-bat-ball"></i></span>
+                        <span>Cricket Sports</span>
+                        <span class="game-btn-tag" style="background: #0284c7; color: #fff;">LIVE</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -2312,16 +2315,16 @@
 
                         <!-- 3. Cricket Live Sports (C) -->
                         <div class="col-6">
-                            <div class="game-sheet-card" style="opacity: 0.55; cursor: not-allowed; pointer-events: none; border-color: rgba(100, 116, 139, 0.3);" title="Under Development">
-                                <div class="game-sheet-icon text-secondary">
+                            <a href="{{ route('sports.cricket') }}" class="game-sheet-card card-cricket {{ request()->routeIs('sports.cricket*') ? 'is-active-game' : '' }}">
+                                <div class="game-sheet-icon">
                                     <i class="fa-solid fa-baseball-bat-ball"></i>
                                 </div>
                                 <div class="game-sheet-info">
-                                    <div class="game-sheet-title text-secondary">Cricket Sports</div>
-                                    <div class="game-sheet-tag text-muted">In Dev</div>
+                                    <div class="game-sheet-title">Cricket Sports</div>
+                                    <div class="game-sheet-tag text-info">Live Matches</div>
                                 </div>
-                                <span class="game-sheet-badge bg-secondary text-white">Soon</span>
-                            </div>
+                                <span class="game-sheet-badge live">Live</span>
+                            </a>
                         </div>
 
                         <!-- 4. Dragon Tiger (D) -->

@@ -399,22 +399,110 @@
     }
 
     @media (max-width: 768px) {
-        .container-xl { padding-left: 4px !important; padding-right: 4px !important; }
+        .container-xl { padding-left: 2px !important; padding-right: 2px !important; }
         .rl-container { padding: 4px 2px 40px !important; }
         .rl-topbar { padding: 6px 10px !important; margin-bottom: 6px !important; }
-        .rl-cabinet { padding: 8px 6px !important; border-radius: 14px !important; }
+        .rl-cabinet { padding: 6px 4px !important; border-radius: 14px !important; }
         .wheel-outer-wood { width: 165px !important; height: 165px !important; border-width: 4px !important; }
         #rouletteCanvas { width: 152px !important; height: 152px !important; }
         .wheel-stage-container { margin-bottom: 4px !important; }
         .recent-strip .num-pill { width: 26px !important; height: 26px !important; font-size: 0.72rem !important; }
         .rl-timer-pill { padding: 2px 10px !important; font-size: 0.82rem !important; }
         .rl-timer-val { font-size: 0.95rem !important; }
-        .num-spot { font-size: 0.85rem !important; }
-        .zero-spot { font-size: 0.85rem !important; }
-        .outside-spot { height: 32px !important; font-size: 0.72rem !important; }
-        .col-spot { font-size: 0.7rem !important; }
-        .chip-tray { gap: 6px !important; padding: 6px 0 !important; }
-        .casino-chip { width: 38px !important; height: 38px !important; font-size: 0.7rem !important; }
+
+        /* Felt Board Full-Width Fit: All 36 numbers on one screen */
+        .felt-board {
+            padding: 5px 3px !important;
+            overflow-x: hidden !important;
+            border-width: 2px !important;
+            border-radius: 12px !important;
+        }
+        .roulette-grid {
+            grid-template-columns: 20px repeat(12, minmax(0, 1fr)) 20px !important;
+            grid-template-rows: repeat(3, 33px) !important;
+            gap: 1.5px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        .zero-spot {
+            grid-column: 1 !important;
+            grid-row: 1 / span 3 !important;
+            padding: 1px 0 !important;
+            border-radius: 5px 0 0 5px !important;
+            border-width: 1px !important;
+        }
+        .zero-spot span.fs-4 {
+            font-size: 0.82rem !important;
+            line-height: 1 !important;
+        }
+        .zero-spot .badge {
+            font-size: 0.46rem !important;
+            padding: 1px 2px !important;
+            line-height: 1 !important;
+        }
+        .num-spot {
+            font-size: 0.72rem !important;
+            border-radius: 3px !important;
+            border-width: 0.5px !important;
+            padding: 1px 0 !important;
+            min-width: 0 !important;
+        }
+        .num-spot span {
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            line-height: 1 !important;
+        }
+        .spot-mult-tag {
+            font-size: 0.46rem !important;
+            line-height: 1 !important;
+            margin-top: 1px !important;
+        }
+        .col-spot {
+            font-size: 0.52rem !important;
+            padding: 0 !important;
+            border-radius: 0 5px 5px 0 !important;
+            border-width: 1px !important;
+        }
+        .outside-grid-dozens {
+            grid-template-columns: 20px repeat(3, minmax(0, 1fr)) 20px !important;
+            gap: 1.5px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            margin-top: 2px !important;
+        }
+        .outside-grid-simple {
+            grid-template-columns: 20px repeat(6, minmax(0, 1fr)) 20px !important;
+            gap: 1.5px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            margin-top: 2px !important;
+        }
+        .outside-spot {
+            height: 24px !important;
+            font-size: 0.52rem !important;
+            padding: 1px 1px !important;
+            border-radius: 3px !important;
+            border-width: 1px !important;
+            white-space: nowrap !important;
+        }
+        .chip-badge {
+            width: 15px !important;
+            height: 15px !important;
+            font-size: 0.42rem !important;
+            border-width: 1px !important;
+        }
+        .chip-tray {
+            gap: 5px !important;
+            padding: 6px 0 !important;
+            flex-wrap: nowrap !important;
+            justify-content: center !important;
+        }
+        .casino-chip {
+            width: 34px !important;
+            height: 34px !important;
+            font-size: 0.65rem !important;
+            border-width: 2px !important;
+        }
         .actions-bar { gap: 4px !important; }
         .btn-action-custom { padding: 6px 10px !important; font-size: 0.78rem !important; }
     }
@@ -589,13 +677,13 @@
                         <div class="outside-grid-dozens">
                             <div></div>
                             <div class="outside-spot" onclick="handleSpotClick('dozen1', 'dozen1', this)" data-type="dozen1" data-value="dozen1">
-                                <span>1st 12 (3x)</span>
+                                <span>1st 12<span class="d-none d-sm-inline"> (3x)</span></span>
                             </div>
                             <div class="outside-spot" onclick="handleSpotClick('dozen2', 'dozen2', this)" data-type="dozen2" data-value="dozen2">
-                                <span>2nd 12 (3x)</span>
+                                <span>2nd 12<span class="d-none d-sm-inline"> (3x)</span></span>
                             </div>
                             <div class="outside-spot" onclick="handleSpotClick('dozen3', 'dozen3', this)" data-type="dozen3" data-value="dozen3">
-                                <span>3rd 12 (3x)</span>
+                                <span>3rd 12<span class="d-none d-sm-inline"> (3x)</span></span>
                             </div>
                             <div></div>
                         </div>
@@ -604,22 +692,22 @@
                         <div class="outside-grid-simple">
                             <div></div>
                             <div class="outside-spot" onclick="handleSpotClick('low', 'low', this)" data-type="low" data-value="low">
-                                <span>1 to 18</span>
+                                <span>1-18</span>
                             </div>
                             <div class="outside-spot" onclick="handleSpotClick('even', 'even', this)" data-type="even" data-value="even">
                                 <span>EVEN</span>
                             </div>
                             <div class="outside-spot red-box" onclick="handleSpotClick('red', 'red', this)" data-type="red" data-value="red">
-                                <span>RED 🔴 ({{ (float)($betOdds['red'] ?? 5) }}x)</span>
+                                <span>RED <span class="d-none d-sm-inline">🔴 </span>{{ (float)($betOdds['red'] ?? 5) }}x</span>
                             </div>
                             <div class="outside-spot black-box" onclick="handleSpotClick('black', 'black', this)" data-type="black" data-value="black">
-                                <span>BLACK ⚫ ({{ (float)($betOdds['black'] ?? 7) }}x)</span>
+                                <span>BLK <span class="d-none d-sm-inline">⚫ </span>{{ (float)($betOdds['black'] ?? 7) }}x</span>
                             </div>
                             <div class="outside-spot" onclick="handleSpotClick('odd', 'odd', this)" data-type="odd" data-value="odd">
                                 <span>ODD</span>
                             </div>
                             <div class="outside-spot" onclick="handleSpotClick('high', 'high', this)" data-type="high" data-value="high">
-                                <span>19 to 36</span>
+                                <span>19-36</span>
                             </div>
                             <div></div>
                         </div>

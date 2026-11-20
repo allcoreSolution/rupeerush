@@ -365,8 +365,15 @@
     }
 
     .dt-bet-box.selected {
-        border-color: #fff !important;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+        border-color: #facc15 !important;
+        box-shadow: 0 0 25px rgba(250, 204, 21, 0.65), inset 0 0 15px rgba(250, 204, 21, 0.25) !important;
+        transform: translateY(-4px) scale(1.02);
+    }
+    .dt-side-chip-btn.selected {
+        border-color: #facc15 !important;
+        background: rgba(250, 204, 21, 0.18) !important;
+        box-shadow: 0 0 15px rgba(250, 204, 21, 0.5) !important;
+        transform: translateY(-2px);
     }
 
     .dt-box-dragon {
@@ -717,118 +724,155 @@
        ======================================================== */
     @media (max-width: 767.98px) {
         .dt-arena-container {
-            padding: 2px 2px 50px !important;
+            padding: 2px 4px 50px !important;
             max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
         }
 
         /* Compact 1-Row Header */
         .dt-topbar {
-            padding: 6px 8px !important;
-            margin-bottom: 5px !important;
+            padding: 5px 6px !important;
+            margin-bottom: 4px !important;
             border-radius: 12px !important;
             display: flex !important;
             flex-wrap: nowrap !important;
             align-items: center !important;
             justify-content: space-between !important;
-            gap: 4px !important;
+            gap: 3px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
         }
         .dt-round-pill {
-            padding: 3px 6px !important;
-            font-size: 0.68rem !important;
-            gap: 3px !important;
+            padding: 2px 5px !important;
+            font-size: 0.64rem !important;
+            gap: 2px !important;
+            flex-shrink: 1 !important;
+            min-width: 0 !important;
         }
         .dt-round-pill #activeRoundId {
-            max-width: 82px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: inline-block;
-            vertical-align: middle;
+            max-width: 58px !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            display: inline-block !important;
+            vertical-align: middle !important;
         }
         .dt-top-btn {
-            font-size: 0.72rem !important;
-            padding: 3px 8px !important;
+            font-size: 0.70rem !important;
+            padding: 2px 6px !important;
+            flex-shrink: 0 !important;
         }
         .dt-phase-banner {
-            padding: 3px 6px !important;
-            font-size: 0.62rem !important;
-            letter-spacing: 0.5px !important;
+            padding: 2px 5px !important;
+            font-size: 0.58rem !important;
+            letter-spacing: 0.3px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
         }
 
         /* Compact Table */
         .dt-felt-table {
-            padding: 8px 6px !important;
-            border-radius: 16px !important;
-            border-width: 3px !important;
+            padding: 6px 5px !important;
+            border-radius: 14px !important;
+            border: 2px solid #2e1065 !important;
+            outline: 1.5px solid var(--dt-gold) !important;
+            outline-offset: -1.5px !important;
             margin-top: 4px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
         }
 
         /* Compact Dealer Stage & Timer */
         .dt-dealer-stage {
-            margin-bottom: 4px !important;
+            margin-bottom: 3px !important;
         }
         .dt-timer-wrap,
         .dt-timer-svg {
-            width: 48px !important;
-            height: 48px !important;
+            width: 44px !important;
+            height: 44px !important;
             margin: 0 !important;
         }
         .dt-timer-seconds {
-            font-size: 1.1rem !important;
+            font-size: 1rem !important;
         }
         .dt-timer-label {
-            font-size: 0.48rem !important;
+            font-size: 0.46rem !important;
         }
 
-        /* BATTLE ARENA: SIDE-BY-SIDE DRAGON & TIGER (NEVER STACKED) */
+        /* BATTLE ARENA: SIDE-BY-SIDE DRAGON & TIGER (NEVER STACKED, NEVER CUT OFF) */
         .dt-battle-arena {
             display: grid !important;
-            grid-template-columns: 1fr auto 1fr !important;
-            gap: 6px !important;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+            gap: 4px !important;
             align-items: center !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 6px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
         .dt-team-zone {
-            padding: 6px 4px !important;
-            border-radius: 14px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 5px 3px !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
         }
         .dt-zone-header {
-            margin-bottom: 3px !important;
-            padding: 0 2px !important;
+            margin-bottom: 2px !important;
+            padding: 0 1px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 2px !important;
         }
         .dt-zone-title {
-            font-size: 0.82rem !important;
-            gap: 4px !important;
-        }
-        .dt-zone-title i {
-            font-size: 0.95rem !important;
-        }
-        .badge#dragonCardTitle,
-        .badge#tigerCardTitle {
-            font-size: 0.58rem !important;
-            padding: 2px 4px !important;
-            max-width: 65px !important;
+            font-size: 0.75rem !important;
+            gap: 3px !important;
+            min-width: 0 !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
             white-space: nowrap !important;
+        }
+        .dt-zone-title i {
+            font-size: 0.85rem !important;
+        }
+        .badge#dragonCardTitle,
+        .badge#tigerCardTitle {
+            font-size: 0.52rem !important;
+            padding: 1px 3px !important;
+            max-width: 54px !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
         .dt-vs-badge-col {
             display: flex !important;
             align-self: center !important;
             padding: 0 !important;
+            flex-shrink: 0 !important;
         }
         .dt-vs-circle {
-            width: 32px !important;
-            height: 32px !important;
-            font-size: 0.75rem !important;
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 0.7rem !important;
             border-width: 1.5px !important;
             box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4) !important;
         }
 
         /* 3D Playing Card Slots on Mobile */
         .dt-card-slot {
-            width: 52px !important;
-            height: 74px !important;
+            width: 48px !important;
+            height: 68px !important;
             margin: 2px 0 !important;
         }
         .dt-card-front {
@@ -841,54 +885,63 @@
             border-width: 2px !important;
         }
         .dt-card-val {
-            font-size: 0.78rem !important;
+            font-size: 0.75rem !important;
             line-height: 1 !important;
         }
         .dt-card-sym {
-            font-size: 0.65rem !important;
+            font-size: 0.62rem !important;
             line-height: 1 !important;
         }
         .dt-card-center-sym {
-            font-size: 1.25rem !important;
+            font-size: 1.15rem !important;
             line-height: 1 !important;
         }
         .dt-card-back i {
-            font-size: 1.2rem !important;
+            font-size: 1.1rem !important;
         }
         .dt-card-back .small {
-            font-size: 0.52rem !important;
-            margin-top: 2px !important;
+            font-size: 0.50rem !important;
+            margin-top: 1px !important;
         }
 
         /* 4 Main Bet Boxes (Dragon, Tie, Suited Tie, Tiger) in 1 Row */
         .dt-bet-grid-main {
             display: grid !important;
-            grid-template-columns: repeat(4, 1fr) !important;
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
             gap: 4px !important;
             margin-bottom: 6px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
         .dt-bet-box {
-            min-height: 56px !important;
-            padding: 5px 2px !important;
+            min-width: 0 !important;
+            min-height: 52px !important;
+            padding: 4px 2px !important;
             border-radius: 10px !important;
+            overflow: hidden !important;
         }
         .dt-bet-box i {
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
             margin-bottom: 1px !important;
         }
         .dt-bet-title {
-            font-size: 0.68rem !important;
+            font-size: 0.64rem !important;
             margin-bottom: 0 !important;
             line-height: 1.1 !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            overflow: hidden !important;
+            max-width: 100% !important;
         }
         .dt-bet-odds {
-            font-size: 0.62rem !important;
+            font-size: 0.58rem !important;
             line-height: 1.1 !important;
         }
         .dt-bet-amount-badge {
-            font-size: 0.58rem !important;
-            padding: 1px 4px !important;
-            margin-top: 2px !important;
+            font-size: 0.55rem !important;
+            padding: 1px 3px !important;
+            margin-top: 1px !important;
         }
 
         /* Collapsible Side Bets on Mobile */
@@ -899,44 +952,60 @@
         }
         .dt-side-bets-grid {
             grid-template-columns: 1fr 1fr !important;
-            gap: 6px !important;
+            gap: 4px !important;
             margin-bottom: 6px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
         .dt-side-subgrid {
-            gap: 4px !important;
+            gap: 3px !important;
+            width: 100% !important;
         }
         .dt-side-chip-btn {
+            min-width: 0 !important;
             padding: 4px 2px !important;
             border-radius: 8px !important;
+            overflow: hidden !important;
         }
         .dt-side-chip-title {
-            font-size: 0.65rem !important;
+            font-size: 0.62rem !important;
         }
         .dt-side-chip-mult {
-            font-size: 0.58rem !important;
+            font-size: 0.55rem !important;
         }
 
         /* Chip Selector Tray */
         .dt-chip-tray {
-            padding: 5px 8px !important;
+            padding: 5px 6px !important;
             border-radius: 12px !important;
-            gap: 6px !important;
+            gap: 4px !important;
             flex-wrap: nowrap !important;
             justify-content: space-between !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+        .dt-chip-tray > .d-flex.flex-grow-1 {
+            min-width: 0 !important;
+            overflow: hidden !important;
         }
         .dt-chips-list {
-            gap: 4px !important;
+            gap: 3px !important;
             flex-wrap: nowrap !important;
             overflow-x: auto !important;
             scrollbar-width: none !important;
+            width: 100% !important;
+            min-width: 0 !important;
         }
         .dt-chips-list::-webkit-scrollbar {
             display: none !important;
         }
         .dt-casino-chip {
-            width: 32px !important;
-            height: 32px !important;
-            font-size: 0.65rem !important;
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 0.62rem !important;
             border-width: 1.5px !important;
             flex-shrink: 0 !important;
         }
@@ -944,17 +1013,35 @@
             flex-shrink: 0 !important;
         }
         .custom-bet-wrap .input-group {
-            width: 85px !important;
+            width: 72px !important;
         }
         .custom-bet-wrap input {
-            font-size: 0.72rem !important;
-            padding: 2px 4px !important;
-            height: 28px !important;
+            font-size: 0.70rem !important;
+            padding: 2px 3px !important;
+            height: 26px !important;
         }
         .custom-bet-wrap button {
-            font-size: 0.68rem !important;
-            padding: 2px 8px !important;
-            height: 28px !important;
+            font-size: 0.65rem !important;
+            padding: 2px 6px !important;
+            height: 26px !important;
+        }
+
+        /* Place Bet Bar on Mobile */
+        .dt-place-bet-bar {
+            padding: 5px 8px !important;
+            border-radius: 12px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .dt-place-bet-bar button#btnPlaceBet {
+            padding: 5px 12px !important;
+            font-size: 0.82rem !important;
+        }
+        .dt-place-bet-bar #selectedBetTypeBadge {
+            font-size: 0.70rem !important;
+            padding: 2px 6px !important;
+            max-width: 110px !important;
         }
 
         /* Bottom Tabs Compact */
@@ -962,6 +1049,9 @@
             padding: 10px 8px !important;
             border-radius: 14px !important;
             margin-top: 10px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
         }
         .dt-nav-tabs .nav-link {
             font-size: 0.74rem !important;
@@ -1115,7 +1205,7 @@
         <!-- MAIN BETTING BOXES (Dragon, Tie, Suited Tie, Tiger) -->
         <div class="dt-bet-grid-main">
             <!-- 1. DRAGON -->
-            <div class="dt-bet-box dt-box-dragon" onclick="placeBetOn('dragon')">
+            <div class="dt-bet-box dt-box-dragon" onclick="selectBetSpot('dragon', this)">
                 <i class="fa-solid fa-dragon text-danger fs-3 mb-1"></i>
                 <div class="dt-bet-title text-white">DRAGON</div>
                 <div class="dt-bet-odds">{{ $roundData['odds_dragon'] }}X</div>
@@ -1123,7 +1213,7 @@
             </div>
 
             <!-- 2. TIE -->
-            <div class="dt-bet-box dt-box-tie" onclick="placeBetOn('tie')">
+            <div class="dt-bet-box dt-box-tie" onclick="selectBetSpot('tie', this)">
                 <i class="fa-solid fa-handshake text-success fs-3 mb-1"></i>
                 <div class="dt-bet-title text-white">TIE</div>
                 <div class="dt-bet-odds">{{ $roundData['odds_tie'] }}X</div>
@@ -1131,7 +1221,7 @@
             </div>
 
             <!-- 3. SUITED TIE -->
-            <div class="dt-bet-box dt-box-suited" onclick="placeBetOn('suited_tie')">
+            <div class="dt-bet-box dt-box-suited" onclick="selectBetSpot('suited_tie', this)">
                 <i class="fa-solid fa-crown text-warning fs-3 mb-1"></i>
                 <div class="dt-bet-title text-warning">SUITED TIE</div>
                 <div class="dt-bet-odds">{{ $roundData['odds_suited_tie'] }}X</div>
@@ -1139,7 +1229,7 @@
             </div>
 
             <!-- 4. TIGER -->
-            <div class="dt-bet-box dt-box-tiger" onclick="placeBetOn('tiger')">
+            <div class="dt-bet-box dt-box-tiger" onclick="selectBetSpot('tiger', this)">
                 <i class="fa-solid fa-paw text-primary fs-3 mb-1"></i>
                 <div class="dt-bet-title text-white">TIGER</div>
                 <div class="dt-bet-odds">{{ $roundData['odds_tiger'] }}X</div>
@@ -1163,27 +1253,27 @@
                     <div>
                         <div class="small fw-bold text-danger text-uppercase mb-1 d-none d-md-block"><i class="fa-solid fa-dragon me-1"></i> Dragon Side Bets (1.95x)</div>
                         <div class="dt-side-subgrid">
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_big')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_big', this)">
                                 <span class="dt-side-chip-title">Big (8-K)</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_small')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_small', this)">
                                 <span class="dt-side-chip-title">Small (A-6)</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_red')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_red', this)">
                                 <span class="dt-side-chip-title text-danger">Red ♥♦</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_black')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_black', this)">
                                 <span class="dt-side-chip-title">Black ♠♣</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_odd')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_odd', this)">
                                 <span class="dt-side-chip-title">Odd</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('dragon_even')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('dragon_even', this)">
                                 <span class="dt-side-chip-title">Even</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
@@ -1194,27 +1284,27 @@
                     <div>
                         <div class="small fw-bold text-primary text-uppercase mb-1 d-none d-md-block"><i class="fa-solid fa-paw me-1"></i> Tiger Side Bets (1.95x)</div>
                         <div class="dt-side-subgrid">
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_big')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_big', this)">
                                 <span class="dt-side-chip-title">Big (8-K)</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_small')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_small', this)">
                                 <span class="dt-side-chip-title">Small (A-6)</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_red')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_red', this)">
                                 <span class="dt-side-chip-title text-danger">Red ♥♦</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_black')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_black', this)">
                                 <span class="dt-side-chip-title">Black ♠♣</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_odd')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_odd', this)">
                                 <span class="dt-side-chip-title">Odd</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
-                            <div class="dt-side-chip-btn" onclick="placeBetOn('tiger_even')">
+                            <div class="dt-side-chip-btn" onclick="selectBetSpot('tiger_even', this)">
                                 <span class="dt-side-chip-title">Even</span>
                                 <span class="dt-side-chip-mult">1.95X</span>
                             </div>
@@ -1241,10 +1331,25 @@
             <div class="custom-bet-wrap d-flex align-items-center gap-1 gap-md-2">
                 <div class="input-group input-group-sm">
                     <span class="input-group-text bg-dark border-secondary text-warning px-1">₹</span>
-                    <input type="number" id="customBetInput" class="form-control bg-dark border-secondary text-white font-monospace" placeholder="Custom" min="5" max="25000">
+                    <input type="number" id="customBetInput" class="form-control bg-dark border-secondary text-white font-monospace" placeholder="Custom" min="5" max="25000" oninput="handleCustomBetInput(this.value)">
                 </div>
                 <button type="button" class="btn btn-sm btn-outline-warning rounded-pill" onclick="applyCustomBet()">Set</button>
             </div>
+        </div>
+
+        <!-- PLACE BET ACTION BAR -->
+        <div class="dt-place-bet-bar mt-2 d-flex align-items-center justify-content-between p-2 px-3 rounded-4" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(255, 255, 255, 0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
+                <span class="text-secondary small fw-bold text-uppercase d-none d-sm-inline" style="font-size: 0.75rem;">Selected:</span>
+                <span class="badge px-3 py-2 fw-bold text-uppercase text-truncate" id="selectedBetTypeBadge" style="background: rgba(255,255,255,0.06); border: 1.5px dashed rgba(255,255,255,0.25); font-size: 0.85rem; color: #94a3b8; letter-spacing: 0.5px; border-radius: 8px;">
+                    <i class="fa-solid fa-hand-pointer me-1"></i> Tap Card to Select
+                </span>
+            </div>
+            <button type="button" class="btn fw-bold px-4 py-2 rounded-pill shadow-lg d-flex align-items-center gap-2 flex-shrink-0" id="btnPlaceBet" onclick="confirmPlaceBet()" style="font-size: 0.95rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: 1.5px solid #34d399; color: #ffffff;">
+                <i class="fa-solid fa-dice"></i>
+                <span>PLACE BET</span>
+                <span class="badge bg-dark text-warning rounded-pill px-2 py-0.5 font-monospace" id="btnPlaceBetAmount">₹10</span>
+            </button>
         </div>
     </div>
 
@@ -1592,11 +1697,67 @@
         myBets: "{{ route('api.dragon-tiger.my-bets') }}"
     };
 
+    let currentSelectedSpot = null;
+
+    const spotDisplayNames = {
+        'dragon': 'DRAGON ({{ $roundData["odds_dragon"] }}X)',
+        'tie': 'TIE ({{ $roundData["odds_tie"] }}X)',
+        'suited_tie': 'SUITED TIE ({{ $roundData["odds_suited_tie"] }}X)',
+        'tiger': 'TIGER ({{ $roundData["odds_tiger"] }}X)',
+        'dragon_big': 'Dragon Big (1.95X)',
+        'dragon_small': 'Dragon Small (1.95X)',
+        'dragon_red': 'Dragon Red (1.95X)',
+        'dragon_black': 'Dragon Black (1.95X)',
+        'dragon_odd': 'Dragon Odd (1.95X)',
+        'dragon_even': 'Dragon Even (1.95X)',
+        'tiger_big': 'Tiger Big (1.95X)',
+        'tiger_small': 'Tiger Small (1.95X)',
+        'tiger_red': 'Tiger Red (1.95X)',
+        'tiger_black': 'Tiger Black (1.95X)',
+        'tiger_odd': 'Tiger Odd (1.95X)',
+        'tiger_even': 'Tiger Even (1.95X)'
+    };
+
+    function selectBetSpot(betType, element) {
+        if (isLocked) {
+            showToast('Betting is locked for this round! Wait for next round.', 'danger');
+            return;
+        }
+
+        currentSelectedSpot = betType;
+        document.querySelectorAll('.dt-bet-box, .dt-side-chip-btn').forEach(b => b.classList.remove('selected'));
+        if (element) {
+            element.classList.add('selected');
+        }
+
+        const badge = document.getElementById('selectedBetTypeBadge');
+        if (badge) {
+            badge.innerHTML = '<i class="fa-solid fa-check me-1 text-warning"></i> ' + (spotDisplayNames[betType] || betType.toUpperCase());
+            badge.style.color = '#facc15';
+            badge.style.borderColor = '#facc15';
+            badge.style.borderStyle = 'solid';
+            badge.style.background = 'rgba(250, 204, 21, 0.12)';
+        }
+    }
+
     function selectChip(amount, element) {
         selectedChipAmount = amount;
         document.querySelectorAll('.dt-casino-chip').forEach(c => c.classList.remove('active'));
         if (element) element.classList.add('active');
-        document.getElementById('customBetInput').value = '';
+        const customInput = document.getElementById('customBetInput');
+        if (customInput) customInput.value = '';
+        const btnAmount = document.getElementById('btnPlaceBetAmount');
+        if (btnAmount) btnAmount.textContent = '₹' + amount;
+    }
+
+    function handleCustomBetInput(val) {
+        const num = parseFloat(val);
+        if (num && num >= 5) {
+            selectedChipAmount = num;
+            document.querySelectorAll('.dt-casino-chip').forEach(c => c.classList.remove('active'));
+            const btnAmount = document.getElementById('btnPlaceBetAmount');
+            if (btnAmount) btnAmount.textContent = '₹' + num;
+        }
     }
 
     function applyCustomBet() {
@@ -1604,15 +1765,25 @@
         if (val && val >= 5) {
             selectedChipAmount = val;
             document.querySelectorAll('.dt-casino-chip').forEach(c => c.classList.remove('active'));
+            const btnAmount = document.getElementById('btnPlaceBetAmount');
+            if (btnAmount) btnAmount.textContent = '₹' + val;
+            showToast('Bet amount set to ₹' + val, 'info');
+        } else {
+            showToast('Min custom bet is ₹5', 'warning');
         }
     }
 
     // Place bet handler
-    function placeBetOn(betType) {
+    function confirmPlaceBet() {
         @guest
             window.location.href = "{{ route('login') }}";
             return;
         @endguest
+
+        if (!currentSelectedSpot) {
+            showToast('Please select a card first (Dragon, Tie, Suited Tie, or Tiger).', 'warning');
+            return;
+        }
 
         if (isLocked) {
             showToast('Betting is locked for this round! Wait for next round.', 'danger');
@@ -1625,6 +1796,11 @@
             return;
         }
 
+        const btn = document.getElementById('btnPlaceBet');
+        if (btn) btn.disabled = true;
+
+        const targetSpot = currentSelectedSpot;
+
         fetch(urls.placeBet, {
             method: 'POST',
             headers: {
@@ -1632,19 +1808,20 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             body: JSON.stringify({
-                bet_type: betType,
+                bet_type: targetSpot,
                 amount: amount
             })
         })
         .then(res => res.json())
         .then(data => {
+            if (btn) btn.disabled = false;
             if (data.success) {
                 showToast(data.message, 'success');
                 if (data.new_balance !== undefined) {
                     document.getElementById('userWalletBalance').textContent = '₹' + Number(data.new_balance).toFixed(2);
                 }
                 // Update bet badge
-                const badge = document.getElementById('betBadge_' + betType);
+                const badge = document.getElementById('betBadge_' + targetSpot);
                 if (badge) {
                     badge.style.display = 'inline-block';
                     badge.textContent = '₹' + amount;
@@ -1656,8 +1833,13 @@
             }
         })
         .catch(() => {
+            if (btn) btn.disabled = false;
             showToast('Network error while placing bet.', 'danger');
         });
+    }
+
+    function placeBetOn(betType) {
+        selectBetSpot(betType);
     }
 
     // Timer visual update
@@ -1745,6 +1927,16 @@
         document.getElementById('dragonCardTitle').textContent = '-';
         document.getElementById('tigerCardTitle').textContent = '-';
         document.querySelectorAll('.dt-bet-amount-badge').forEach(b => b.style.display = 'none');
+        currentSelectedSpot = null;
+        document.querySelectorAll('.dt-bet-box, .dt-side-chip-btn').forEach(b => b.classList.remove('selected'));
+        const badge = document.getElementById('selectedBetTypeBadge');
+        if (badge) {
+            badge.innerHTML = '<i class="fa-solid fa-hand-pointer me-1"></i> Tap Card to Select';
+            badge.style.color = '#94a3b8';
+            badge.style.borderColor = 'rgba(255,255,255,0.25)';
+            badge.style.borderStyle = 'dashed';
+            badge.style.background = 'rgba(255,255,255,0.06)';
+        }
     }
 
     // Realtime polling
